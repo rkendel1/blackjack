@@ -1,17 +1,17 @@
 <script lang="ts">
 	import '../global.css';
-	import { createCrazyEightsGame } from '$lib/games/crazy-eights/store';
+	import { createCrazyEightsStore } from '$lib/adapters/createCrazyEightsStore';
 	import type { Suit } from '$lib/shared/deck';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/Card.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createCrazyEightsGame();
+	const game = createCrazyEightsStore();
 	const {
 		player,
 		bot,
 		deck,
-		state,
+		gameState,
 		message,
 		lastAction,
 		currentSuit,
@@ -23,7 +23,7 @@
 	} = game;
 
 	function handleCardClick(index: number) {
-		if ($state === 'player-turn') {
+		if ($gameState === 'player-turn') {
 			playCard(index);
 		}
 	}
@@ -67,7 +67,7 @@
 			{/if}
 		</div>
 
-		{#if $state === 'choosing-suit'}
+		{#if $gameState === 'choosing-suit'}
 			<div class="suit-selector">
 				<h3>Choose a Suit:</h3>
 				<div class="suits">
@@ -107,10 +107,10 @@
 						{#if $topCard}
 							<button
 								class="card-button"
-								class:playable={$state === 'player-turn' &&
+								class:playable={$gameState === 'player-turn' &&
 									$player.canPlayCard(card, $topCard, $currentSuit)}
 								on:click={() => handleCardClick(i)}
-								disabled={$state !== 'player-turn'}
+								disabled={$gameState !== 'player-turn'}
 							>
 								<Card name={card.displayName} />
 							</button>
@@ -122,11 +122,11 @@
 
 		<!-- Controls -->
 		<div class="controls">
-			{#if $state === 'ready' || $state === 'won'}
+			{#if $gameState === 'ready' || $gameState === 'won'}
 				<Button variant="deal" onclick={() => start()}>
-					{$state === 'ready' ? 'Start Game' : 'Play Again'}
+					{$gameState === 'ready' ? 'Start Game' : 'Play Again'}
 				</Button>
-			{:else if $state === 'player-turn'}
+			{:else if $gameState === 'player-turn'}
 				<Button variant="draw" onclick={() => drawCard()}>Draw Card</Button>
 			{/if}
 		</div>
