@@ -1,7 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
   import { createMultiplayerTicTacToe } from '$lib/multiplayer/games/MultiplayerTicTacToe';
-  import MultiplayerLobby from '$lib/Components/MultiplayerLobby.svelte';
 
   // Get session ID from URL if joining an existing game
   let sessionId: string | undefined;
@@ -10,81 +9,121 @@
     sessionId = params.get('session') || undefined;
   });
 
-  $: game = createMultiplayerTicTacToe(sessionId);
+  const game = createMultiplayerTicTacToe(sessionId);
+  const {
+    session,
+    sessionState,
+    isHost,
+    board,
+    status,
+    winner,
+    winningLine,
+    isMyTurn,
+    gameStarted,
+    mySymbol,
+    makeMove,
+    startGame,
+    resetGame,
+    leave,
+  } = game;
 
   function handleCellClick(position: number) {
-    if ($game.board[position] === null && $game.isMyTurn && $game.status === 'playing') {
-      game.makeMove(position);
+    if ($board[position] === null && $isMyTurn && $status === 'playing') {
+      makeMove(position);
     }
   }
 
   function handleStartGame() {
-    game.startGame();
+    startGame();
   }
 
   function handleReset() {
-    game.resetGame();
+    resetGame();
   }
 
   function copyInviteLink() {
-    if (!$game.session) return;
+    if (!$session) return;
 
-    const inviteUrl = `${window.location.origin}/tictactoe-multiplayer?session=${$game.session.sessionId}`;
+    const inviteUrl = `${window.location.origin}/tictactoe-multiplayer?session=${$session.sessionId}`;
     navigator.clipboard.writeText(inviteUrl).then(() => {
       alert('Invite link copied to clipboard!');
     });
   }
 
-  $: canStart = $game.isHost && $game.sessionState === 'waiting_for_players';
-  $: playerCount = $game.session?.participants.filter((p) => p.role === 'player').length || 0;
-  $: canPlay = $game.gameStarted && playerCount >= 2;
+  $: canStart = $isHost && $sessionState === 'waiting_for_players';
+  $: playerCount = $session?.participants.filter((p) => p.role === 'player').length || 0;
+  $: canPlay = $gameStarted && playerCount >= 2;
 </script>
 
 <div class="tictactoe-multiplayer-container">
   <h1>Multiplayer Tic Tac Toe</h1>
 
-  <!-- Multiplayer Lobby -->
-  <MultiplayerLobby
-    session={$game.session}
-    sessionState={$game.sessionState}
-    isHost={$game.isHost}
-    participants={$game.session?.participants || []}
-    connectionQuality={$game.connectionQuality}
-    on:copyInvite={copyInviteLink}
-  />
+  {#if $session}
+    <!-- Multiplayer Info Panel -->
+    <div class="mp-info">
+      <div class="info-header">
+        <h3>Session Info</h3>
+        {#if $isHost}
+          <span class="badge host">Host</span>
+        {:else}
+          <span class="badge guest">Guest</span>
+        {/if}
+      </div>
 
-  {#if $game.session}
+      <div class="session-details">
+        <p><strong>Session:</strong> {$session?.sessionId?.substring(0, 12) || 'Loading'}...</p>
+        <p><strong>Status:</strong> {$sessionState}</p>
+        <p><strong>Players:</strong> {playerCount}/2</p>
+      </div>
+
+      {#if $isHost}
+        <button class="share-btn" on:click={copyInviteLink}>📋 Copy Invite Link</button>
+      {/if}
+
+      <div class="players-list">
+        <h4>Players</h4>
+        {#each $session?.participants || [] as participant}
+          <div class="player-item">
+            <span>{participant.userId.substring(0, 8)}</span>
+            <span class="status {participant.connectionStatus}">
+              {participant.connectionStatus}
+            </span>
+          </div>
+        {/each}
+      </div>
+    </div>
+
     <div class="game-container">
       <!-- Player Info -->
       <div class="player-info">
-        <p>You are playing as: <strong>{$game.mySymbol || '?'}</strong></p>
-        {#if $game.mySymbol === 'X'}
+        <p>You are playing as: <strong>{$mySymbol || '?'}</strong></p>
+        {#if $mySymbol === 'X'}
           <p class="symbol-note">You go first!</p>
         {/if}
       </div>
 
       <!-- Game Status -->
       <div class="game-status">
-        {#if !$game.gameStarted}
+        {#if !$gameStarted}
           <p class="waiting">Waiting for {playerCount}/2 players...</p>
           {#if canStart && playerCount >= 2}
             <button class="btn-start" on:click={handleStartGame}>Start Game</button>
           {:else if canStart}
             <p class="info">Share the invite link to get another player!</p>
           {/if}
-        {:else if $game.status === 'playing'}
-          {#if $game.isMyTurn}
+        {:else if $status === 'playing'}
+          {#if $isMyTurn}
             <p class="status your-turn">🎯 Your turn!</p>
           {:else}
             <p class="status waiting-turn">⏳ Waiting for opponent...</p>
           {/if}
-        {:else if $game.status === 'won'}
-          {#if $game.winner === $game.mySymbol}
+        {:else if $status === 'won'}
+          {#if $winner === $mySymbol}
             <p class="status winner">🎉 You win!</p>
           {:else}
             <p class="status loser">😔 You lose!</p>
           {/if}
-        {:else if $game.status === 'draw'}
+        {:else if $status === 'draw'}
           <p class="status draw">🤝 It's a draw!</p>
         {/if}
       </div>
@@ -92,13 +131,13 @@
       <!-- Game Board -->
       {#if canPlay}
         <div class="board">
-          {#each $game.board as cell, i}
+          {#each $board as cell, i}
             <button
               class="cell"
-              class:winning-cell={$game.winningLine?.includes(i)}
-              class:my-turn={$game.isMyTurn && cell === null}
+              class:winning-cell={$winningLine?.includes(i)}
+              class:my-turn={$isMyTurn && cell === null}
               on:click={() => handleCellClick(i)}
-              disabled={!$game.isMyTurn || $game.status !== 'playing' || cell !== null}
+              disabled={!$isMyTurn || $status !== 'playing' || cell !== null}
             >
               {cell || ''}
             </button>
@@ -107,10 +146,10 @@
 
         <!-- Game Actions -->
         <div class="actions">
-          {#if $game.status !== 'playing' && $game.isHost}
+          {#if $status !== 'playing' && $isHost}
             <button class="btn-reset" on:click={handleReset}>New Game</button>
           {/if}
-          <button class="btn-leave" on:click={() => game.leave()}>Leave Game</button>
+          <button class="btn-leave" on:click={() => leave()}>Leave Game</button>
         </div>
       {/if}
     </div>
@@ -123,7 +162,7 @@
 
 <style>
   .tictactoe-multiplayer-container {
-    max-width: 800px;
+    max-width: 1000px;
     margin: 0 auto;
     padding: 2rem;
     font-family: system-ui, -apple-system, sans-serif;
@@ -133,6 +172,108 @@
     text-align: center;
     color: #333;
     margin-bottom: 2rem;
+  }
+
+  .mp-info {
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .info-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .info-header h3 {
+    margin: 0;
+    flex: 1;
+  }
+
+  .badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: white;
+  }
+
+  .badge.host {
+    background: #4caf50;
+  }
+
+  .badge.guest {
+    background: #2196f3;
+  }
+
+  .session-details {
+    background: #f9fafb;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .session-details p {
+    margin: 0.5rem 0;
+    font-size: 0.9rem;
+  }
+
+  .share-btn {
+    width: 100%;
+    padding: 0.75rem;
+    margin: 0.5rem 0;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    background: #2196f3;
+    color: white;
+  }
+
+  .share-btn:hover {
+    background: #0b7dda;
+  }
+
+  .players-list {
+    margin-top: 1rem;
+  }
+
+  .players-list h4 {
+    margin: 0 0 0.75rem 0;
+  }
+
+  .player-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    background: #f9fafb;
+    border-radius: 4px;
+    margin: 0.5rem 0;
+  }
+
+  .status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    color: white;
+  }
+
+  .status.connected {
+    background: #4caf50;
+  }
+
+  .status.connecting {
+    background: #ff9800;
+  }
+
+  .status.disconnected {
+    background: #f44336;
   }
 
   .game-container {
