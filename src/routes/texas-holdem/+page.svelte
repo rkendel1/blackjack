@@ -1,11 +1,11 @@
 <script lang="ts">
 	import '../global.css';
-	import { createTexasHoldemGame } from '$lib/games/texas-holdem/store';
+	import { createTexasHoldemStore } from '$lib/adapters/createTexasHoldemStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createTexasHoldemGame();
+	const game = createTexasHoldemStore();
 	const { players, communityCards, pot, currentBet, currentPlayer, phase, winners } = game;
 
 	let humanCount = 1;
