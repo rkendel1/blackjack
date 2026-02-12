@@ -4,6 +4,7 @@ node_modules
 .output
 .vercel
 /public/build
+/dist
 /.svelte-kit
 
 # OS
