@@ -126,7 +126,7 @@
 		</div>
 	{:else if currentView === 'inbox'}
 		<ConversationList
-			{participants}
+			participants={$participants}
 			sessionInfo={$session}
 			onSelectConversation={handleSelectConversation}
 		/>
