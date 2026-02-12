@@ -60,7 +60,7 @@
 			name: 'FreeCell Solitaire',
 			path: '/solitaire/freecell',
 			description: 'Strategic solitaire using free cells',
-			status: 'coming-soon'
+			status: 'ready'
 		}
 	];
 </script>
