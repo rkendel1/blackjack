@@ -21,27 +21,31 @@ export function createKlondikeStore() {
 	};
 
 	const moveWasteToTableau = (tableauIndex: number) => {
+		const beforeMoves = engine.getState().moves;
 		engine.applyMove({ type: 'moveWasteToTableau', tableauIndex });
 		sync();
-		return engine.getState().moves > state ? true : false;
+		return engine.getState().moves > beforeMoves;
 	};
 
 	const moveWasteToFoundation = (foundationIndex: number) => {
+		const beforeMoves = engine.getState().moves;
 		engine.applyMove({ type: 'moveWasteToFoundation', foundationIndex });
 		sync();
-		return engine.getState().moves > state ? true : false;
+		return engine.getState().moves > beforeMoves;
 	};
 
 	const moveTableauToTableau = (fromIndex: number, cardIndex: number, toIndex: number) => {
+		const beforeMoves = engine.getState().moves;
 		engine.applyMove({ type: 'moveTableauToTableau', fromIndex, cardIndex, toIndex });
 		sync();
-		return engine.getState().moves > state ? true : false;
+		return engine.getState().moves > beforeMoves;
 	};
 
 	const moveTableauToFoundation = (tableauIndex: number, foundationIndex: number) => {
+		const beforeMoves = engine.getState().moves;
 		engine.applyMove({ type: 'moveTableauToFoundation', tableauIndex, foundationIndex });
 		sync();
-		return engine.getState().moves > state ? true : false;
+		return engine.getState().moves > beforeMoves;
 	};
 
 	const autoPlay = () => {
