@@ -118,9 +118,11 @@ export function useStackLiveInteraction(
 
 		// Setup media stream callbacks
 		mediaManager.onRemoteStream((userId, stream) => {
-			const streams = new Map(remoteStreams);
-			streams.set(userId, stream);
-			remoteStreams.set(streams);
+			remoteStreams.update((streams) => {
+				const newStreams = new Map(streams);
+				newStreams.set(userId, stream);
+				return newStreams;
+			});
 		});
 	}
 
