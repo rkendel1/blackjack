@@ -48,13 +48,13 @@
 			name: 'Klondike Solitaire',
 			path: '/solitaire/klondike',
 			description: 'Classic solitaire patience game',
-			status: 'coming-soon'
+			status: 'ready'
 		},
 		{
 			name: 'Spider Solitaire',
 			path: '/solitaire/spider',
 			description: 'Advanced solitaire with eight foundation piles',
-			status: 'coming-soon'
+			status: 'ready'
 		},
 		{
 			name: 'FreeCell Solitaire',
