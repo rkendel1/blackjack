@@ -87,6 +87,36 @@ export interface InteractionSchema {
 }
 
 /**
+ * Messages Table Schema
+ * Stores text and media messages for sessions
+ */
+export interface MessageSchema {
+	_id: string;
+	_creationTime: number;
+	sessionId: string;
+	fromUserId: string;
+	type: 'chat' | 'reaction' | 'pollResponse' | 'snap' | 'media';
+	payload: string; // JSON stringified message data or text content
+	mediaUrl?: string;
+	mediaType?: string; // MIME type, e.g., "image/jpeg", "video/mp4"
+	timestamp: number;
+}
+
+/**
+ * Contacts Table Schema
+ * Stores user contact information
+ */
+export interface ContactSchema {
+	_id: string;
+	_creationTime: number;
+	userId: string;
+	name: string;
+	avatarUrl?: string;
+	online: boolean;
+	lastActive: number;
+}
+
+/**
  * Matchmaking Queue Table Schema
  * Stores players waiting for matchmaking
  */
@@ -187,6 +217,22 @@ export const convexSchema = {
 			by_expiration: ['expiresAt']
 		}
 	},
+	messages: {
+		indexes: {
+			by_session_id: ['sessionId'],
+			by_type: ['type'],
+			by_user_id: ['fromUserId'],
+			by_session_and_type: ['sessionId', 'type'],
+			by_timestamp: ['timestamp']
+		}
+	},
+	contacts: {
+		indexes: {
+			by_user_id: ['userId'],
+			by_online: ['online'],
+			by_last_active: ['lastActive']
+		}
+	},
 	matchmaking_queue: {
 		indexes: {
 			by_game_id: ['gameId'],
@@ -230,6 +276,8 @@ export type SessionDocument = ConvexDocument<SessionSchema>;
 export type ParticipantDocument = ConvexDocument<ParticipantSchema>;
 export type SignalingMessageDocument = ConvexDocument<SignalingMessageSchema>;
 export type InteractionDocument = ConvexDocument<InteractionSchema>;
+export type MessageDocument = ConvexDocument<MessageSchema>;
+export type ContactDocument = ConvexDocument<ContactSchema>;
 export type MatchmakingQueueDocument = ConvexDocument<MatchmakingQueueSchema>;
 export type SessionEventDocument = ConvexDocument<SessionEventSchema>;
 export type UserPresenceDocument = ConvexDocument<UserPresenceSchema>;

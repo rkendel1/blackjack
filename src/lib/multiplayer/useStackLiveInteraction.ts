@@ -19,7 +19,9 @@ import type {
 	QuizMessage,
 	PollResponse,
 	QuizResponse,
-	SnapMessage
+	SnapMessage,
+	ChatMessage,
+	MediaMessage
 } from './types';
 
 export interface StackLiveInteractionConfig {
@@ -50,8 +52,10 @@ export interface StackLiveInteractionSession {
 
 	// Communication
 	send: (message: {
-		type: 'state' | 'poll' | 'quiz' | 'reaction' | 'snap' | 'input';
+		type: 'state' | 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'chat' | 'media';
 		payload: unknown;
+		mediaUrl?: string;
+		mediaType?: string;
 	}) => void;
 	on: (
 		event: 'state' | 'interaction' | 'videoFrame' | 'audioFrame' | 'join' | 'leave' | 'reconnect',
@@ -74,6 +78,7 @@ export interface StackLiveInteractionSession {
 	) => QuizMessage;
 	getPollResults: (pollId: string) => PollResponse[];
 	getQuizResults: (quizId: string) => QuizResponse[];
+	getMessages: (options?: { limit?: number }) => (ChatMessage | MediaMessage)[];
 
 	// Media controls
 	toggleVideo: (enabled: boolean) => void;
@@ -285,13 +290,55 @@ export function useStackLiveInteraction(
 	 * Send message
 	 */
 	function send(message: {
-		type: 'state' | 'poll' | 'quiz' | 'reaction' | 'snap' | 'input';
+		type: 'state' | 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'chat' | 'media';
 		payload: unknown;
+		mediaUrl?: string;
+		mediaType?: string;
 	}): void {
 		if (!runtime) return;
 
 		if (message.type === 'state') {
 			runtime.sendState(message.payload);
+		} else if (message.type === 'chat') {
+			// Handle chat message
+			const currentSession = runtime.getSession();
+			const chatMessage: ChatMessage = {
+				id: generateId(),
+				sessionId: currentSession?.id || '',
+				fromUserId: runtime.getLocalUserId(),
+				payload: message.payload as string,
+				timestamp: Date.now()
+			};
+			interactionManager?.handleInteraction('chat', chatMessage, chatMessage.fromUserId);
+			runtime.sendInput({
+				type: 'interaction',
+				interactionType: 'chat',
+				payload: chatMessage
+			});
+		} else if (message.type === 'media') {
+			// Validate media URL
+			if (!message.mediaUrl || !isValidUrl(message.mediaUrl)) {
+				console.error('Invalid media URL provided');
+				return;
+			}
+			
+			// Handle media message
+			const currentSession = runtime.getSession();
+			const mediaMessage: MediaMessage = {
+				id: generateId(),
+				sessionId: currentSession?.id || '',
+				fromUserId: runtime.getLocalUserId(),
+				payload: message.payload as { caption?: string; [key: string]: unknown },
+				mediaUrl: message.mediaUrl,
+				mediaType: message.mediaType || '',
+				timestamp: Date.now()
+			};
+			interactionManager?.handleInteraction('media', mediaMessage, mediaMessage.fromUserId);
+			runtime.sendInput({
+				type: 'interaction',
+				interactionType: 'media',
+				payload: mediaMessage
+			});
 		} else {
 			runtime.sendInput({
 				type: 'interaction',
@@ -315,6 +362,8 @@ export function useStackLiveInteraction(
 			interactionManager?.on('quiz', callback);
 			interactionManager?.on('reaction', callback);
 			interactionManager?.on('snap', callback);
+			interactionManager?.on('chat', callback);
+			interactionManager?.on('media', callback);
 		} else if (event === 'join') {
 			runtime?.on('playerJoined', callback);
 		} else if (event === 'leave') {
@@ -374,6 +423,30 @@ export function useStackLiveInteraction(
 	}
 
 	/**
+	 * Get messages (chat + media)
+	 */
+	function getMessages(options?: { limit?: number }): (ChatMessage | MediaMessage)[] {
+		const currentSession = runtime?.getSession();
+		if (!currentSession || !interactionManager) {
+			return [];
+		}
+		
+		// Validate limit parameter
+		let validatedOptions = options;
+		if (options?.limit !== undefined) {
+			const limit = Math.floor(options.limit);
+			if (limit < 0 || limit > 1000) {
+				console.warn('Message limit must be between 0 and 1000, using default');
+				validatedOptions = undefined;
+			} else {
+				validatedOptions = { limit };
+			}
+		}
+		
+		return interactionManager.getMessages(currentSession.id, validatedOptions);
+	}
+
+	/**
 	 * Toggle video
 	 */
 	function toggleVideo(enabled: boolean): void {
@@ -399,6 +472,38 @@ export function useStackLiveInteraction(
 				sessionState.set(currentSession.status);
 				isHost.set(runtime.isHost());
 			}
+		}
+	}
+
+	/**
+	 * Generate unique ID using crypto.randomUUID if available, otherwise fallback
+	 * Note: Fallback method uses timestamp + random for uniqueness but is not cryptographically secure
+	 */
+	function generateId(): string {
+		// Use crypto.randomUUID if available (browser/Node.js 15+)
+		if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+			return crypto.randomUUID();
+		}
+		
+		// Fallback: Use timestamp + multiple random components for better uniqueness
+		// This is not cryptographically secure but provides reasonable uniqueness for non-critical contexts
+		const timestamp = Date.now().toString(36);
+		const random1 = Math.random().toString(36).substring(2, 11);
+		const random2 = Math.random().toString(36).substring(2, 11);
+		const random3 = Math.random().toString(36).substring(2, 11);
+		return `${timestamp}-${random1}-${random2}-${random3}`;
+	}
+
+	/**
+	 * Validate URL format
+	 */
+	function isValidUrl(url: string): boolean {
+		try {
+			const parsedUrl = new URL(url);
+			// Only allow http and https protocols
+			return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+		} catch {
+			return false;
 		}
 	}
 
@@ -448,6 +553,7 @@ export function useStackLiveInteraction(
 		createQuiz,
 		getPollResults,
 		getQuizResults,
+		getMessages,
 
 		// Media controls
 		toggleVideo,

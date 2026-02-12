@@ -46,7 +46,7 @@ export type StackLiveMessage =
 	| { type: 'audioFrame'; payload: MediaStreamTrack };
 
 // Interaction types for realtime embed interactions
-export type InteractionType = 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'vote' | 'answer';
+export type InteractionType = 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'vote' | 'answer' | 'chat' | 'media' | 'pollResponse';
 
 // Poll message structure
 export interface PollMessage {
@@ -91,6 +91,38 @@ export interface SnapMessage {
 	data: string; // base64 or data URL
 	userId: string;
 	timestamp: number;
+}
+
+// Chat message structure
+export interface ChatMessage {
+	id: string;
+	sessionId: string;
+	fromUserId: string;
+	payload: string; // text content
+	timestamp: number;
+}
+
+// Media message structure
+export interface MediaMessage {
+	id: string;
+	sessionId: string;
+	fromUserId: string;
+	payload: {
+		caption?: string;
+		[key: string]: unknown;
+	};
+	mediaUrl: string;
+	mediaType: string; // MIME type, e.g., "image/jpeg", "video/mp4"
+	timestamp: number;
+}
+
+// Contact information
+export interface Contact {
+	userId: string;
+	name: string;
+	avatarUrl?: string;
+	online: boolean;
+	lastActive: number;
 }
 
 // User information
