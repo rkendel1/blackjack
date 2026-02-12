@@ -316,6 +316,12 @@ export function useStackLiveInteraction(
 				payload: chatMessage
 			});
 		} else if (message.type === 'media') {
+			// Validate media URL
+			if (!message.mediaUrl || !isValidUrl(message.mediaUrl)) {
+				console.error('Invalid media URL provided');
+				return;
+			}
+			
 			// Handle media message
 			const currentSession = runtime.getSession();
 			const mediaMessage: MediaMessage = {
@@ -323,7 +329,7 @@ export function useStackLiveInteraction(
 				sessionId: currentSession?.id || '',
 				fromUserId: runtime.getLocalUserId(),
 				payload: message.payload as { caption?: string; [key: string]: unknown },
-				mediaUrl: message.mediaUrl || '',
+				mediaUrl: message.mediaUrl,
 				mediaType: message.mediaType || '',
 				timestamp: Date.now()
 			};
@@ -457,10 +463,28 @@ export function useStackLiveInteraction(
 	}
 
 	/**
-	 * Generate unique ID
+	 * Generate unique ID using crypto.randomUUID if available, otherwise fallback
 	 */
 	function generateId(): string {
-		return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
+		// Use crypto.randomUUID if available (browser/Node.js 15+)
+		if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+			return crypto.randomUUID();
+		}
+		// Fallback for environments without crypto.randomUUID
+		return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}-${Math.random().toString(36).substring(2, 11)}`;
+	}
+
+	/**
+	 * Validate URL format
+	 */
+	function isValidUrl(url: string): boolean {
+		try {
+			const parsedUrl = new URL(url);
+			// Only allow http and https protocols
+			return parsedUrl.protocol === 'http:' || parsedUrl.protocol === 'https:';
+		} catch {
+			return false;
+		}
 	}
 
 	/**

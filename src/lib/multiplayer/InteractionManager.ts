@@ -214,9 +214,12 @@ export class InteractionManager {
 	getMessages(sessionId: string, options?: { limit?: number }): (ChatMessage | MediaMessage)[] {
 		const chats = this.getChatMessages(sessionId);
 		const media = this.getMediaMessages(sessionId);
+		
+		// Combine and sort messages by timestamp
 		const allMessages = [...chats, ...media].sort((a, b) => a.timestamp - b.timestamp);
 		
-		if (options?.limit) {
+		// Apply limit if specified (return last N messages)
+		if (options?.limit && options.limit > 0) {
 			return allMessages.slice(-options.limit);
 		}
 		return allMessages;
