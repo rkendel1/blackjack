@@ -430,7 +430,20 @@ export function useStackLiveInteraction(
 		if (!currentSession || !interactionManager) {
 			return [];
 		}
-		return interactionManager.getMessages(currentSession.id, options);
+		
+		// Validate limit parameter
+		let validatedOptions = options;
+		if (options?.limit !== undefined) {
+			const limit = Math.floor(options.limit);
+			if (limit < 0 || limit > 1000) {
+				console.warn('Message limit must be between 0 and 1000, using default');
+				validatedOptions = undefined;
+			} else {
+				validatedOptions = { limit };
+			}
+		}
+		
+		return interactionManager.getMessages(currentSession.id, validatedOptions);
 	}
 
 	/**
@@ -464,14 +477,21 @@ export function useStackLiveInteraction(
 
 	/**
 	 * Generate unique ID using crypto.randomUUID if available, otherwise fallback
+	 * Note: Fallback method uses timestamp + random for uniqueness but is not cryptographically secure
 	 */
 	function generateId(): string {
 		// Use crypto.randomUUID if available (browser/Node.js 15+)
 		if (typeof crypto !== 'undefined' && crypto.randomUUID) {
 			return crypto.randomUUID();
 		}
-		// Fallback for environments without crypto.randomUUID
-		return `${Date.now()}-${Math.random().toString(36).substring(2, 11)}-${Math.random().toString(36).substring(2, 11)}`;
+		
+		// Fallback: Use timestamp + multiple random components for better uniqueness
+		// This is not cryptographically secure but provides reasonable uniqueness for non-critical contexts
+		const timestamp = Date.now().toString(36);
+		const random1 = Math.random().toString(36).substring(2, 11);
+		const random2 = Math.random().toString(36).substring(2, 11);
+		const random3 = Math.random().toString(36).substring(2, 11);
+		return `${timestamp}-${random1}-${random2}-${random3}`;
 	}
 
 	/**
