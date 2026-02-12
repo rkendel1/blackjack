@@ -1,0 +1,459 @@
+{
+  ".svelte-kit/generated/server/internal.js": {
+    "file": "internal.js",
+    "name": "internal",
+    "src": ".svelte-kit/generated/server/internal.js",
+    "isEntry": true,
+    "imports": [
+      "_internal.js",
+      "_environment.js"
+    ]
+  },
+  "_Button.js": {
+    "file": "chunks/Button.js",
+    "name": "Button",
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/Button.DEpb7ILu.css"
+    ]
+  },
+  "_Card.js": {
+    "file": "chunks/Card.js",
+    "name": "Card",
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/Card.mbfTilQ6.css"
+    ]
+  },
+  "_CardsDefinitions.js": {
+    "file": "chunks/CardsDefinitions.js",
+    "name": "CardsDefinitions",
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/CardsDefinitions.BAYm6EVy.css"
+    ]
+  },
+  "_Hand.js": {
+    "file": "chunks/Hand.js",
+    "name": "Hand",
+    "imports": [
+      "_CardsDefinitions.js",
+      "_ssr.js",
+      "_Card.js"
+    ],
+    "css": [
+      "_app/immutable/assets/Hand.DfiWOHiG.css"
+    ]
+  },
+  "_SolitaireCard.js": {
+    "file": "chunks/SolitaireCard.js",
+    "name": "SolitaireCard",
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/SolitaireCard.B4XsbQdV.css"
+    ]
+  },
+  "_StackLiveMultiplayerRuntime.js": {
+    "file": "chunks/StackLiveMultiplayerRuntime.js",
+    "name": "StackLiveMultiplayerRuntime"
+  },
+  "_VideoCallPanel.svelte_svelte_type_style_lang.js": {
+    "file": "_app/immutable/assets/VideoCallPanel.C-7-pcwh.css",
+    "src": "_VideoCallPanel.svelte_svelte_type_style_lang.js"
+  },
+  "_environment.js": {
+    "file": "chunks/environment.js",
+    "name": "environment"
+  },
+  "_exports.js": {
+    "file": "chunks/exports.js",
+    "name": "exports"
+  },
+  "_global.js": {
+    "file": "_app/immutable/assets/global.BTzhfVTa.css",
+    "src": "_global.js"
+  },
+  "_index.js": {
+    "file": "chunks/index.js",
+    "name": "index",
+    "imports": [
+      "_ssr.js"
+    ]
+  },
+  "_internal.js": {
+    "file": "chunks/internal.js",
+    "name": "internal",
+    "imports": [
+      "_ssr.js",
+      "_ssr2.js",
+      "_environment.js"
+    ]
+  },
+  "_poker-hands.js": {
+    "file": "chunks/poker-hands.js",
+    "name": "poker-hands"
+  },
+  "_shared.js": {
+    "file": "chunks/shared.js",
+    "name": "shared",
+    "imports": [
+      "_utils.js"
+    ]
+  },
+  "_ssr.js": {
+    "file": "chunks/ssr.js",
+    "name": "ssr"
+  },
+  "_ssr2.js": {
+    "file": "chunks/ssr2.js",
+    "name": "ssr"
+  },
+  "_stores.js": {
+    "file": "chunks/stores.js",
+    "name": "stores",
+    "imports": [
+      "_ssr.js",
+      "_exports.js",
+      "_utils.js",
+      "_ssr2.js"
+    ]
+  },
+  "_useStackLiveMultiplayer.js": {
+    "file": "chunks/useStackLiveMultiplayer.js",
+    "name": "useStackLiveMultiplayer",
+    "imports": [
+      "_index.js",
+      "_StackLiveMultiplayerRuntime.js"
+    ]
+  },
+  "_utils.js": {
+    "file": "chunks/utils.js",
+    "name": "utils"
+  },
+  "node_modules/@sveltejs/kit/src/runtime/app/server/remote/index.js": {
+    "file": "remote-entry.js",
+    "name": "remote-entry",
+    "src": "node_modules/@sveltejs/kit/src/runtime/app/server/remote/index.js",
+    "isEntry": true,
+    "imports": [
+      "_shared.js",
+      "_environment.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/components/svelte-4/error.svelte": {
+    "file": "entries/fallbacks/error.svelte.js",
+    "name": "entries/fallbacks/error.svelte",
+    "src": "node_modules/@sveltejs/kit/src/runtime/components/svelte-4/error.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_stores.js"
+    ]
+  },
+  "node_modules/@sveltejs/kit/src/runtime/server/index.js": {
+    "file": "index.js",
+    "name": "index",
+    "src": "node_modules/@sveltejs/kit/src/runtime/server/index.js",
+    "isEntry": true,
+    "imports": [
+      "_shared.js",
+      "_environment.js",
+      "_exports.js",
+      "_utils.js",
+      "_index.js",
+      "_internal.js"
+    ]
+  },
+  "src/lib/assets/draw.mp3": {
+    "file": "_app/immutable/assets/draw.BpEOjEiu.mp3",
+    "src": "src/lib/assets/draw.mp3"
+  },
+  "src/routes/+layout.svelte": {
+    "file": "entries/pages/_layout.svelte.js",
+    "name": "entries/pages/_layout.svelte",
+    "src": "src/routes/+layout.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js"
+    ]
+  },
+  "src/routes/+page.svelte": {
+    "file": "entries/pages/_page.svelte.js",
+    "name": "entries/pages/_page.svelte",
+    "src": "src/routes/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.Dbpk-zNi.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/arvr-demo/+page.svelte": {
+    "file": "entries/pages/arvr-demo/_page.svelte.js",
+    "name": "entries/pages/arvr-demo/_page.svelte",
+    "src": "src/routes/arvr-demo/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.O5aSIxVh.css"
+    ]
+  },
+  "src/routes/blackjack-multiplayer/+page.svelte": {
+    "file": "entries/pages/blackjack-multiplayer/_page.svelte.js",
+    "name": "entries/pages/blackjack-multiplayer/_page.svelte",
+    "src": "src/routes/blackjack-multiplayer/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_Hand.js",
+      "_useStackLiveMultiplayer.js",
+      "_index.js",
+      "_stores.js",
+      "_CardsDefinitions.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DoRfXSFQ.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/blackjack/+page.svelte": {
+    "file": "entries/pages/blackjack/_page.svelte.js",
+    "name": "entries/pages/blackjack/_page.svelte",
+    "src": "src/routes/blackjack/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_Hand.js",
+      "_Button.js",
+      "_CardsDefinitions.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.BgRP5mbl.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/crazy-eights/+page.svelte": {
+    "file": "entries/pages/crazy-eights/_page.svelte.js",
+    "name": "entries/pages/crazy-eights/_page.svelte",
+    "src": "src/routes/crazy-eights/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_Card.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.C6o-bsbQ.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/go-fish/+page.svelte": {
+    "file": "entries/pages/go-fish/_page.svelte.js",
+    "name": "entries/pages/go-fish/_page.svelte",
+    "src": "src/routes/go-fish/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_Card.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.ChrHT5WZ.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/messaging/+page.svelte": {
+    "file": "entries/pages/messaging/_page.svelte.js",
+    "name": "entries/pages/messaging/_page.svelte",
+    "src": "src/routes/messaging/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_StackLiveMultiplayerRuntime.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.CJxHJ0E_.css",
+      "_app/immutable/assets/VideoCallPanel.C-7-pcwh.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/messaging/demo/+page.svelte": {
+    "file": "entries/pages/messaging/demo/_page.svelte.js",
+    "name": "entries/pages/messaging/demo/_page.svelte",
+    "src": "src/routes/messaging/demo/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page._9udm8xK.css",
+      "_app/immutable/assets/VideoCallPanel.C-7-pcwh.css"
+    ]
+  },
+  "src/routes/multiplayer/+page.svelte": {
+    "file": "entries/pages/multiplayer/_page.svelte.js",
+    "name": "entries/pages/multiplayer/_page.svelte",
+    "src": "src/routes/multiplayer/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_useStackLiveMultiplayer.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.CqI2Z_Yj.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/old-maid/+page.svelte": {
+    "file": "entries/pages/old-maid/_page.svelte.js",
+    "name": "entries/pages/old-maid/_page.svelte",
+    "src": "src/routes/old-maid/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_Card.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.B2fi0sv8.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/poker/+page.svelte": {
+    "file": "entries/pages/poker/_page.svelte.js",
+    "name": "entries/pages/poker/_page.svelte",
+    "src": "src/routes/poker/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_poker-hands.js",
+      "_SolitaireCard.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.Cu--5fwD.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/solitaire/freecell/+page.svelte": {
+    "file": "entries/pages/solitaire/freecell/_page.svelte.js",
+    "name": "entries/pages/solitaire/freecell/_page.svelte",
+    "src": "src/routes/solitaire/freecell/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_SolitaireCard.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DXhOnGbl.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/solitaire/klondike/+page.svelte": {
+    "file": "entries/pages/solitaire/klondike/_page.svelte.js",
+    "name": "entries/pages/solitaire/klondike/_page.svelte",
+    "src": "src/routes/solitaire/klondike/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_SolitaireCard.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.BH7rxDM6.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/solitaire/spider/+page.svelte": {
+    "file": "entries/pages/solitaire/spider/_page.svelte.js",
+    "name": "entries/pages/solitaire/spider/_page.svelte",
+    "src": "src/routes/solitaire/spider/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_SolitaireCard.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.9uvEx4wK.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/texas-holdem/+page.svelte": {
+    "file": "entries/pages/texas-holdem/_page.svelte.js",
+    "name": "entries/pages/texas-holdem/_page.svelte",
+    "src": "src/routes/texas-holdem/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_poker-hands.js",
+      "_SolitaireCard.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.Dr8Qy0w9.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/war/+page.svelte": {
+    "file": "entries/pages/war/_page.svelte.js",
+    "name": "entries/pages/war/_page.svelte",
+    "src": "src/routes/war/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js",
+      "_index.js",
+      "_CardsDefinitions.js",
+      "_Card.js",
+      "_Button.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.ZFfw2CcI.css",
+      "_app/immutable/assets/global.BTzhfVTa.css"
+    ]
+  },
+  "src/routes/webcomponents-demo/+page.svelte": {
+    "file": "entries/pages/webcomponents-demo/_page.svelte.js",
+    "name": "entries/pages/webcomponents-demo/_page.svelte",
+    "src": "src/routes/webcomponents-demo/+page.svelte",
+    "isEntry": true,
+    "imports": [
+      "_ssr.js"
+    ],
+    "css": [
+      "_app/immutable/assets/_page.DeHT1i5J.css"
+    ]
+  }
+}
