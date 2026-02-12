@@ -1,15 +1,15 @@
 <script lang="ts">
 	import '../global.css';
-	import { createOldMaidGame } from '$lib/games/old-maid/store';
+	import { createOldMaidStore } from '$lib/adapters/createOldMaidStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/Card.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createOldMaidGame();
-	const { player, bot, state, message, lastAction, start, playerDrawCard } = game;
+	const game = createOldMaidStore();
+	const { player, bot, gameState, message, lastAction, start, playerDrawCard } = game;
 
 	function handleCardClick(index: number) {
-		if ($state === 'player-turn') {
+		if ($gameState === 'player-turn') {
 			playerDrawCard(index);
 		}
 	}
@@ -51,9 +51,9 @@
 					{#each $bot.hand as _, i}
 						<button
 							class="card-back-button"
-							class:selectable={$state === 'player-turn'}
+							class:selectable={$gameState === 'player-turn'}
 							on:click={() => handleCardClick(i)}
-							disabled={$state !== 'player-turn'}
+							disabled={$gameState !== 'player-turn'}
 						>
 							<div class="card-back">?</div>
 						</button>
@@ -76,9 +76,9 @@
 
 		<!-- Controls -->
 		<div class="controls">
-			{#if $state === 'ready' || $state === 'won'}
+			{#if $gameState === 'ready' || $gameState === 'won'}
 				<Button variant="deal" onclick={() => start()}>
-					{$state === 'ready' ? 'Start Game' : 'Play Again'}
+					{$gameState === 'ready' ? 'Start Game' : 'Play Again'}
 				</Button>
 			{/if}
 		</div>

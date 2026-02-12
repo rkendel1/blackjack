@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../global.css';
 	import audioPath from '$lib/assets/draw.mp3';
-	import { createBlackjackGame } from '$lib/games/blackjack/store';
+	import { createBlackjackStore } from '$lib/adapters/createBlackjackStore';
 
 	import GameControlls from '$lib/Components/GameControlls.svelte';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
@@ -9,7 +9,7 @@
 	import Hand from '$lib/Components/Hand.svelte';
 	import { onMount } from 'svelte';
 
-	const game = createBlackjackGame();
+	const game = createBlackjackStore();
 	const { player, dealer, winner, turn, inGame } = game;
 
 	onMount(() => {

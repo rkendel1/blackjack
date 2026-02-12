@@ -1,12 +1,12 @@
 <script lang="ts">
 	import '../../global.css';
-	import { createKlondikeGame } from '$lib/games/solitaire/klondike/store';
+	import { createKlondikeStore } from '$lib/adapters/createKlondikeStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import { onMount } from 'svelte';
 
-	const game = createKlondikeGame();
+	const game = createKlondikeStore();
 	const { tableau, foundations, stock, waste, revealedTableau, moves, isWon, autoPlayAvailable } =
 		game;
 
@@ -103,7 +103,12 @@
 				</div>
 
 				<!-- Waste -->
-				<div class="waste" role="region" aria-label="Waste pile" on:dragover={(e) => e.preventDefault()}>
+				<div
+					class="waste"
+					role="region"
+					aria-label="Waste pile"
+					on:dragover={(e) => e.preventDefault()}
+				>
 					{#if $waste.length > 0}
 						{#each $waste.slice(-3) as card, i}
 							<div

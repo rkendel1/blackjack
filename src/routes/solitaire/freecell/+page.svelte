@@ -1,12 +1,12 @@
 <script lang="ts">
 	import '../../global.css';
-	import { createFreeCellGame } from '$lib/games/solitaire/freecell/store';
+	import { createFreeCellStore } from '$lib/adapters/createFreeCellStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import { onMount } from 'svelte';
 
-	const game = createFreeCellGame();
+	const game = createFreeCellStore();
 	const { tableau, foundations, freeCells, moves, isWon, autoPlayAvailable } = game;
 
 	let draggedCard: {

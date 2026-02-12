@@ -1,12 +1,12 @@
 <script lang="ts">
 	import '../../global.css';
-	import { createSpiderGame } from '$lib/games/solitaire/spider/store';
+	import { createSpiderStore } from '$lib/adapters/createSpiderStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import { onMount } from 'svelte';
 
-	const game = createSpiderGame();
+	const game = createSpiderStore();
 	const {
 		tableau,
 		foundations,

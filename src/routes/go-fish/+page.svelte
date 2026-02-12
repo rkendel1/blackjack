@@ -1,17 +1,17 @@
 <script lang="ts">
 	import '../global.css';
-	import { createGoFishGame } from '$lib/games/go-fish/store';
+	import { createGoFishStore } from '$lib/adapters/createGoFishStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/Card.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createGoFishGame();
-	const { player, bot, deck, state, message, lastAction, start, askForRank } = game;
+	const game = createGoFishStore();
+	const { player, bot, deck, gameState, message, lastAction, start, askForRank } = game;
 
 	import type { Rank } from '$lib/shared/deck';
 
 	function handleRankClick(rank: Rank) {
-		if ($state === 'player-turn') {
+		if ($gameState === 'player-turn') {
 			askForRank(rank);
 		}
 	}
@@ -67,9 +67,9 @@
 					{#each $player.hand as card}
 						<button
 							class="card-button"
-							class:selectable={$state === 'player-turn'}
+							class:selectable={$gameState === 'player-turn'}
 							on:click={() => handleRankClick(card.rank)}
-							disabled={$state !== 'player-turn'}
+							disabled={$gameState !== 'player-turn'}
 						>
 							<Card name={card.displayName} />
 						</button>
@@ -80,9 +80,9 @@
 
 		<!-- Controls -->
 		<div class="controls">
-			{#if $state === 'ready' || $state === 'won'}
+			{#if $gameState === 'ready' || $gameState === 'won'}
 				<Button variant="deal" onclick={() => start()}>
-					{$state === 'ready' ? 'Start Game' : 'Play Again'}
+					{$gameState === 'ready' ? 'Start Game' : 'Play Again'}
 				</Button>
 			{/if}
 		</div>
