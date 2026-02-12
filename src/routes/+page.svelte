@@ -12,7 +12,13 @@
 			name: "Texas Hold'em",
 			path: '/texas-holdem',
 			description: 'Popular poker variant with community cards',
-			status: 'coming-soon'
+			status: 'ready'
+		},
+		{
+			name: 'Five-Card Draw Poker',
+			path: '/poker',
+			description: 'Classic poker - draw cards to make the best hand',
+			status: 'ready'
 		},
 		{
 			name: 'War',
@@ -42,7 +48,19 @@
 			name: 'Klondike Solitaire',
 			path: '/solitaire/klondike',
 			description: 'Classic solitaire patience game',
-			status: 'coming-soon'
+			status: 'ready'
+		},
+		{
+			name: 'Spider Solitaire',
+			path: '/solitaire/spider',
+			description: 'Advanced solitaire with eight foundation piles',
+			status: 'ready'
+		},
+		{
+			name: 'FreeCell Solitaire',
+			path: '/solitaire/freecell',
+			description: 'Strategic solitaire using free cells',
+			status: 'ready'
 		}
 	];
 </script>

@@ -76,18 +76,23 @@ src/
 ## 🎲 Game Rules
 
 ### Blackjack
+
 Beat the dealer by getting closer to 21 without going over. Aces can be 1 or 11, face cards are 10.
 
 ### War
+
 Both players flip a card. Highest card wins both cards. If tied, it's WAR!
 
 ### Go Fish
+
 Ask your opponent for cards to make sets of 4. If they don't have it, "Go Fish" and draw from the deck.
 
 ### Old Maid
+
 Match pairs and discard them. Avoid being left with the odd Queen (Old Maid) at the end.
 
 ### Crazy Eights
+
 Play cards matching the rank or suit of the top card. Eights are wild and let you choose the suit.
 
 ## 🤝 Contribution
