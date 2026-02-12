@@ -84,6 +84,9 @@ export interface StackLiveInteractionSession {
 	toggleVideo: (enabled: boolean) => void;
 	toggleAudio: (enabled: boolean) => void;
 
+	// User info
+	getLocalUserId: () => string;
+
 	// Cleanup
 	destroy: () => void;
 }

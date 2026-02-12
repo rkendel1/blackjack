@@ -1,12 +1,81 @@
-# AR/VR Web Components for StackLive
+# StackLive Web Components
 
 ## Overview
 
-StackLive provides drop-in AR/VR web components that bring immersive augmented and virtual reality experiences to any web application. These components are built using Svelte's custom element support and can be used with any framework or vanilla JavaScript.
+StackLive provides drop-in web components that bring real-time collaborative experiences to any web application. These components are built using Svelte's custom element support and can be used with any framework or vanilla JavaScript.
+
+## Quick Start
+
+Try the standalone example: [webcomponents-example.html](/webcomponents-example.html)
+
+Or view the demo pages:
+- [Web Components Demo](/webcomponents-demo) - Component showcase and documentation
+- [Messaging Demo](/messaging) - Full messaging app with video calls
+- [AR/VR Demo](/arvr-demo) - Interactive AR/VR control panel
 
 ## Components
 
-### 1. `<sl-arvr-scene>`
+### Public Embeds
+
+#### 1. `<sl-messaging>`
+
+A full-featured iMessage-style messaging embed with text chat, media sharing, and video calls.
+
+##### Attributes
+
+- `embedId` (string): Unique embed identifier. Default: 'messaging-app'
+- `sessionId` (string): Session identifier for multiplayer sync. Leave empty to create new session.
+- `enableVideo` ('true' | 'false'): Enable video call features. Default: 'true'
+- `enableAudio` ('true' | 'false'): Enable audio call features. Default: 'true'
+
+##### Events
+
+- `ready`: Fired when the component is initialized and connected
+  - `detail`: `{ embedId: string, sessionId: string }`
+
+##### Example
+
+```html
+<!-- Create a new messaging session -->
+<sl-messaging
+  embedId="my-chat-app"
+  enableVideo="true"
+  enableAudio="true"
+></sl-messaging>
+
+<!-- Join an existing session -->
+<sl-messaging
+  embedId="my-chat-app"
+  sessionId="session-abc-123"
+  enableVideo="true"
+  enableAudio="true"
+></sl-messaging>
+
+<script>
+  const messaging = document.querySelector('sl-messaging');
+  
+  // Listen for ready event
+  messaging.addEventListener('ready', (e) => {
+    console.log('Messaging ready:', e.detail);
+    console.log('Session ID:', e.detail.sessionId);
+  });
+</script>
+```
+
+##### Features
+
+- 📥 Inbox with conversation list
+- 💬 Real-time text messaging
+- 📷 Photo and video sharing
+- ❤️ Message reactions
+- 📹 FaceTime-style video calls
+- 🔄 Cross-device sync via StackLive Runtime
+
+---
+
+### AR/VR Components
+
+#### 2. `<sl-arvr-scene>`
 
 The main AR/VR scene component that provides a full immersive experience with camera integration, WebXR support, and real-time rendering.
 
@@ -80,7 +149,7 @@ The main AR/VR scene component that provides a full immersive experience with ca
 
 ---
 
-### 2. `<sl-arvr-avatar>`
+#### 3. `<sl-arvr-avatar>`
 
 A component for displaying 3D avatars with customization options.
 
@@ -122,7 +191,7 @@ A component for displaying 3D avatars with customization options.
 
 ---
 
-### 3. `<sl-arvr-filter>`
+#### 4. `<sl-arvr-filter>`
 
 A component representing an AR filter that can be applied to faces, bodies, or environments.
 
@@ -161,7 +230,7 @@ A component representing an AR filter that can be applied to faces, bodies, or e
 
 ---
 
-### 4. `<sl-arvr-spatial>`
+#### 5. `<sl-arvr-spatial>`
 
 A component for interactive 3D objects that can be placed and manipulated in AR/VR space.
 
