@@ -4,6 +4,15 @@
 
 StackLive provides drop-in web components that bring real-time collaborative experiences to any web application. These components are built using Svelte's custom element support and can be used with any framework or vanilla JavaScript.
 
+## Quick Start
+
+Try the standalone example: [webcomponents-example.html](/webcomponents-example.html)
+
+Or view the demo pages:
+- [Web Components Demo](/webcomponents-demo) - Component showcase and documentation
+- [Messaging Demo](/messaging) - Full messaging app with video calls
+- [AR/VR Demo](/arvr-demo) - Interactive AR/VR control panel
+
 ## Components
 
 ### Public Embeds

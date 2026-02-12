@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackLive Web Components - Standalone Example</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .component-section {
+            margin-bottom: 3rem;
+        }
+        .component-section h2 {
+            color: #667eea;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 0.5rem;
+        }
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+        code {
+            background: #f4f4f4;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎭 StackLive Web Components</h1>
+    
+    <div class="container">
+        <div class="note">
+            <strong>⚠️ Note:</strong> This is a standalone example showing how to use StackLive web components.
+            The web components are defined via Svelte's <code>customElement</code> feature and require proper
+            compilation. See <a href="https://github.com/rkendel1/blackjack/blob/main/WEBCOMPONENTS.md">WEBCOMPONENTS.md</a> for full documentation.
+        </div>
+
+        <div class="component-section">
+            <h2>📱 Messaging Component</h2>
+            <p>Full-featured messaging embed with text chat, media sharing, and video calls:</p>
+            
+            <!-- Messaging Web Component -->
+            <sl-messaging
+                embedId="demo-chat"
+                enableVideo="true"
+                enableAudio="true"
+            ></sl-messaging>
+            
+            <p><strong>Usage:</strong></p>
+            <pre><code>&lt;sl-messaging
+    embedId="demo-chat"
+    sessionId=""
+    enableVideo="true"
+    enableAudio="true"
+&gt;&lt;/sl-messaging&gt;</code></pre>
+        </div>
+
+        <div class="component-section">
+            <h2>🎭 AR/VR Components</h2>
+            
+            <h3>1. AR/VR Scene</h3>
+            <p>Main AR/VR scene with camera integration and WebXR support:</p>
+            <sl-arvr-scene
+                userId="demo-user"
+                mode="inline"
+                width="100%"
+                height="400px"
+            ></sl-arvr-scene>
+
+            <h3>2. Avatar Component</h3>
+            <div class="demo-grid">
+                <sl-arvr-avatar
+                    userId="user-1"
+                    skinTone="#f0d5a8"
+                    bodyType="average"
+                    width="300px"
+                    height="400px"
+                ></sl-arvr-avatar>
+                
+                <sl-arvr-avatar
+                    userId="user-2"
+                    skinTone="#8d5524"
+                    bodyType="athletic"
+                    width="300px"
+                    height="400px"
+                ></sl-arvr-avatar>
+            </div>
+
+            <h3>3. AR Filters</h3>
+            <div class="demo-grid">
+                <sl-arvr-filter
+                    filterType="face"
+                    filterName="beauty"
+                    intensity="0.7"
+                ></sl-arvr-filter>
+                
+                <sl-arvr-filter
+                    filterType="face"
+                    filterName="bunny"
+                    intensity="0.8"
+                ></sl-arvr-filter>
+                
+                <sl-arvr-filter
+                    filterType="environment"
+                    filterName="vintage"
+                    intensity="0.6"
+                ></sl-arvr-filter>
+            </div>
+
+            <h3>4. Spatial Objects</h3>
+            <div class="demo-grid">
+                <sl-arvr-spatial
+                    objectId="cube-1"
+                    objectType="cube"
+                    position="0,0,-2"
+                    color="#4299e1"
+                ></sl-arvr-spatial>
+                
+                <sl-arvr-spatial
+                    objectId="sphere-1"
+                    objectType="sphere"
+                    position="1,0,-2"
+                    color="#10b981"
+                ></sl-arvr-spatial>
+                
+                <sl-arvr-spatial
+                    objectId="cylinder-1"
+                    objectType="cylinder"
+                    position="-1,0,-2"
+                    color="#f59e0b"
+                ></sl-arvr-spatial>
+            </div>
+        </div>
+
+        <div class="component-section">
+            <h2>📚 Documentation</h2>
+            <ul>
+                <li><a href="https://github.com/rkendel1/blackjack/blob/main/WEBCOMPONENTS.md">Web Components API Documentation</a></li>
+                <li><a href="https://github.com/rkendel1/blackjack/blob/main/ARVR_DOCUMENTATION.md">AR/VR Feature Documentation</a></li>
+                <li><a href="https://github.com/rkendel1/blackjack/blob/main/MULTIPLAYER.md">StackLive Multiplayer Platform</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Import web components bundle -->
+    <script type="module" src="/build/bundle.js"></script>
+    
+    <script>
+        // Example: Listen to web component events
+        document.addEventListener('DOMContentLoaded', () => {
+            // Messaging component
+            const messaging = document.querySelector('sl-messaging');
+            if (messaging) {
+                messaging.addEventListener('ready', (e) => {
+                    console.log('Messaging ready:', e.detail);
+                });
+            }
+
+            // AR/VR Scene
+            const scene = document.querySelector('sl-arvr-scene');
+            if (scene) {
+                scene.addEventListener('ready', (e) => {
+                    console.log('AR/VR scene ready:', e.detail);
+                });
+            }
+
+            // Filters
+            const filters = document.querySelectorAll('sl-arvr-filter');
+            filters.forEach(filter => {
+                filter.addEventListener('filter-selected', (e) => {
+                    console.log('Filter selected:', e.detail);
+                });
+            });
+
+            // Spatial objects
+            const spatials = document.querySelectorAll('sl-arvr-spatial');
+            spatials.forEach(spatial => {
+                spatial.addEventListener('object-placed', (e) => {
+                    console.log('Object placed:', e.detail);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
