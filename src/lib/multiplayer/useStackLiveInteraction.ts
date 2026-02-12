@@ -508,6 +508,13 @@ export function useStackLiveInteraction(
 	}
 
 	/**
+	 * Get local user ID
+	 */
+	function getLocalUserId(): string {
+		return runtime?.getLocalUserId() || '';
+	}
+
+	/**
 	 * Cleanup
 	 */
 	function destroy(): void {
@@ -558,6 +565,9 @@ export function useStackLiveInteraction(
 		// Media controls
 		toggleVideo,
 		toggleAudio,
+
+		// User info
+		getLocalUserId,
 
 		// Cleanup
 		destroy
