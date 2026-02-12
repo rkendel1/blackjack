@@ -22,7 +22,7 @@
 		<div class="game-board">
 			<!-- Opponent Section -->
 			<div class="player-section">
-				<h2>Computer</h2>
+				<h2>Bot</h2>
 				<div class="card-count">Cards: {$opponent.totalCards}</div>
 				<div class="card-area">
 					{#if $opponentCard}

@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { Deck } from '$lib/shared/deck';
 import type { Card, Rank } from '$lib/shared/deck';
-import { BasePlayer, AIPlayer } from '$lib/shared/player';
+import { BasePlayer, BotPlayer } from '$lib/shared/player';
 
 const RANK_VALUES: Record<Rank, number> = {
 	'1': 14, // Ace is highest
@@ -42,7 +42,7 @@ export class WarPlayer extends BasePlayer {
 	}
 }
 
-export class WarAIPlayer extends AIPlayer {
+export class WarBotPlayer extends BotPlayer {
 	wonCards: Card[] = [];
 
 	get totalCards(): number {
@@ -72,7 +72,7 @@ export type RoundResult = 'player' | 'opponent' | 'war' | null;
 
 export function createWarGame() {
 	const player = writable(new WarPlayer('Player'));
-	const opponent = writable(new WarAIPlayer('Computer'));
+	const opponent = writable(new WarBotPlayer('Bot'));
 	const state = writable<GameState>('ready');
 	const playerCard = writable<Card | null>(null);
 	const opponentCard = writable<Card | null>(null);
@@ -85,7 +85,7 @@ export function createWarGame() {
 	const start = () => {
 		const deck = new Deck();
 		const newPlayer = new WarPlayer('Player');
-		const newOpponent = new WarAIPlayer('Computer');
+		const newOpponent = new WarBotPlayer('Bot');
 
 		// Deal all cards equally
 		while (deck.remaining > 0) {
@@ -114,7 +114,7 @@ export function createWarGame() {
 		if ($player.totalCards === 0) {
 			state.set('won');
 			winner.set('opponent');
-			message.set('Computer wins the game!');
+			message.set('Bot wins the game!');
 		} else if ($opponent.totalCards === 0) {
 			state.set('won');
 			winner.set('player');
@@ -156,7 +156,7 @@ export function createWarGame() {
 		} else if (opponentValue > playerValue) {
 			roundResult.set('opponent');
 			$opponent.addWonCards([...newCardsInPlay]);
-			message.set(`Computer won this round! (+${newCardsInPlay.length} cards)`);
+			message.set(`Bot won this round! (+${newCardsInPlay.length} cards)`);
 			cardsInPlay.set([]);
 			warCount.set(0);
 		} else {

@@ -6,7 +6,7 @@
 	import Button from '$lib/Components/Button.svelte';
 
 	const game = createGoFishGame();
-	const { player, ai, deck, state, message, lastAction, start, askForRank } = game;
+	const { player, bot, deck, state, message, lastAction, start, askForRank } = game;
 
 	import type { Rank } from '$lib/shared/deck';
 
@@ -32,8 +32,8 @@
 				<strong>{$player.score}</strong>
 			</div>
 			<div class="score-item">
-				<span>Computer Books:</span>
-				<strong>{$ai.score}</strong>
+				<span>Bot Books:</span>
+				<strong>{$bot.score}</strong>
 			</div>
 			<div class="score-item">
 				<span>Deck:</span>
@@ -51,10 +51,10 @@
 		<div class="game-area">
 			<!-- Computer Hand -->
 			<div class="opponent-hand">
-				<h3>Computer ({$ai.hand.length} cards)</h3>
+				<h3>Bot ({$bot.hand.length} cards)</h3>
 				<div class="cards-row">
 					<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-					{#each $ai.hand as _}
+					{#each $bot.hand as _}
 						<div class="card-back-small">?</div>
 					{/each}
 				</div>

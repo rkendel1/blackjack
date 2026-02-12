@@ -1,6 +1,6 @@
 import type { Card } from './deck';
 
-export type PlayerType = 'human' | 'ai';
+export type PlayerType = 'human' | 'bot';
 
 export class BasePlayer {
 	name: string;
@@ -49,16 +49,16 @@ export class BasePlayer {
 	}
 }
 
-export class AIPlayer extends BasePlayer {
+export class BotPlayer extends BasePlayer {
 	difficulty: 'easy' | 'medium' | 'hard';
 
 	constructor(name: string, difficulty: 'easy' | 'medium' | 'hard' = 'medium') {
-		super(name, 'ai');
+		super(name, 'bot');
 		this.difficulty = difficulty;
 	}
 
 	// Override in specific game implementations
 	makeMove(): void {
-		// Base implementation - override in game-specific AI
+		// Base implementation - override in game-specific bot
 	}
 }

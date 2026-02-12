@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { Deck } from '$lib/shared/deck';
 import type { Card, Rank } from '$lib/shared/deck';
-import { BasePlayer, AIPlayer } from '$lib/shared/player';
+import { BasePlayer, BotPlayer } from '$lib/shared/player';
 
 export class GoFishPlayer extends BasePlayer {
 	books: Rank[] = [];
@@ -45,7 +45,7 @@ export class GoFishPlayer extends BasePlayer {
 	}
 }
 
-export class GoFishAI extends AIPlayer {
+export class GoFishBot extends BotPlayer {
 	books: Rank[] = [];
 	knownCards = new Map<Rank, boolean>();
 
@@ -109,7 +109,7 @@ export class GoFishAI extends AIPlayer {
 	}
 }
 
-export type GameState = 'ready' | 'player-turn' | 'ai-turn' | 'won';
+export type GameState = 'ready' | 'player-turn' | 'bot-turn' | 'won';
 
 const getRankName = (rank: Rank): string => {
 	const names: Record<Rank, string> = {
@@ -132,31 +132,31 @@ const getRankName = (rank: Rank): string => {
 
 export function createGoFishGame() {
 	const player = writable(new GoFishPlayer('Player'));
-	const ai = writable(new GoFishAI('Computer'));
+	const bot = writable(new GoFishBot('Bot'));
 	const deck = writable(new Deck());
 	const state = writable<GameState>('ready');
 	const message = writable('');
 	const selectedRank = writable<Rank | null>(null);
-	const winner = writable<'player' | 'ai' | null>(null);
+	const winner = writable<'player' | 'bot' | null>(null);
 	const lastAction = writable('');
 
 	const start = () => {
 		const newDeck = new Deck();
 		const newPlayer = new GoFishPlayer('Player');
-		const newAI = new GoFishAI('Computer');
+		const newBot = new GoFishBot('Bot');
 
 		// Deal 7 cards to each player
 		for (let i = 0; i < 7; i++) {
 			newPlayer.addCard(newDeck.deal());
-			newAI.addCard(newDeck.deal());
+			newBot.addCard(newDeck.deal());
 		}
 
 		newPlayer.checkForBooks();
-		newAI.checkForBooks();
+		newBot.checkForBooks();
 
 		deck.set(newDeck);
 		player.set(newPlayer);
-		ai.set(newAI);
+		bot.set(newBot);
 		state.set('player-turn');
 		message.set('Your turn! Select a rank to ask for.');
 		selectedRank.set(null);
@@ -167,20 +167,21 @@ export function createGoFishGame() {
 	const checkWinner = () => {
 		const $deck = get(deck);
 		const $player = get(player);
-		const $ai = get(ai);
+		const $bot = get(bot);
 
-		const noCardsLeft = $deck.remaining === 0 && $player.hand.length === 0 && $ai.hand.length === 0;
+		const noCardsLeft =
+			$deck.remaining === 0 && $player.hand.length === 0 && $bot.hand.length === 0;
 
 		if (noCardsLeft) {
 			state.set('won');
-			if ($player.score > $ai.score) {
+			if ($player.score > $bot.score) {
 				winner.set('player');
-				message.set(`You win! ${$player.score} - ${$ai.score}`);
-			} else if ($ai.score > $player.score) {
-				winner.set('ai');
-				message.set(`Computer wins! ${$ai.score} - ${$player.score}`);
+				message.set(`You win! ${$player.score} - ${$bot.score}`);
+			} else if ($bot.score > $player.score) {
+				winner.set('bot');
+				message.set(`Bot wins! ${$bot.score} - ${$player.score}`);
 			} else {
-				message.set(`It's a tie! ${$player.score} - ${$ai.score}`);
+				message.set(`It's a tie! ${$player.score} - ${$bot.score}`);
 			}
 		}
 	};
@@ -206,7 +207,7 @@ export function createGoFishGame() {
 
 		checkWinner();
 		if (get(state) !== 'won') {
-			setTimeout(() => aiTurn(), 1500);
+			setTimeout(() => botTurn(), 1500);
 		}
 	};
 
@@ -216,13 +217,13 @@ export function createGoFishGame() {
 		selectedRank.set(null);
 	};
 
-	const aiTurn = () => {
-		state.set('ai-turn');
-		const $ai = get(ai);
+	const botTurn = () => {
+		state.set('bot-turn');
+		const $bot = get(bot);
 		const $player = get(player);
 		const $deck = get(deck);
 
-		const rankToAsk = $ai.chooseRank();
+		const rankToAsk = $bot.chooseRank();
 
 		if (!rankToAsk) {
 			endTurn();
@@ -233,39 +234,39 @@ export function createGoFishGame() {
 
 		if (count > 0) {
 			const cards = $player.giveCards(rankToAsk);
-			$ai.addCards(cards);
-			lastAction.set(`Computer asked for ${getRankName(rankToAsk)} and got ${count}!`);
+			$bot.addCards(cards);
+			lastAction.set(`Bot asked for ${getRankName(rankToAsk)} and got ${count}!`);
 
-			const newBooks = $ai.checkForBooks();
+			const newBooks = $bot.checkForBooks();
 			if (newBooks.length > 0) {
 				lastAction.update(
-					(la) => la + `\nComputer completed ${newBooks.map((r) => getRankName(r)).join(', ')}!`
+					(la) => la + `\nBot completed ${newBooks.map((r) => getRankName(r)).join(', ')}!`
 				);
 			}
 
 			player.set($player);
-			ai.set($ai);
+			bot.set($bot);
 
 			checkWinner();
 			if (!get(winner)) {
-				setTimeout(() => aiTurn(), 1500);
+				setTimeout(() => botTurn(), 1500);
 			}
 		} else {
-			lastAction.set(`Computer asked for ${getRankName(rankToAsk)} - Go Fish!`);
+			lastAction.set(`Bot asked for ${getRankName(rankToAsk)} - Go Fish!`);
 
 			if ($deck.remaining > 0) {
 				const card = $deck.deal();
-				$ai.addCard(card);
+				$bot.addCard(card);
 
-				const newBooks = $ai.checkForBooks();
+				const newBooks = $bot.checkForBooks();
 				if (newBooks.length > 0) {
 					lastAction.update(
-						(la) => la + `\nComputer completed ${newBooks.map((r) => getRankName(r)).join(', ')}!`
+						(la) => la + `\nBot completed ${newBooks.map((r) => getRankName(r)).join(', ')}!`
 					);
 				}
 
 				deck.set($deck);
-				ai.set($ai);
+				bot.set($bot);
 			}
 
 			checkWinner();
@@ -279,14 +280,14 @@ export function createGoFishGame() {
 		if (get(state) !== 'player-turn') return;
 
 		selectedRank.set(rank);
-		const $ai = get(ai);
+		const $bot = get(bot);
 		const $player = get(player);
-		const count = $ai.countRank(rank);
+		const count = $bot.countRank(rank);
 
 		if (count > 0) {
-			const cards = $ai.giveCards(rank);
+			const cards = $bot.giveCards(rank);
 			$player.addCards(cards);
-			lastAction.set(`Computer gave you ${count} ${getRankName(rank)}(s)`);
+			lastAction.set(`Bot gave you ${count} ${getRankName(rank)}(s)`);
 			message.set('You got cards! Check for books and go again.');
 
 			const newBooks = $player.checkForBooks();
@@ -296,12 +297,12 @@ export function createGoFishGame() {
 				);
 			}
 
-			ai.set($ai);
+			bot.set($bot);
 			player.set($player);
 
 			checkWinner();
 		} else {
-			lastAction.set(`Computer says "Go Fish!"`);
+			lastAction.set(`Bot says "Go Fish!"`);
 			message.set('Go Fish! Drawing a card...');
 			goFish();
 		}
@@ -318,7 +319,7 @@ export function createGoFishGame() {
 
 	return {
 		player,
-		ai,
+		bot,
 		deck,
 		state,
 		message,

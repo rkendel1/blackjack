@@ -6,7 +6,7 @@
 	import Button from '$lib/Components/Button.svelte';
 
 	const game = createOldMaidGame();
-	const { player, ai, state, message, lastAction, start, playerDrawCard } = game;
+	const { player, bot, state, message, lastAction, start, playerDrawCard } = game;
 
 	function handleCardClick(index: number) {
 		if ($state === 'player-turn') {
@@ -30,8 +30,8 @@
 				<strong>{$player.pairCount}</strong>
 			</div>
 			<div class="score-item">
-				<span>Computer Pairs:</span>
-				<strong>{$ai.pairCount}</strong>
+				<span>Bot Pairs:</span>
+				<strong>{$bot.pairCount}</strong>
 			</div>
 		</div>
 
@@ -45,10 +45,10 @@
 		<div class="game-area">
 			<!-- Computer Hand -->
 			<div class="opponent-hand">
-				<h3>Computer ({$ai.hand.length} cards)</h3>
+				<h3>Bot ({$bot.hand.length} cards)</h3>
 				<div class="cards-row">
 					<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-					{#each $ai.hand as _, i}
+					{#each $bot.hand as _, i}
 						<button
 							class="card-back-button"
 							class:selectable={$state === 'player-turn'}

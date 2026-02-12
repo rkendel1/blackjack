@@ -1,7 +1,7 @@
 import { writable, derived, get } from 'svelte/store';
 import { Deck } from '$lib/shared/deck';
 import type { Card, Rank, Suit } from '$lib/shared/deck';
-import { BasePlayer, AIPlayer } from '$lib/shared/player';
+import { BasePlayer, BotPlayer } from '$lib/shared/player';
 
 export class CrazyEightsPlayer extends BasePlayer {
 	canPlayCard(card: Card, topCard: Card, currentSuit: Suit | null): boolean {
@@ -19,7 +19,7 @@ export class CrazyEightsPlayer extends BasePlayer {
 	}
 }
 
-export class CrazyEightsAI extends AIPlayer {
+export class CrazyEightsBot extends BotPlayer {
 	canPlayCard(card: Card, topCard: Card, currentSuit: Suit | null): boolean {
 		if (card.rank === '8') return true;
 		if (card.suit === (currentSuit || topCard.suit)) return true;
@@ -63,7 +63,7 @@ export class CrazyEightsAI extends AIPlayer {
 	}
 }
 
-export type GameState = 'ready' | 'player-turn' | 'ai-turn' | 'won' | 'choosing-suit';
+export type GameState = 'ready' | 'player-turn' | 'bot-turn' | 'won' | 'choosing-suit';
 
 const getCardName = (card: Card): string => {
 	const rankNames: Record<Rank, string> = {
@@ -86,13 +86,13 @@ const getCardName = (card: Card): string => {
 
 export function createCrazyEightsGame() {
 	const player = writable(new CrazyEightsPlayer('Player'));
-	const ai = writable(new CrazyEightsAI('Computer'));
+	const bot = writable(new CrazyEightsBot('Bot'));
 	const deck = writable(new Deck());
 	const discardPile = writable<Card[]>([]);
 	const state = writable<GameState>('ready');
 	const currentSuit = writable<Suit | null>(null);
 	const message = writable('');
-	const winner = writable<'player' | 'ai' | null>(null);
+	const winner = writable<'player' | 'bot' | null>(null);
 	const lastAction = writable('');
 
 	const topCard = derived(discardPile, ($discardPile) =>
@@ -102,13 +102,13 @@ export function createCrazyEightsGame() {
 	const start = () => {
 		const newDeck = new Deck();
 		const newPlayer = new CrazyEightsPlayer('Player');
-		const newAI = new CrazyEightsAI('Computer');
+		const newBot = new CrazyEightsBot('Bot');
 		const newDiscardPile: Card[] = [];
 
 		// Deal 5 cards to each player
 		for (let i = 0; i < 5; i++) {
 			newPlayer.addCard(newDeck.deal());
-			newAI.addCard(newDeck.deal());
+			newBot.addCard(newDeck.deal());
 		}
 
 		// Start discard pile
@@ -116,7 +116,7 @@ export function createCrazyEightsGame() {
 
 		deck.set(newDeck);
 		player.set(newPlayer);
-		ai.set(newAI);
+		bot.set(newBot);
 		discardPile.set(newDiscardPile);
 		state.set('player-turn');
 		currentSuit.set(null);
@@ -127,65 +127,65 @@ export function createCrazyEightsGame() {
 
 	const checkWinner = () => {
 		const $player = get(player);
-		const $ai = get(ai);
+		const $bot = get(bot);
 
 		state.set('won');
 
 		if ($player.hand.length === 0) {
 			winner.set('player');
 			message.set('You win!');
-		} else if ($ai.hand.length === 0) {
-			winner.set('ai');
-			message.set('Computer wins!');
+		} else if ($bot.hand.length === 0) {
+			winner.set('bot');
+			message.set('Bot wins!');
 		}
 	};
 
-	const aiTurn = () => {
-		state.set('ai-turn');
-		const $ai = get(ai);
+	const botTurn = () => {
+		state.set('bot-turn');
+		const $bot = get(bot);
 		const $deck = get(deck);
 		const $topCard = get(topCard);
 		const $currentSuit = get(currentSuit);
 		const $discardPile = get(discardPile);
 
-		const playableCard = $ai.chooseCardToPlay($topCard!, $currentSuit);
+		const playableCard = $bot.chooseCardToPlay($topCard!, $currentSuit);
 
 		if (playableCard) {
-			const index = $ai.hand.indexOf(playableCard);
-			$ai.hand.splice(index, 1);
+			const index = $bot.hand.indexOf(playableCard);
+			$bot.hand.splice(index, 1);
 			$discardPile.push(playableCard);
-			lastAction.set(`Computer played ${getCardName(playableCard)}`);
+			lastAction.set(`Bot played ${getCardName(playableCard)}`);
 
 			if (playableCard.rank === '8') {
-				const chosenSuit = $ai.chooseSuit();
+				const chosenSuit = $bot.chooseSuit();
 				currentSuit.set(chosenSuit);
 				lastAction.update((la) => la + ` and chose ${chosenSuit}`);
 			} else {
 				currentSuit.set(null);
 			}
 
-			ai.set($ai);
+			bot.set($bot);
 			discardPile.set($discardPile);
 
-			if ($ai.hand.length === 0) {
+			if ($bot.hand.length === 0) {
 				checkWinner();
 			} else {
 				state.set('player-turn');
 				message.set('Your turn! Play a card or draw.');
 			}
 		} else {
-			// AI must draw
+			// Bot must draw
 			if ($deck.remaining > 0) {
 				const card = $deck.deal();
-				$ai.addCard(card);
-				lastAction.set('Computer drew a card');
+				$bot.addCard(card);
+				lastAction.set('Bot drew a card');
 
 				deck.set($deck);
-				ai.set($ai);
+				bot.set($bot);
 
 				// Check if can play
-				if ($ai.canPlayCard(card, $topCard!, $currentSuit)) {
-					setTimeout(() => aiTurn(), 1000);
+				if ($bot.canPlayCard(card, $topCard!, $currentSuit)) {
+					setTimeout(() => botTurn(), 1000);
 				} else {
 					state.set('player-turn');
 					message.set('Your turn! Play a card or draw.');
@@ -232,7 +232,7 @@ export function createCrazyEightsGame() {
 		if ($player.hand.length === 0) {
 			checkWinner();
 		} else {
-			setTimeout(() => aiTurn(), 1000);
+			setTimeout(() => botTurn(), 1000);
 		}
 	};
 
@@ -246,7 +246,7 @@ export function createCrazyEightsGame() {
 		if (get(player).hand.length === 0) {
 			checkWinner();
 		} else {
-			setTimeout(() => aiTurn(), 1000);
+			setTimeout(() => botTurn(), 1000);
 		}
 	};
 
@@ -270,18 +270,18 @@ export function createCrazyEightsGame() {
 			if ($player.canPlayCard(card, $topCard!, $currentSuit)) {
 				message.set('You can play the card you drew!');
 			} else {
-				message.set('Turn passed to computer.');
-				setTimeout(() => aiTurn(), 1000);
+				message.set('Turn passed to bot.');
+				setTimeout(() => botTurn(), 1000);
 			}
 		} else {
 			message.set('Deck is empty! Turn passed.');
-			setTimeout(() => aiTurn(), 1000);
+			setTimeout(() => botTurn(), 1000);
 		}
 	};
 
 	return {
 		player,
-		ai,
+		bot,
 		deck,
 		discardPile,
 		state,

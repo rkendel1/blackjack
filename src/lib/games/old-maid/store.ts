@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
 import { Deck } from '$lib/shared/deck';
 import type { Card, Rank } from '$lib/shared/deck';
-import { BasePlayer, AIPlayer } from '$lib/shared/player';
+import { BasePlayer, BotPlayer } from '$lib/shared/player';
 
 export class OldMaidPlayer extends BasePlayer {
 	pairs: Rank[] = [];
@@ -38,7 +38,7 @@ export class OldMaidPlayer extends BasePlayer {
 	}
 }
 
-export class OldMaidAI extends AIPlayer {
+export class OldMaidBot extends BotPlayer {
 	pairs: Rank[] = [];
 
 	removePairs() {
@@ -70,26 +70,26 @@ export class OldMaidAI extends AIPlayer {
 	}
 
 	chooseCardIndex(): number {
-		// AI randomly chooses a card index from opponent
+		// Bot randomly chooses a card index from opponent
 		return Math.floor(Math.random() * 100) % 100; // Will be modulo'd by hand length
 	}
 }
 
-export type GameState = 'ready' | 'player-turn' | 'ai-turn' | 'won';
+export type GameState = 'ready' | 'player-turn' | 'bot-turn' | 'won';
 
 export function createOldMaidGame() {
 	const player = writable(new OldMaidPlayer('Player'));
-	const ai = writable(new OldMaidAI('Computer'));
+	const bot = writable(new OldMaidBot('Bot'));
 	const state = writable<GameState>('ready');
 	const message = writable('');
 	const selectedCardIndex = writable<number | null>(null);
-	const winner = writable<'player' | 'ai' | null>(null);
+	const winner = writable<'player' | 'bot' | null>(null);
 	const lastAction = writable('');
 
 	const start = () => {
 		const deck = new Deck();
 		const newPlayer = new OldMaidPlayer('Player');
-		const newAI = new OldMaidAI('Computer');
+		const newBot = new OldMaidBot('Bot');
 
 		// Remove one Queen to make it the "Old Maid"
 		// Remove 3 queens, keep 1 as old maid
@@ -110,19 +110,19 @@ export function createOldMaidGame() {
 			if (isPlayer) {
 				newPlayer.addCard(card);
 			} else {
-				newAI.addCard(card);
+				newBot.addCard(card);
 			}
 			isPlayer = !isPlayer;
 		}
 
 		// Remove initial pairs
 		newPlayer.removePairs();
-		newAI.removePairs();
+		newBot.removePairs();
 
 		player.set(newPlayer);
-		ai.set(newAI);
+		bot.set(newBot);
 		state.set('player-turn');
-		message.set('Your turn! Pick a card from the computer.');
+		message.set('Your turn! Pick a card from the bot.');
 		selectedCardIndex.set(null);
 		winner.set(null);
 		lastAction.set('Game started! Initial pairs removed.');
@@ -130,76 +130,76 @@ export function createOldMaidGame() {
 
 	const checkWinner = () => {
 		const $player = get(player);
-		const $ai = get(ai);
+		const $bot = get(bot);
 
 		state.set('won');
 
-		if ($player.hand.length === 0 && $ai.hand.length > 0) {
+		if ($player.hand.length === 0 && $bot.hand.length > 0) {
 			winner.set('player');
-			message.set('You win! Computer has the Old Maid!');
-		} else if ($ai.hand.length === 0 && $player.hand.length > 0) {
-			winner.set('ai');
-			message.set('Computer wins! You have the Old Maid!');
-		} else if ($player.hand.length === 0 && $ai.hand.length === 0) {
+			message.set('You win! Bot has the Old Maid!');
+		} else if ($bot.hand.length === 0 && $player.hand.length > 0) {
+			winner.set('bot');
+			message.set('Bot wins! You have the Old Maid!');
+		} else if ($player.hand.length === 0 && $bot.hand.length === 0) {
 			message.set("It's a tie!");
 		}
 	};
 
-	const aiTurn = () => {
-		state.set('ai-turn');
+	const botTurn = () => {
+		state.set('bot-turn');
 		const $player = get(player);
-		const $ai = get(ai);
+		const $bot = get(bot);
 
 		if ($player.hand.length === 0) {
 			checkWinner();
 			return;
 		}
 
-		const index = $ai.chooseCardIndex() % $player.hand.length;
+		const index = $bot.chooseCardIndex() % $player.hand.length;
 		const card = $player.hand.splice(index, 1)[0];
-		$ai.addCard(card);
-		lastAction.set(`Computer drew a card from you.`);
+		$bot.addCard(card);
+		lastAction.set(`Bot drew a card from you.`);
 
-		$ai.removePairs();
+		$bot.removePairs();
 
 		player.set($player);
-		ai.set($ai);
+		bot.set($bot);
 
-		if ($player.hand.length === 0 || $ai.hand.length === 0) {
+		if ($player.hand.length === 0 || $bot.hand.length === 0) {
 			checkWinner();
 		} else {
 			state.set('player-turn');
-			message.set('Your turn! Pick a card from the computer.');
+			message.set('Your turn! Pick a card from the bot.');
 		}
 	};
 
 	const playerDrawCard = (index: number) => {
 		if (get(state) !== 'player-turn') return;
 
-		const $ai = get(ai);
+		const $bot = get(bot);
 		const $player = get(player);
 
-		if ($ai.hand.length === 0) return;
+		if ($bot.hand.length === 0) return;
 
-		const card = $ai.hand.splice(index, 1)[0];
+		const card = $bot.hand.splice(index, 1)[0];
 		$player.addCard(card);
-		lastAction.set(`You drew a card from the computer.`);
+		lastAction.set(`You drew a card from the bot.`);
 
 		$player.removePairs();
 
 		player.set($player);
-		ai.set($ai);
+		bot.set($bot);
 
-		if ($player.hand.length === 0 || $ai.hand.length === 0) {
+		if ($player.hand.length === 0 || $bot.hand.length === 0) {
 			checkWinner();
 		} else {
-			setTimeout(() => aiTurn(), 1500);
+			setTimeout(() => botTurn(), 1500);
 		}
 	};
 
 	return {
 		player,
-		ai,
+		bot,
 		state,
 		message,
 		selectedCardIndex,

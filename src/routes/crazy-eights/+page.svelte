@@ -9,7 +9,7 @@
 	const game = createCrazyEightsGame();
 	const {
 		player,
-		ai,
+		bot,
 		deck,
 		state,
 		message,
@@ -48,8 +48,8 @@
 				<strong>{$player.hand.length}</strong>
 			</div>
 			<div class="info-item">
-				<span>Computer Cards:</span>
-				<strong>{$ai.hand.length}</strong>
+				<span>Bot Cards:</span>
+				<strong>{$bot.hand.length}</strong>
 			</div>
 			<div class="info-item">
 				<span>Deck:</span>
