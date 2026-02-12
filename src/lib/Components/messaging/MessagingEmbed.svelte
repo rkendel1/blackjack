@@ -39,7 +39,8 @@
 		start,
 		connect,
 		send,
-		getMessages
+		getMessages,
+		getLocalUserId
 	} = interaction;
 
 	// Messages store for current conversation
@@ -134,7 +135,7 @@
 		<ChatView
 			{messages}
 			conversationName={conversationName}
-			currentUserId={$session?.hostId || ''}
+			currentUserId={getLocalUserId()}
 			localStream={$localStream}
 			remoteStreams={$remoteStreams}
 			onBack={handleBackToInbox}

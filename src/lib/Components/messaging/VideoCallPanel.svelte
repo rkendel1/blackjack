@@ -7,9 +7,21 @@
 	export let onEndCall: () => void;
 
 	let localVideoElement: HTMLVideoElement;
-	let remoteVideoElements: Map<string, HTMLVideoElement> = new Map();
 	let isAudioEnabled = true;
 	let isVideoEnabled = true;
+
+	// Svelte action to attach stream to video element
+	function attachStream(element: HTMLVideoElement, stream: MediaStream) {
+		element.srcObject = stream;
+		return {
+			update(newStream: MediaStream) {
+				element.srcObject = newStream;
+			},
+			destroy() {
+				element.srcObject = null;
+			}
+		};
+	}
 
 	onMount(() => {
 		// Setup local video
@@ -37,16 +49,6 @@
 			}
 		}
 	}
-
-	// Update remote videos when streams change
-	$: {
-		remoteStreams.forEach((stream, userId) => {
-			const videoElement = remoteVideoElements.get(userId);
-			if (videoElement && videoElement.srcObject !== stream) {
-				videoElement.srcObject = stream;
-			}
-		});
-	}
 </script>
 
 <div class="video-call-panel">
@@ -62,7 +64,7 @@
 			{#each [...remoteStreams.entries()] as [userId, stream]}
 				<div class="video-container remote">
 					<video
-						bind:this={remoteVideoElements[userId]}
+						use:attachStream={stream}
 						autoplay
 						playsinline
 						class="video"

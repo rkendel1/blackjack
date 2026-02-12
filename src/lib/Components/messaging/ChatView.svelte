@@ -14,8 +14,6 @@
 	export let onStartVideoCall: () => void;
 
 	let messageContainer: HTMLDivElement;
-	let showReactionPicker = false;
-	let reactionMessageId = '';
 
 	// Auto-scroll to bottom when new messages arrive
 	$: if (messages && messageContainer) {
@@ -27,8 +25,8 @@
 	function handleReaction(messageId: string, reaction: string) {
 		// Handle reaction (would integrate with interaction manager)
 		console.log('Reaction:', messageId, reaction);
-		showReactionPicker = false;
 	}
+
 </script>
 
 <div class="chat-view">
