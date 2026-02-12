@@ -136,8 +136,6 @@
 			{messages}
 			conversationName={conversationName}
 			currentUserId={getLocalUserId()}
-			localStream={$localStream}
-			remoteStreams={$remoteStreams}
 			onBack={handleBackToInbox}
 			onSendMessage={handleSendMessage}
 			onSendMedia={handleSendMedia}

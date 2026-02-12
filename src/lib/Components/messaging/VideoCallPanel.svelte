@@ -68,7 +68,10 @@
 						autoplay
 						playsinline
 						class="video"
-					></video>
+						aria-label="Remote video stream from {userId}"
+					>
+						<track kind="captions" />
+					</video>
 					<div class="video-label">
 						{userId.substring(0, 8)}
 					</div>
@@ -82,7 +85,9 @@
 		{/if}
 
 		<div class="video-container local">
-			<video bind:this={localVideoElement} autoplay playsinline muted class="video"></video>
+			<video bind:this={localVideoElement} autoplay playsinline muted class="video" aria-label="Local video stream">
+				<track kind="captions" />
+			</video>
 			<div class="video-label">You</div>
 		</div>
 	</div>

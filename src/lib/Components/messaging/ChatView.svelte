@@ -6,8 +6,6 @@
 	export let messages: (ChatMessage | MediaMessage)[];
 	export let conversationName: string;
 	export let currentUserId: string;
-	export let localStream: MediaStream | null;
-	export let remoteStreams: Map<string, MediaStream>;
 	export let onBack: () => void;
 	export let onSendMessage: (text: string) => void;
 	export let onSendMedia: (mediaUrl: string, mediaType: string, caption?: string) => void;
