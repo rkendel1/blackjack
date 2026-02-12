@@ -398,7 +398,8 @@
 		}
 
 		.tableau-card {
-			top: 0 !important;
+			position: relative;
+			top: auto;
 		}
 
 		.empty-pile {
