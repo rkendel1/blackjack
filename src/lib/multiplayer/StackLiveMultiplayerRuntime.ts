@@ -86,12 +86,16 @@ export class StackLiveMultiplayerRuntime {
 
 		const sessionConfig: SessionConfig = {
 			gameId: this.config.gameId,
+			embedId: this.config.embedId,
+			type: this.config.type,
 			mode: this.config.mode ?? 'host-authoritative',
 			maxPlayers: this.config.maxPlayers ?? 4,
 			allowSpectators: this.config.spectators ?? false,
 			visibility: 'public',
 			matchmaking: this.config.matchmaking,
-			screenShare: this.config.screenShare
+			screenShare: this.config.screenShare,
+			video: this.config.video,
+			audio: this.config.audio
 		};
 
 		const session = this.sessionManager.createSession(sessionConfig, this.userId);

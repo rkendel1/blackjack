@@ -15,8 +15,11 @@ export type SessionState =
 	| 'RECONNECTING'
 	| 'ENDED';
 
+// Session types for realtime interactions
+export type SessionType = 'game' | 'class' | 'quiz' | 'poll' | 'dashboard' | 'collaborative';
+
 // Participant roles
-export type ParticipantRole = 'host' | 'player' | 'spectator';
+export type ParticipantRole = 'host' | 'player' | 'spectator' | 'viewer' | 'presenter';
 
 // Connection status
 export type ConnectionStatus = 'disconnected' | 'connecting' | 'connected' | 'reconnecting';
@@ -33,7 +36,62 @@ export type StackLiveMessage =
 	| { type: 'presence'; user: User }
 	| { type: 'ping'; ts: number }
 	| { type: 'pong'; ts: number }
-	| { type: 'lobby-update'; players: Participant[] };
+	| { type: 'lobby-update'; players: Participant[] }
+	| { type: 'interaction'; interactionType: InteractionType; payload: unknown; fromUserId: string }
+	| { type: 'poll'; payload: PollMessage }
+	| { type: 'quiz'; payload: QuizMessage }
+	| { type: 'reaction'; payload: string }
+	| { type: 'snap'; payload: SnapMessage }
+	| { type: 'videoFrame'; payload: MediaStreamTrack }
+	| { type: 'audioFrame'; payload: MediaStreamTrack };
+
+// Interaction types for realtime embed interactions
+export type InteractionType = 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'vote' | 'answer';
+
+// Poll message structure
+export interface PollMessage {
+	id: string;
+	question: string;
+	options: string[];
+	allowMultiple?: boolean;
+	expiresAt?: number;
+}
+
+// Poll response structure
+export interface PollResponse {
+	pollId: string;
+	userId: string;
+	answers: number[]; // indices of selected options
+	timestamp: number;
+}
+
+// Quiz message structure
+export interface QuizMessage {
+	id: string;
+	question: string;
+	options: string[];
+	correctAnswer?: number; // index of correct answer (only for host)
+	timeLimit?: number;
+	points?: number;
+}
+
+// Quiz response structure
+export interface QuizResponse {
+	quizId: string;
+	userId: string;
+	answer: number; // index of selected option
+	timestamp: number;
+	timeElapsed?: number;
+}
+
+// Snap message (collaborative interaction)
+export interface SnapMessage {
+	id: string;
+	type: 'photo' | 'drawing' | 'annotation';
+	data: string; // base64 or data URL
+	userId: string;
+	timestamp: number;
+}
 
 // User information
 export interface User {
@@ -54,19 +112,25 @@ export interface Participant {
 
 // Session configuration
 export interface SessionConfig {
-	gameId: string;
+	gameId?: string; // Optional for non-game embeds
+	embedId?: string; // Unique identifier for the embed
+	type?: SessionType; // Type of session (game, class, quiz, poll, etc.)
 	mode: AuthorityMode;
 	maxPlayers: number;
 	allowSpectators: boolean;
 	visibility: 'public' | 'private';
 	matchmaking?: boolean;
 	screenShare?: boolean;
+	video?: boolean; // Enable video streaming
+	audio?: boolean; // Enable audio streaming
 }
 
 // Session metadata
 export interface Session {
 	id: string;
-	gameId: string;
+	gameId?: string; // Optional for non-game embeds
+	embedId?: string; // Unique identifier for the embed
+	type?: SessionType; // Type of session
 	hostId: string;
 	mode: AuthorityMode;
 	status: SessionState;
@@ -89,11 +153,15 @@ export interface SignalingMessage {
 
 // Multiplayer configuration
 export interface MultiplayerConfig {
-	gameId: string;
+	gameId?: string; // Optional for non-game embeds
+	embedId?: string; // Unique identifier for the embed
+	type?: SessionType; // Type of session
 	mode?: AuthorityMode;
 	matchmaking?: boolean;
 	spectators?: boolean;
 	screenShare?: boolean;
+	video?: boolean; // Enable video streaming
+	audio?: boolean; // Enable audio streaming
 	maxPlayers?: number;
 	debug?: boolean;
 }
