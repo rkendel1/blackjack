@@ -3,9 +3,23 @@
 
 	const games = [
 		{
+			name: '🎭 AR/VR Demo',
+			path: '/arvr-demo',
+			description: 'Experience immersive AR/VR with avatars, filters & spatial interactions',
+			status: 'ready',
+			featured: true
+		},
+		{
 			name: '🎮 Multiplayer Platform',
 			path: '/multiplayer',
 			description: 'StackLive Realtime Multiplayer - WebRTC P2P gaming infrastructure',
+			status: 'ready',
+			featured: true
+		},
+		{
+			name: '💬 Messaging Demo',
+			path: '/messaging/demo',
+			description: 'StackLive Messaging with video calls, chat & media sharing',
 			status: 'ready',
 			featured: true
 		},

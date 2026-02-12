@@ -176,6 +176,91 @@ export interface RateLimitSchema {
 }
 
 /**
+ * Avatar Table Schema
+ * Stores user avatars for AR/VR sessions
+ */
+export interface AvatarSchema {
+	_id: string;
+	_creationTime: number;
+	userId: string;
+	sessionId?: string;
+	avatarModel: string; // URL to glTF or USDZ file
+	customizations: string; // JSON stringified customization data
+	transform?: string; // JSON stringified transform (position, rotation, scale)
+	lastUsed: number;
+	createdAt: number;
+}
+
+/**
+ * Filter Table Schema
+ * Stores AR filter configurations and state
+ */
+export interface FilterSchema {
+	_id: string;
+	_creationTime: number;
+	filterId: string;
+	name: string;
+	type: 'face' | 'body' | 'environment' | 'object';
+	category?: 'beauty' | 'fun' | 'artistic' | 'seasonal' | 'brand';
+	assetUrl?: string;
+	thumbnailUrl?: string;
+	parameters?: string; // JSON stringified parameters
+	deviceCompatibility?: string; // JSON stringified array
+	createdAt: number;
+}
+
+/**
+ * Spatial Interaction Table Schema
+ * Stores spatial interactions in AR/VR sessions
+ */
+export interface SpatialInteractionSchema {
+	_id: string;
+	_creationTime: number;
+	sessionId: string;
+	userId: string;
+	interactionType: 'place' | 'move' | 'rotate' | 'scale' | 'grab' | 'point' | 'draw';
+	objectId?: string;
+	spatialData: string; // JSON stringified spatial data (position, rotation, etc.)
+	timestamp: number;
+	expiresAt?: number;
+}
+
+/**
+ * Gesture Data Table Schema
+ * Stores gesture detection data for sessions
+ */
+export interface GestureDataSchema {
+	_id: string;
+	_creationTime: number;
+	sessionId: string;
+	userId: string;
+	gestureType: 'hand' | 'face' | 'body' | 'pose';
+	gesture?: string; // recognized gesture name
+	landmarks?: string; // JSON stringified landmark data
+	confidence?: number;
+	timestamp: number;
+}
+
+/**
+ * ARVR Session Table Schema
+ * Tracks AR/VR session state and capabilities
+ */
+export interface ARVRSessionSchema {
+	_id: string;
+	_creationTime: number;
+	sessionId: string;
+	mode: 'ar' | 'vr';
+	active: boolean;
+	avatarEnabled: boolean;
+	filtersEnabled: boolean;
+	spatialEnabled: boolean;
+	gestureDetectionEnabled: boolean;
+	participants: string; // JSON stringified participant IDs
+	startedAt: number;
+	endedAt?: number;
+}
+
+/**
  * Convex Schema Definition
  * This would be used in convex/schema.ts when Convex is integrated
  */
@@ -259,6 +344,45 @@ export const convexSchema = {
 			by_user_id: ['userId'],
 			by_user_and_action: ['userId', 'action']
 		}
+	},
+	avatars: {
+		indexes: {
+			by_user_id: ['userId'],
+			by_session_id: ['sessionId'],
+			by_last_used: ['lastUsed']
+		}
+	},
+	filters: {
+		indexes: {
+			by_filter_id: ['filterId'],
+			by_type: ['type'],
+			by_category: ['category']
+		}
+	},
+	spatial_interactions: {
+		indexes: {
+			by_session_id: ['sessionId'],
+			by_user_id: ['userId'],
+			by_interaction_type: ['interactionType'],
+			by_timestamp: ['timestamp'],
+			by_expiration: ['expiresAt']
+		}
+	},
+	gesture_data: {
+		indexes: {
+			by_session_id: ['sessionId'],
+			by_user_id: ['userId'],
+			by_gesture_type: ['gestureType'],
+			by_timestamp: ['timestamp']
+		}
+	},
+	arvr_sessions: {
+		indexes: {
+			by_session_id: ['sessionId'],
+			by_mode: ['mode'],
+			by_active: ['active'],
+			by_started_at: ['startedAt']
+		}
 	}
 };
 
@@ -282,3 +406,8 @@ export type MatchmakingQueueDocument = ConvexDocument<MatchmakingQueueSchema>;
 export type SessionEventDocument = ConvexDocument<SessionEventSchema>;
 export type UserPresenceDocument = ConvexDocument<UserPresenceSchema>;
 export type RateLimitDocument = ConvexDocument<RateLimitSchema>;
+export type AvatarDocument = ConvexDocument<AvatarSchema>;
+export type FilterDocument = ConvexDocument<FilterSchema>;
+export type SpatialInteractionDocument = ConvexDocument<SpatialInteractionSchema>;
+export type GestureDataDocument = ConvexDocument<GestureDataSchema>;
+export type ARVRSessionDocument = ConvexDocument<ARVRSessionSchema>;
