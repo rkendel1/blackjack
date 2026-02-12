@@ -316,6 +316,20 @@ const session = useStackLiveInteraction({
 // Start a session
 await session.start();
 
+// Send a chat message
+session.send({ type: "chat", payload: "Hello everyone!" });
+
+// Send a reaction
+session.send({ type: "reaction", payload: "👍" });
+
+// Send media
+session.send({
+  type: "media",
+  payload: { caption: "Check this out" },
+  mediaUrl: "https://cdn.stacklive.com/uploads/video123.mp4",
+  mediaType: "video/mp4"
+});
+
 // Create a poll
 const poll = session.createPoll("Best move?", ["Option A", "Option B", "Option C"]);
 
@@ -329,6 +343,9 @@ session.send({ type: "state", payload: gameState });
 session.on("interaction", (msg) => {
   console.log("Received interaction:", msg);
 });
+
+// Fetch conversation history
+const history = await session.getMessages({ limit: 50 });
 
 // Stop session
 session.stop();
@@ -348,6 +365,17 @@ viewer.on("state", (state) => {
   console.log("State update:", state);
 });
 
+// Send a chat message
+viewer.send({ type: "chat", payload: "Great session!" });
+
+// Send media
+viewer.send({
+  type: "media",
+  payload: { caption: "My answer" },
+  mediaUrl: "https://example.com/image.jpg",
+  mediaType: "image/jpeg"
+});
+
 // Submit poll answer
 viewer.send({ 
   type: "poll", 
@@ -362,6 +390,9 @@ viewer.send({
 
 // Send reaction
 viewer.send({ type: "reaction", payload: "👍" });
+
+// Get message history
+const messages = viewer.getMessages({ limit: 20 });
 ```
 
 **Returns:**
@@ -379,7 +410,7 @@ viewer.send({ type: "reaction", payload: "👍" });
   - `start()` - Start new session as host
   - `connect(options)` - Join existing session
   - `stop()` - Stop/leave session
-  - `send(message)` - Send messages (state, poll, quiz, reaction, snap)
+  - `send(message)` - Send messages (state, chat, media, poll, quiz, reaction, snap)
   - `on(event, callback)` - Register event listeners
 
 - **Interaction Helpers:**
@@ -387,6 +418,7 @@ viewer.send({ type: "reaction", payload: "👍" });
   - `createQuiz(question, options, correctAnswer?, timeLimit?, points?)` - Create quiz
   - `getPollResults(pollId)` - Get poll responses
   - `getQuizResults(quizId)` - Get quiz responses
+  - `getMessages(options?)` - Get conversation history (chat + media messages)
 
 - **Media Controls:**
   - `toggleVideo(enabled)` - Enable/disable video
@@ -394,7 +426,7 @@ viewer.send({ type: "reaction", payload: "👍" });
 
 #### `InteractionManager` ✨ NEW
 
-Manages interactive messages (polls, quizzes, reactions, snaps).
+Manages interactive messages (polls, quizzes, reactions, snaps, chat, media).
 
 **Methods:**
 - `on(type, callback)` - Listen to interaction events
@@ -403,6 +435,9 @@ Manages interactive messages (polls, quizzes, reactions, snaps).
 - `createQuiz(...)` - Create and broadcast quiz
 - `getPollResults(pollId)` - Get poll results
 - `getQuizResults(quizId)` - Get quiz results
+- `getChatMessages(sessionId)` - Get chat messages
+- `getMediaMessages(sessionId)` - Get media messages
+- `getMessages(sessionId, options?)` - Get all messages (chat + media)
 
 #### `MediaStreamManager` ✨ NEW
 
@@ -575,6 +610,81 @@ await viewer.connect({ role: "viewer" });
 
 viewer.on("state", (metrics) => {
   updateCharts(metrics);
+});
+```
+
+### 5. Chat & Media Messaging
+
+```typescript
+// Host initiates a conversation thread
+const chat = useStackLiveInteraction({
+  embedId: "team-standup",
+  type: "chat",
+  maxParticipants: 20,
+});
+
+await chat.start();
+
+// Send text message
+chat.send({ type: "chat", payload: "Welcome to the standup!" });
+
+// Send image
+chat.send({
+  type: "media",
+  payload: { caption: "Today's sprint board" },
+  mediaUrl: "https://cdn.example.com/board.png",
+  mediaType: "image/png"
+});
+
+// Send video
+chat.send({
+  type: "media",
+  payload: { caption: "Demo recording" },
+  mediaUrl: "https://cdn.example.com/demo.mp4",
+  mediaType: "video/mp4"
+});
+
+// Participants join and send messages
+const participant = useStackLiveInteraction({ 
+  sessionId: "standup-session" 
+});
+
+await participant.connect({ role: "player" });
+
+// Listen for all interactions
+participant.on("interaction", (msg) => {
+  switch(msg.type) {
+    case "chat": 
+      displayChat(msg); 
+      break;
+    case "reaction": 
+      displayReaction(msg); 
+      break;
+    case "media": 
+      renderMedia(msg.payload); 
+      break;
+  }
+});
+
+// Send chat message
+participant.send({ type: "chat", payload: "Great progress everyone!" });
+
+// Send reaction
+participant.send({ type: "reaction", payload: "🎉" });
+
+// Fetch conversation history
+const history = participant.getMessages({ limit: 50 });
+console.log(`Loaded ${history.length} messages`);
+
+// Display messages
+history.forEach(msg => {
+  if ('mediaUrl' in msg) {
+    // Media message
+    console.log(`Media from ${msg.fromUserId}: ${msg.mediaUrl}`);
+  } else {
+    // Chat message
+    console.log(`${msg.fromUserId}: ${msg.payload}`);
+  }
 });
 ```
 
