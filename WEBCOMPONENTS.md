@@ -418,9 +418,8 @@ scene.addEventListener('ready', async () => {
 
 ## Documentation
 
-- [ARVR_DOCUMENTATION.md](./ARVR_DOCUMENTATION.md) - Complete AR/VR capability documentation
-- [ARVR_QUICKSTART.md](./ARVR_QUICKSTART.md) - Quick start guide
-- [MULTIPLAYER.md](./MULTIPLAYER.md) - StackLive multiplayer platform docs
+- [ARVR_DOCUMENTATION.md](https://github.com/rkendel1/blackjack/blob/main/ARVR_DOCUMENTATION.md) - Complete AR/VR capability documentation
+- [MULTIPLAYER.md](https://github.com/rkendel1/blackjack/blob/main/MULTIPLAYER.md) - StackLive multiplayer platform docs
 
 ---
 

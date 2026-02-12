@@ -354,8 +354,8 @@
 			</p>
 			<ul>
 				<li><a href="/arvr-demo">AR/VR Control Panel Demo</a></li>
-				<li><a href="/ARVR_DOCUMENTATION.md">ARVR_DOCUMENTATION.md</a></li>
-				<li><a href="/ARVR_QUICKSTART.md">ARVR_QUICKSTART.md</a></li>
+				<li><a href="https://github.com/rkendel1/blackjack/blob/main/ARVR_DOCUMENTATION.md" target="_blank" rel="noopener noreferrer">ARVR_DOCUMENTATION.md</a></li>
+				<li><a href="https://github.com/rkendel1/blackjack/blob/main/WEBCOMPONENTS.md" target="_blank" rel="noopener noreferrer">WEBCOMPONENTS.md</a></li>
 			</ul>
 		</div>
 	</div>

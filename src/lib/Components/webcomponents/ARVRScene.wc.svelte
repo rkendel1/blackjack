@@ -97,28 +97,34 @@
 	});
 
 	// Public methods exposed to web component users
-	export function startAR() {
-		return arvr?.startARSession();
+	export function startAR(): Promise<boolean> {
+		if (!arvr) return Promise.resolve(false);
+		return arvr.startARSession();
 	}
 
-	export function startVR() {
-		return arvr?.startVRSession();
+	export function startVR(): Promise<boolean> {
+		if (!arvr) return Promise.resolve(false);
+		return arvr.startVRSession();
 	}
 
-	export function endSession() {
-		return arvr?.endSession();
+	export function endSession(): Promise<void> {
+		if (!arvr) return Promise.resolve();
+		return arvr.endSession();
 	}
 
 	export function loadAvatar(modelUrl: string, customizations?: any) {
-		return arvr?.loadAvatar(modelUrl, customizations);
+		if (!arvr) return Promise.resolve(null);
+		return arvr.loadAvatar(modelUrl, customizations);
 	}
 
 	export function applyFilter(filterId: string) {
-		return arvr?.applyFilter(filterId);
+		if (!arvr) return;
+		return arvr.applyFilter(filterId);
 	}
 
 	export function placeObject(objectId: string, position: [number, number, number]) {
-		return arvr?.placeObject(objectId, position);
+		if (!arvr) return;
+		return arvr.placeObject(objectId, position);
 	}
 </script>
 
