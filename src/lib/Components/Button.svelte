@@ -1,20 +1,10 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-
-	const {
-		disabled,
-		onclick,
-		children,
-		variant
-	}: {
-		disabled?: boolean;
-		onclick: () => void;
-		children: Snippet;
-		variant: string;
-	} = $props();
+	export let disabled: boolean = false;
+	export let onclick: () => void;
+	export let variant: string;
 </script>
 
-<button class={variant} {onclick} {disabled}>{@render children()}</button>
+<button class={variant} on:click={onclick} {disabled}><slot /></button>
 
 <style>
 	button {
@@ -77,9 +67,9 @@
 		background-color: #793737;
 	}
 
-	@media (max-width: 968px) and (orientation: landscape) {
+	@media (max-width: 768px) {
 		button {
-			padding: 10px 20px;
+			padding: 8px 16px;
 			font-size: 14px;
 			border-radius: 6px;
 		}

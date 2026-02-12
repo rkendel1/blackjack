@@ -36,14 +36,15 @@
 		height: 100%;
 	}
 
-	@media (max-width: 968px) and (orientation: landscape) {
+	@media (max-width: 768px) {
 		#deck {
-			transform: scale(0.5);
-			padding: 4px;
+			width: 120px;
+			height: 150px;
+			padding: 10px;
 		}
 
 		svg {
-			padding-left: 12px;
+			padding-left: 8px;
 		}
 	}
 </style>

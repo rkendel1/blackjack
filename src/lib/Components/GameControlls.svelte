@@ -1,26 +1,16 @@
 <script lang="ts">
-	import type { Turn, Winner } from '$lib/gameStore.svelte';
+	import type { Turn, Winner } from '$lib/games/blackjack/store';
 	import Button from './Button.svelte';
 
-	const {
-		winner,
-		inGame,
-		turn,
-		draw,
-		stop,
-		start,
-		restart
-	}: {
-		winner: Winner;
-		inGame: boolean;
-		turn: Turn;
-		draw: () => void;
-		stop: () => void;
-		start: () => void;
-		restart: () => void;
-	} = $props();
+	export let winner: Winner;
+	export let inGame: boolean;
+	export let turn: Turn;
+	export let draw: () => void;
+	export let stop: () => void;
+	export let start: () => void;
+	export let restart: () => void;
 
-	const winnerText = $derived(winner === 'Draw' ? 'Draw' : `${winner} won!`);
+	$: winnerText = winner === 'Draw' ? 'Draw' : `${winner} won!`;
 </script>
 
 <div>

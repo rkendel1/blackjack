@@ -1,8 +1,9 @@
 <script lang="ts">
-	import type { Card as CardType } from '$lib/utils';
+	import type { Card as CardType } from '$lib/shared/deck';
 	import Card from './Card.svelte';
 
-	const { hand, score }: { hand: CardType[]; score: number } = $props();
+	export let hand: CardType[];
+	export let score: number;
 </script>
 
 <div class="wrapper">
@@ -40,10 +41,16 @@
 		border-radius: 12px;
 	}
 
-	@media (max-width: 968px) and (orientation: landscape) {
+	@media (max-width: 768px) {
 		.wrapper {
-			padding: 4px 8px;
-			gap: 10px;
+			padding: 4px 12px;
+			gap: 8px;
+		}
+
+		.score {
+			width: 48px;
+			height: 32px;
+			font-size: 20px;
 		}
 	}
 </style>
