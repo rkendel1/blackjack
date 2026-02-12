@@ -52,6 +52,68 @@ function rawPlugin() {
 	};
 }
 
+/**
+ * Custom Rollup plugin to wrap customElements.define() with a guard
+ * This prevents "already registered" errors during hot reload or multiple script loads
+ * Uses renderChunk to run after minification
+ */
+function guardCustomElementsDefine() {
+	return {
+		name: 'guard-custom-elements-define',
+		renderChunk(code, chunk, options) {
+			// This regex matches the minified pattern: customElements.define("element-name",
+			// We need to handle both minified and non-minified code
+			let modifiedCode = code.replace(
+				/customElements\.define\(["']([^"']+)["']/g,
+				(match, elementName) => {
+					return `customElements.get("${elementName}")||customElements.define("${elementName}"`;
+				}
+			);
+			return { code: modifiedCode, map: null };
+		}
+	};
+}
+
+/**
+ * Custom Rollup plugin to inject process.env polyfill for browser compatibility
+ * This fixes "ReferenceError: Can't find variable: process" errors
+ * that occur when bundled code contains Node.js-specific process.env references
+ */
+function injectProcessEnvPolyfill() {
+	return {
+		name: 'inject-process-env-polyfill',
+		generateBundle(options, bundle) {
+			// List of components that need the process.env polyfill
+			// Add component names here if they encounter process.env errors
+			const componentsNeedingPolyfill = [
+				// Currently no components in this repo need the polyfill
+				// Add component file names here if needed (e.g., 'TicTacToe.js')
+			];
+
+			for (const fileName in bundle) {
+				const chunk = bundle[fileName];
+				
+				// Check if this file needs the polyfill (use precise matching)
+				const needsPolyfill = componentsNeedingPolyfill.some(name => 
+					fileName.endsWith('/' + name) || fileName === name
+				);
+
+				if (chunk.type === 'chunk' && chunk.code && needsPolyfill) {
+					// Inject the polyfill at the very beginning of the file
+					const polyfill = `// Browser polyfill for process.env
+if (typeof process === 'undefined') {
+  window.process = { env: { NODE_ENV: 'production' } };
+}
+
+`;
+					chunk.code = polyfill + chunk.code;
+					console.log(`✓ Injected process.env polyfill into ${fileName}`);
+				}
+			}
+		}
+	};
+}
+
 export default {
 	input: 'src/main.ts',
 	output: {
@@ -74,6 +136,8 @@ export default {
 			publicPath: '/build/',
 			destDir: 'public/build'
 		}),
+		guardCustomElementsDefine(),
+		injectProcessEnvPolyfill(),
 		svelte({
 			preprocess: sveltePreprocess({
 				sourceMap: !production,
