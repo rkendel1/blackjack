@@ -99,8 +99,14 @@
     }
   }
 
+  interface Participant {
+    role: string;
+    userId: string;
+    connectionStatus: string;
+  }
+
   $: playerCount = isMultiplayer 
-    ? $game?.session?.participants.filter((p: any) => p.role === 'player').length || 0 
+    ? $game?.session?.participants.filter((p: Participant) => p.role === 'player').length || 0 
     : 1;
   
   $: canStart = isMultiplayer && $game?.isHost && $game?.sessionState === 'waiting_for_players' && playerCount >= 2;

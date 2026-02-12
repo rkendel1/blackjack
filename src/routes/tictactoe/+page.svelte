@@ -4,18 +4,12 @@
 
   let enableBot = true;
   let botDifficulty: 'easy' | 'medium' | 'hard' = 'medium';
-  let playerSymbol: Player = 'X';
 
   $: game = createTicTacToeStore({
     startingPlayer: 'X',
     enableBot,
     botDifficulty,
   });
-
-  $: {
-    // Reset game when settings change
-    game.reset();
-  }
 
   function handleCellClick(position: number) {
     if ($game.board[position] === null && $game.status === 'playing') {
