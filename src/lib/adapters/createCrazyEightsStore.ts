@@ -29,15 +29,15 @@ export function createCrazyEightsStore() {
 
 		// Handle bot turns with timing
 		if (engine.needsBotTurn()) {
-			await new Promise(resolve => setTimeout(resolve, 1000));
-			
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
 			while (engine.needsBotTurn()) {
 				engine.applyMove({ type: 'bot-turn' });
 				sync();
-				
+
 				// Check if bot drew and can play again
 				if (engine.canDrawAgain()) {
-					await new Promise(resolve => setTimeout(resolve, 1000));
+					await new Promise((resolve) => setTimeout(resolve, 1000));
 				}
 			}
 		}
@@ -49,14 +49,14 @@ export function createCrazyEightsStore() {
 
 		// Handle bot turns with timing
 		if (engine.needsBotTurn()) {
-			await new Promise(resolve => setTimeout(resolve, 1000));
-			
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
 			while (engine.needsBotTurn()) {
 				engine.applyMove({ type: 'bot-turn' });
 				sync();
-				
+
 				if (engine.canDrawAgain()) {
-					await new Promise(resolve => setTimeout(resolve, 1000));
+					await new Promise((resolve) => setTimeout(resolve, 1000));
 				}
 			}
 		}
@@ -68,14 +68,14 @@ export function createCrazyEightsStore() {
 
 		// Handle bot turns with timing
 		if (engine.needsBotTurn()) {
-			await new Promise(resolve => setTimeout(resolve, 1000));
-			
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
 			while (engine.needsBotTurn()) {
 				engine.applyMove({ type: 'bot-turn' });
 				sync();
-				
+
 				if (engine.canDrawAgain()) {
-					await new Promise(resolve => setTimeout(resolve, 1000));
+					await new Promise((resolve) => setTimeout(resolve, 1000));
 				}
 			}
 		}
@@ -85,7 +85,7 @@ export function createCrazyEightsStore() {
 	const player = derived(state, ($state) => ({
 		name: $state.player.name,
 		hand: $state.player.hand,
-		canPlayCard: (card: Card, topCard: Card, currentSuit: Suit | null) => 
+		canPlayCard: (card: Card, topCard: Card, currentSuit: Suit | null) =>
 			canPlayCard(card, topCard, currentSuit)
 	}));
 

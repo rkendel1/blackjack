@@ -199,7 +199,7 @@ export class GoFishEngine {
 			}
 
 			this.checkWinner();
-			
+
 			if (this.winner === null) {
 				this.gameState = 'bot-turn';
 			}
@@ -244,7 +244,7 @@ export class GoFishEngine {
 			}
 
 			this.checkWinner();
-			
+
 			if (this.winner === null) {
 				this.gameState = 'player-turn';
 				this.message = 'Your turn! Select a rank to ask for.';

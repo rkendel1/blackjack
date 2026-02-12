@@ -1,7 +1,13 @@
 import { Deck } from '../../../shared/deck';
 import type { Card } from '../../../shared/deck';
 import { getBestHand, type HandEvaluation } from '../../shared/poker-hands';
-import type { TexasHoldemState, TexasHoldemMove, GamePhase, PlayerAction, TexasHoldemPlayerState } from './types';
+import type {
+	TexasHoldemState,
+	TexasHoldemMove,
+	GamePhase,
+	PlayerAction,
+	TexasHoldemPlayerState
+} from './types';
 
 const SMALL_BLIND = 10;
 const BIG_BLIND = 20;
@@ -130,7 +136,7 @@ export class TexasHoldemEngine {
 
 	getState(): TexasHoldemState {
 		return {
-			players: this.players.map(p => ({
+			players: this.players.map((p) => ({
 				name: p.name,
 				type: p.type,
 				hand: [...p.hand],
@@ -165,7 +171,11 @@ export class TexasHoldemEngine {
 		}
 	}
 
-	private setup(humanCount: number, botCount: number, botDifficulty: 'easy' | 'medium' | 'hard' = 'medium'): void {
+	private setup(
+		humanCount: number,
+		botCount: number,
+		botDifficulty: 'easy' | 'medium' | 'hard' = 'medium'
+	): void {
 		this.players = [];
 		this.botDifficulty = botDifficulty;
 

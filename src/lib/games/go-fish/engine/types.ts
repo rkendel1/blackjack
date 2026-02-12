@@ -27,7 +27,4 @@ export interface GoFishState {
 	lastAction: string;
 }
 
-export type GoFishMove =
-	| { type: 'start' }
-	| { type: 'ask'; rank: Rank }
-	| { type: 'bot-turn' };
+export type GoFishMove = { type: 'start' } | { type: 'ask'; rank: Rank } | { type: 'bot-turn' };

@@ -26,7 +26,7 @@ export interface OldMaidState {
 	winner: Winner;
 }
 
-export type OldMaidMove = 
+export type OldMaidMove =
 	| { type: 'start' }
 	| { type: 'draw'; playerIndex: number }
 	| { type: 'bot-draw' };

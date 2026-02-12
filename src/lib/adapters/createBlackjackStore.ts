@@ -27,7 +27,7 @@ export function createBlackjackStore() {
 
 	const start = async (restart = false) => {
 		engine.applyMove({ type: 'start' });
-		
+
 		if (restart) {
 			await tick();
 		}
@@ -43,20 +43,20 @@ export function createBlackjackStore() {
 			sync();
 		} else {
 			engine.applyMove({ type: 'stand' });
-			
+
 			// UI timing for dealer animation
 			const currentState = engine.getState();
 			if (currentState.turn === 'Dealer') {
 				// Give time for dealer cards to animate
-				await new Promise(resolve => setTimeout(resolve, 800));
-				
+				await new Promise((resolve) => setTimeout(resolve, 800));
+
 				// Play sound for each dealer draw
 				while (engine.shouldDealerDraw()) {
 					await playDrawSound();
-					await new Promise(resolve => setTimeout(resolve, 800));
+					await new Promise((resolve) => setTimeout(resolve, 800));
 				}
 			}
-			
+
 			sync();
 		}
 	};

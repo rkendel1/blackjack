@@ -46,6 +46,4 @@ export interface WarState {
 	winner: Winner;
 }
 
-export type WarMove = 
-	| { type: 'start' }
-	| { type: 'play-round' };
+export type WarMove = { type: 'start' } | { type: 'play-round' };

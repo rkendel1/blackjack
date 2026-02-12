@@ -1,10 +1,10 @@
 /**
  * Unit tests for BlackjackEngine
- * 
+ *
  * These tests validate the pure game logic without Svelte dependencies.
  * To run these tests, install a test runner like vitest:
  *   npm install -D vitest
- * 
+ *
  * Then add to package.json:
  *   "scripts": { "test": "vitest" }
  */
@@ -65,7 +65,10 @@ console.assert(initialState.dealer.hand.length === 0, 'Dealer should have no car
 // Test start
 engine.start();
 const startState = engine.getState();
-console.assert(startState.turn === 'Player' || startState.winner === 'Player', 'Turn should be Player or game ended with blackjack');
+console.assert(
+	startState.turn === 'Player' || startState.winner === 'Player',
+	'Turn should be Player or game ended with blackjack'
+);
 console.assert(startState.player.hand.length === 2, 'Player should have 2 cards after start');
 console.assert(startState.dealer.hand.length === 1, 'Dealer should have 1 card after start');
 console.assert(startState.player.score > 0, 'Player score should be calculated');
@@ -75,7 +78,10 @@ if (startState.turn === 'Player') {
 	const beforeHit = engine.getState();
 	engine.hit();
 	const afterHit = engine.getState();
-	console.assert(afterHit.player.hand.length === beforeHit.player.hand.length + 1, 'Player should have one more card after hit');
+	console.assert(
+		afterHit.player.hand.length === beforeHit.player.hand.length + 1,
+		'Player should have one more card after hit'
+	);
 }
 
 // Test stand (start new game first to ensure clean state)
@@ -93,7 +99,10 @@ if (engine2.getState().turn === 'Player') {
 const engine3 = new BlackjackEngine();
 engine3.applyMove({ type: 'start' });
 const moveState = engine3.getState();
-console.assert(moveState.turn === 'Player' || moveState.winner === 'Player', 'applyMove should work for start');
+console.assert(
+	moveState.turn === 'Player' || moveState.winner === 'Player',
+	'applyMove should work for start'
+);
 
 console.log('BlackjackEngine tests passed!');
 

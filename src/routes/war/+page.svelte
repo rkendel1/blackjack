@@ -6,8 +6,17 @@
 	import Button from '$lib/Components/Button.svelte';
 
 	const game = createWarStore();
-	const { player, opponent, gameState, playerCard, opponentCard, message, warCount, start, playRound } =
-		game;
+	const {
+		player,
+		opponent,
+		gameState,
+		playerCard,
+		opponentCard,
+		message,
+		warCount,
+		start,
+		playRound
+	} = game;
 </script>
 
 <CardsDefinitions />

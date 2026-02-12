@@ -1,6 +1,14 @@
 import { Deck } from '../../../shared/deck';
 import type { Card } from '../../../shared/deck';
-import type { WarState, PlayerState, OpponentState, GameState, RoundResult, Winner, WarMove } from './types';
+import type {
+	WarState,
+	PlayerState,
+	OpponentState,
+	GameState,
+	RoundResult,
+	Winner,
+	WarMove
+} from './types';
 import { RANK_VALUES } from './types';
 
 export class WarEngine {
@@ -75,7 +83,7 @@ export class WarEngine {
 
 	start(): void {
 		const deck = new Deck();
-		
+
 		// Reset game
 		this.player = this.createPlayer();
 		this.opponent = this.createOpponent();
@@ -90,7 +98,7 @@ export class WarEngine {
 		while (deck.remaining > 0) {
 			const card1 = deck.deal();
 			this.player.hand.push(card1);
-			
+
 			if (deck.remaining > 0) {
 				const card2 = deck.deal();
 				this.opponent.hand.push(card2);

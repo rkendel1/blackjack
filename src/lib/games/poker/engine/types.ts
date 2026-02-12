@@ -26,7 +26,12 @@ export interface PokerState {
 }
 
 export type PokerMove =
-	| { type: 'setup'; humanCount: number; botCount: number; botDifficulty?: 'easy' | 'medium' | 'hard' }
+	| {
+			type: 'setup';
+			humanCount: number;
+			botCount: number;
+			botDifficulty?: 'easy' | 'medium' | 'hard';
+	  }
 	| { type: 'start' }
 	| { type: 'player-action'; action: PlayerAction; raiseAmount?: number }
 	| { type: 'toggle-card'; cardIndex: number }

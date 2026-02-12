@@ -22,7 +22,7 @@ export function createGoFishStore() {
 
 		// Handle bot turns with timing
 		while (engine.needsBotTurn()) {
-			await new Promise(resolve => setTimeout(resolve, 1500));
+			await new Promise((resolve) => setTimeout(resolve, 1500));
 			engine.applyMove({ type: 'bot-turn' });
 			sync();
 		}

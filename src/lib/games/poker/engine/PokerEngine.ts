@@ -178,7 +178,7 @@ export class PokerEngine {
 
 	getState(): PokerState {
 		return {
-			players: this.players.map(p => ({
+			players: this.players.map((p) => ({
 				name: p.name,
 				type: p.type,
 				hand: [...p.hand],
@@ -215,7 +215,11 @@ export class PokerEngine {
 		}
 	}
 
-	private setup(humanCount: number, botCount: number, botDifficulty: 'easy' | 'medium' | 'hard' = 'medium'): void {
+	private setup(
+		humanCount: number,
+		botCount: number,
+		botDifficulty: 'easy' | 'medium' | 'hard' = 'medium'
+	): void {
 		this.players = [];
 		this.botDifficulty = botDifficulty;
 

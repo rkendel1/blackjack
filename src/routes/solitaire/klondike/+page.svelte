@@ -103,7 +103,12 @@
 				</div>
 
 				<!-- Waste -->
-				<div class="waste" role="region" aria-label="Waste pile" on:dragover={(e) => e.preventDefault()}>
+				<div
+					class="waste"
+					role="region"
+					aria-label="Waste pile"
+					on:dragover={(e) => e.preventDefault()}
+				>
 					{#if $waste.length > 0}
 						{#each $waste.slice(-3) as card, i}
 							<div

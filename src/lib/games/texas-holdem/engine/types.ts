@@ -28,7 +28,12 @@ export interface TexasHoldemState {
 }
 
 export type TexasHoldemMove =
-	| { type: 'setup'; humanCount: number; botCount: number; botDifficulty?: 'easy' | 'medium' | 'hard' }
+	| {
+			type: 'setup';
+			humanCount: number;
+			botCount: number;
+			botDifficulty?: 'easy' | 'medium' | 'hard';
+	  }
 	| { type: 'start' }
 	| { type: 'player-action'; action: PlayerAction; raiseAmount?: number }
 	| { type: 'next-hand' }

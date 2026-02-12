@@ -25,7 +25,7 @@ export function createTexasHoldemStore() {
 
 		// Handle initial bot actions
 		while (engine.needsBotAction()) {
-			await new Promise(resolve => setTimeout(resolve, 1000));
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 			engine.applyMove({ type: 'bot-action' });
 			sync();
 		}
@@ -37,7 +37,7 @@ export function createTexasHoldemStore() {
 
 		// Handle subsequent bot actions
 		while (engine.needsBotAction()) {
-			await new Promise(resolve => setTimeout(resolve, 1000));
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 			engine.applyMove({ type: 'bot-action' });
 			sync();
 		}
@@ -49,7 +49,7 @@ export function createTexasHoldemStore() {
 
 		// Handle initial bot actions
 		while (engine.needsBotAction()) {
-			await new Promise(resolve => setTimeout(resolve, 1000));
+			await new Promise((resolve) => setTimeout(resolve, 1000));
 			engine.applyMove({ type: 'bot-action' });
 			sync();
 		}
@@ -61,16 +61,14 @@ export function createTexasHoldemStore() {
 	const pot = derived(state, ($state) => $state.pot);
 	const currentBet = derived(state, ($state) => $state.currentBet);
 	const phase = derived(state, ($state) => $state.phase);
-	const winners = derived(state, ($state) => 
-		$state.winners.map(idx => $state.players[idx])
-	);
+	const winners = derived(state, ($state) => $state.winners.map((idx) => $state.players[idx]));
 
 	const currentPlayer = derived(state, ($state) => {
 		const idx = $state.currentPlayerIndex;
 		return idx >= 0 && idx < $state.players.length ? $state.players[idx] : null;
 	});
 
-	const activePlayers = derived(state, ($state) => 
+	const activePlayers = derived(state, ($state) =>
 		$state.players.filter((p) => !p.folded && p.chips > 0)
 	);
 

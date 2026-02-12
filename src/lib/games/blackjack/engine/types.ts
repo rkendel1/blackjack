@@ -23,7 +23,4 @@ export interface BlackjackState {
 	deckRemaining: number;
 }
 
-export type BlackjackMove = 
-	| { type: 'start' }
-	| { type: 'hit' }
-	| { type: 'stand' };
+export type BlackjackMove = { type: 'start' } | { type: 'hit' } | { type: 'stand' };

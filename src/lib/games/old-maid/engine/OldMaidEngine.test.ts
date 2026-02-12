@@ -1,6 +1,6 @@
 /**
  * Unit tests for OldMaidEngine
- * 
+ *
  * These tests validate the pure game logic without Svelte dependencies.
  */
 
@@ -19,15 +19,21 @@ console.assert(initialState.bot.hand.length === 0, 'Bot should have no cards ini
 // Test start
 engine.start();
 const startState = engine.getState();
-console.assert(startState.gameState === 'player-turn', 'Game state should be player-turn after start');
+console.assert(
+	startState.gameState === 'player-turn',
+	'Game state should be player-turn after start'
+);
 console.assert(startState.player.hand.length > 0, 'Player should have cards after start');
 console.assert(startState.bot.hand.length > 0, 'Bot should have cards after start');
 console.assert(startState.player.pairCount >= 0, 'Player should have pair count calculated');
 console.assert(startState.bot.pairCount >= 0, 'Bot should have pair count calculated');
 
 // Total cards should be 49 (52 - 3 queens removed)
-const totalCards = startState.player.hand.length + startState.bot.hand.length + 
-                   (startState.player.pairCount * 2) + (startState.bot.pairCount * 2);
+const totalCards =
+	startState.player.hand.length +
+	startState.bot.hand.length +
+	startState.player.pairCount * 2 +
+	startState.bot.pairCount * 2;
 console.assert(totalCards === 49, `Total cards should be 49, got ${totalCards}`);
 
 // Test player draw
@@ -36,7 +42,7 @@ if (beforeDraw.gameState === 'player-turn' && beforeDraw.bot.hand.length > 0) {
 	const botHandSize = beforeDraw.bot.hand.length;
 	const result = engine.playerDrawCard(0);
 	console.assert(result.drewCard === true, 'Player should be able to draw card');
-	
+
 	const afterDraw = engine.getState();
 	// Bot should have one less card (unless player made a pair and removed both)
 	console.assert(
@@ -55,7 +61,7 @@ if (beforeBotDraw.gameState === 'bot-turn') {
 	const result = engine2.botDrawCard();
 	console.assert(result.drewCard === true, 'Bot should be able to draw card');
 	console.assert(result.cardIndex >= 0, 'Bot should return a valid card index');
-	
+
 	const afterBotDraw = engine2.getState();
 	console.assert(
 		afterBotDraw.gameState === 'player-turn' || afterBotDraw.gameState === 'won',

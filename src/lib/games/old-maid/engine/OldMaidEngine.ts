@@ -94,7 +94,7 @@ export class OldMaidEngine {
 
 	start(): void {
 		const deck = new Deck();
-		
+
 		// Reset game
 		this.player = this.createPlayer();
 		this.bot = this.createBot();
