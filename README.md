@@ -33,9 +33,8 @@ A collection of classic card games built with Svelte 4, optimized for mobile-fir
 ## 🛠️ Technologies
 
 - **Svelte 4** - Reactive UI framework
-- **SvelteKit 2** - Application framework
+- **Rollup** - Module bundler optimized for production
 - **TypeScript** - Type-safe code
-- **Vite** - Fast build tool
 - **SVG Cards** - Beautiful card graphics from [SVG-cards](https://github.com/htdebeer/SVG-cards)
 
 ## 🚀 Run Locally
@@ -43,34 +42,38 @@ A collection of classic card games built with Svelte 4, optimized for mobile-fir
 Use Node 20.x
 
 ```bash
-npm install      # Install dependencies
-npm run dev      # Run dev server
-npm run build    # Build for production
-npm run preview  # Preview production build
+npm install       # Install dependencies
+npm run dev       # Run dev server (build + watch)
+npm run build     # Build for production
+npm run start     # Serve production build
 ```
 
 ## 📁 Project Structure
 
 ```
 src/
+├── main.ts             # Application entry point
+├── App.svelte          # Root component with routing
+├── global.css          # Global styles
 ├── lib/
-│   ├── shared/          # Shared utilities
-│   │   ├── deck.ts      # Card deck logic
-│   │   └── player.ts    # Base player & bot classes
-│   ├── games/           # Individual game modules
+│   ├── shared/         # Shared utilities
+│   │   ├── deck.ts     # Card deck logic
+│   │   └── player.ts   # Base player & bot classes
+│   ├── games/          # Individual game modules
 │   │   ├── blackjack/
 │   │   ├── war/
 │   │   ├── go-fish/
 │   │   ├── old-maid/
 │   │   └── crazy-eights/
-│   └── Components/      # Reusable UI components
-└── routes/              # SvelteKit routes
-    ├── +page.svelte     # Game selection menu
-    ├── blackjack/
-    ├── war/
-    ├── go-fish/
-    ├── old-maid/
-    └── crazy-eights/
+│   ├── multiplayer/    # Multiplayer infrastructure
+│   ├── Components/     # Reusable UI components
+│   ├── router.ts       # Client-side routing
+│   └── utils/          # Utility functions
+└── pages/              # Page components
+    ├── Home.svelte     # Game selection menu
+    ├── Blackjack.svelte
+    ├── War.svelte
+    └── ...
 ```
 
 ## 🎲 Game Rules
