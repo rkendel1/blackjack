@@ -93,9 +93,9 @@ function injectProcessEnvPolyfill() {
 			for (const fileName in bundle) {
 				const chunk = bundle[fileName];
 				
-				// Check if this file needs the polyfill
+				// Check if this file needs the polyfill (use precise matching)
 				const needsPolyfill = componentsNeedingPolyfill.some(name => 
-					fileName.includes(name) || fileName.endsWith(name)
+					fileName.endsWith('/' + name) || fileName === name
 				);
 
 				if (chunk.type === 'chunk' && chunk.code && needsPolyfill) {
