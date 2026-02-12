@@ -2,7 +2,7 @@
 	import '../../global.css';
 	import { createKlondikeGame } from '$lib/games/solitaire/klondike/store';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
-	import Card from '$lib/Components/Card.svelte';
+	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 	import { onMount } from 'svelte';
 
@@ -16,11 +16,7 @@
 		game.newGame();
 	});
 
-	function handleDragStart(
-		from: 'waste' | 'tableau',
-		index?: number,
-		cardIndex?: number
-	) {
+	function handleDragStart(from: 'waste' | 'tableau', index?: number, cardIndex?: number) {
 		draggedCard = { from, index, cardIndex };
 	}
 
@@ -81,9 +77,9 @@
 			</div>
 			<div class="actions">
 				{#if $autoPlayAvailable}
-					<Button on:click={() => game.autoPlay()}>Auto Play</Button>
+					<Button onclick={() => game.autoPlay()} variant="draw">Auto Play</Button>
 				{/if}
-				<Button on:click={() => game.newGame()}>New Game</Button>
+				<Button onclick={() => game.newGame()} variant="stop">New Game</Button>
 			</div>
 		</div>
 
@@ -91,7 +87,13 @@
 		<div class="top-row">
 			<!-- Stock -->
 			<div class="stock-area">
-				<div class="stock" on:click={() => game.drawFromStock()} role="button" tabindex="0" on:keydown={(e) => e.key === 'Enter' && game.drawFromStock()}>
+				<div
+					class="stock"
+					on:click={() => game.drawFromStock()}
+					role="button"
+					tabindex="0"
+					on:keydown={(e) => e.key === 'Enter' && game.drawFromStock()}
+				>
 					{#if $stock.length > 0}
 						<Card card={$stock[0]} faceUp={false} />
 						<div class="stock-count">{$stock.length}</div>
@@ -101,10 +103,7 @@
 				</div>
 
 				<!-- Waste -->
-				<div
-					class="waste"
-					on:dragover={(e) => e.preventDefault()}
-				>
+				<div class="waste" on:dragover={(e) => e.preventDefault()}>
 					{#if $waste.length > 0}
 						{#each $waste.slice(-3) as card, i}
 							<div
@@ -195,7 +194,7 @@
 				<div class="win-message">
 					<h2>🎉 Congratulations! 🎉</h2>
 					<p>You won in {$moves} moves!</p>
-					<Button on:click={() => game.newGame()}>Play Again</Button>
+					<Button onclick={() => game.newGame()} variant="stop">Play Again</Button>
 				</div>
 			</div>
 		{/if}

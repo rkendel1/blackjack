@@ -2,7 +2,7 @@
 	import '../global.css';
 	import { createPokerGame } from '$lib/games/poker/store';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
-	import Card from '$lib/Components/Card.svelte';
+	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
 	const game = createPokerGame();
@@ -27,16 +27,17 @@
 	}
 
 	function toggleCardSelection(playerIndex: number, cardIndex: number) {
-		$players[playerIndex].selectedCards[cardIndex] = !$players[playerIndex].selectedCards[cardIndex];
+		$players[playerIndex].selectedCards[cardIndex] =
+			!$players[playerIndex].selectedCards[cardIndex];
 		players.set($players);
 	}
 
 	function handleDraw() {
 		game.humanDraw();
-		
+
 		// Process bots' draws
 		game.drawPhase();
-		
+
 		// Move to final betting
 		setTimeout(() => {
 			phase.set('final-betting');
@@ -73,7 +74,7 @@
 				</label>
 			</div>
 
-			<Button on:click={handleSetup}>Start Game</Button>
+			<Button onclick={handleSetup} variant="deal">Start Game</Button>
 		</div>
 	</main>
 {:else}
@@ -89,7 +90,11 @@
 			<!-- All Players -->
 			<div class="players-area">
 				{#each $players as player, i}
-					<div class="player-section" class:active={$currentPlayer === player} class:folded={player.folded}>
+					<div
+						class="player-section"
+						class:active={$currentPlayer === player}
+						class:folded={player.folded}
+					>
 						<div class="player-header">
 							<span class="player-name">{player.name}</span>
 							<span class="player-chips">💰 ${player.chips}</span>
@@ -104,7 +109,7 @@
 						<!-- Player Cards -->
 						<div class="player-hand">
 							{#each player.hand as card, cardIndex}
-								<div 
+								<div
 									class="card-wrapper"
 									class:selected={player.selectedCards[cardIndex]}
 									on:click={() => {
@@ -113,12 +118,21 @@
 										}
 									}}
 									on:keydown={(e) => {
-										if (e.key === 'Enter' && player.type === 'human' && $phase === 'draw' && i === $currentPlayerIndex) {
+										if (
+											e.key === 'Enter' &&
+											player.type === 'human' &&
+											$phase === 'draw' &&
+											i === $currentPlayerIndex
+										) {
 											toggleCardSelection(i, cardIndex);
 										}
 									}}
 									role="button"
-									tabindex={player.type === 'human' && $phase === 'draw' && i === $currentPlayerIndex ? 0 : -1}
+									tabindex={player.type === 'human' &&
+									$phase === 'draw' &&
+									i === $currentPlayerIndex
+										? 0
+										: -1}
 								>
 									<Card {card} faceUp={player.type === 'human' || $phase === 'showdown'} />
 								</div>
@@ -135,17 +149,17 @@
 			<!-- Controls for Betting -->
 			{#if ($phase === 'betting' || $phase === 'final-betting') && $currentPlayer && $currentPlayer.type === 'human'}
 				<div class="controls">
-					<Button on:click={() => handlePlayerAction('fold')}>Fold</Button>
+					<Button onclick={() => handlePlayerAction('fold')} variant="draw">Fold</Button>
 					{#if $currentBet === $currentPlayer.currentBet}
-						<Button on:click={() => handlePlayerAction('check')}>Check</Button>
+						<Button onclick={() => handlePlayerAction('check')} variant="draw">Check</Button>
 					{:else}
-						<Button on:click={() => handlePlayerAction('call')}>
+						<Button onclick={() => handlePlayerAction('call')} variant="draw">
 							Call ${$currentBet - $currentPlayer.currentBet}
 						</Button>
 					{/if}
 					<div class="raise-control">
 						<input type="number" bind:value={raiseAmount} min="10" step="10" />
-						<Button on:click={() => handlePlayerAction('raise')}>Raise</Button>
+						<Button onclick={() => handlePlayerAction('raise')} variant="draw">Raise</Button>
 					</div>
 				</div>
 			{/if}
@@ -154,8 +168,8 @@
 			{#if $phase === 'draw' && $currentPlayer && $currentPlayer.type === 'human'}
 				<div class="controls">
 					<p class="instruction">Select cards to discard (click on cards), then click Draw</p>
-					<Button on:click={handleDraw}>
-						Draw ({$currentPlayer.selectedCards.filter(s => s).length} selected)
+					<Button onclick={handleDraw} variant="draw">
+						Draw ({$currentPlayer.selectedCards.filter((s) => s).length} selected)
 					</Button>
 				</div>
 			{/if}
@@ -167,7 +181,7 @@
 					{#each $winners as winner}
 						<p>{winner.name} - {winner.bestHand?.description}</p>
 					{/each}
-					<Button on:click={() => game.nextHand()}>Next Hand</Button>
+					<Button onclick={() => game.nextHand()} variant="deal">Next Hand</Button>
 				</div>
 			{/if}
 		</div>

@@ -59,10 +59,10 @@
 			</div>
 			<div class="actions">
 				{#if $autoPlayAvailable}
-					<Button on:click={() => game.autoPlay()}>Auto Play</Button>
+					<Button onclick={() => game.autoPlay()} variant="draw">Auto Play</Button>
 				{/if}
-				<Button on:click={showHint}>Hint</Button>
-				<Button on:click={() => game.newGame()}>New Game</Button>
+				<Button onclick={showHint} variant="draw">Hint</Button>
+				<Button onclick={() => game.newGame()} variant="stop">New Game</Button>
 			</div>
 		</div>
 
@@ -155,7 +155,7 @@
 				<div class="win-message">
 					<h2>🎉 Congratulations! 🎉</h2>
 					<p>You completed all 8 sequences in {$moves} moves!</p>
-					<Button on:click={() => game.newGame()}>Play Again</Button>
+					<Button onclick={() => game.newGame()} variant="stop">Play Again</Button>
 				</div>
 			</div>
 		{/if}

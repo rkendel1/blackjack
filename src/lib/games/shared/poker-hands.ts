@@ -202,8 +202,7 @@ export function evaluateHand(cards: Card[]): HandEvaluation {
 			.map((c) => getRankValue(c.rank))[0];
 		return {
 			rank: 'two-pair',
-			score:
-				HAND_RANK_VALUES['two-pair'] * 1000000 + pairs[0] * 10000 + pairs[1] * 100 + kicker,
+			score: HAND_RANK_VALUES['two-pair'] * 1000000 + pairs[0] * 10000 + pairs[1] * 100 + kicker,
 			cards: sortedCards,
 			description: 'Two Pair'
 		};

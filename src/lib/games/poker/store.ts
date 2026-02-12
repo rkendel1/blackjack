@@ -58,7 +58,11 @@ export class PokerBot extends BotPlayer {
 	bestHand: HandEvaluation | null = null;
 	selectedCards: boolean[] = [false, false, false, false, false];
 
-	constructor(name: string, difficulty: 'easy' | 'medium' | 'hard' = 'medium', chips: number = 1000) {
+	constructor(
+		name: string,
+		difficulty: 'easy' | 'medium' | 'hard' = 'medium',
+		chips: number = 1000
+	) {
 		super(name, difficulty);
 		this.chips = chips;
 		this.currentBet = 0;
@@ -89,7 +93,13 @@ export class PokerBot extends BotPlayer {
 		// Simple strategy: keep good cards based on hand rank
 		const handRank = this.bestHand.rank;
 
-		if (handRank === 'royal-flush' || handRank === 'straight-flush' || handRank === 'full-house' || handRank === 'flush' || handRank === 'straight') {
+		if (
+			handRank === 'royal-flush' ||
+			handRank === 'straight-flush' ||
+			handRank === 'full-house' ||
+			handRank === 'flush' ||
+			handRank === 'straight'
+		) {
 			// Keep all cards
 			this.selectedCards = [false, false, false, false, false];
 		} else if (handRank === 'four-of-a-kind') {
@@ -209,7 +219,11 @@ export function createPokerGame() {
 		([$players, $index]) => $players[$index]
 	);
 
-	const setupGame = (humanCount: number, botCount: number, botDifficulty: 'easy' | 'medium' | 'hard' = 'medium') => {
+	const setupGame = (
+		humanCount: number,
+		botCount: number,
+		botDifficulty: 'easy' | 'medium' | 'hard' = 'medium'
+	) => {
 		const newPlayers: PlayerType[] = [];
 
 		for (let i = 0; i < humanCount; i++) {

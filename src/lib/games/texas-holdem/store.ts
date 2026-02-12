@@ -51,7 +51,11 @@ export class TexasHoldemBot extends BotPlayer {
 	allIn: boolean;
 	bestHand: HandEvaluation | null = null;
 
-	constructor(name: string, difficulty: 'easy' | 'medium' | 'hard' = 'medium', chips: number = 1000) {
+	constructor(
+		name: string,
+		difficulty: 'easy' | 'medium' | 'hard' = 'medium',
+		chips: number = 1000
+	) {
 		super(name, difficulty);
 		this.chips = chips;
 		this.currentBet = 0;
@@ -150,7 +154,11 @@ export function createTexasHoldemGame() {
 		([$players, $index]) => $players[$index]
 	);
 
-	const setupGame = (humanCount: number, botCount: number, botDifficulty: 'easy' | 'medium' | 'hard' = 'medium') => {
+	const setupGame = (
+		humanCount: number,
+		botCount: number,
+		botDifficulty: 'easy' | 'medium' | 'hard' = 'medium'
+	) => {
 		const newPlayers: PlayerType[] = [];
 
 		for (let i = 0; i < humanCount; i++) {
@@ -313,11 +321,7 @@ export function createTexasHoldemGame() {
 		const bot = $players[$currentPlayerIndex] as TexasHoldemBot;
 
 		if (bot.type === 'bot') {
-			const decision = bot.makeDecision(
-				get(currentBet),
-				get(pot),
-				get(communityCards)
-			);
+			const decision = bot.makeDecision(get(currentBet), get(pot), get(communityCards));
 			playerAction(decision.action, decision.amount);
 		}
 	};

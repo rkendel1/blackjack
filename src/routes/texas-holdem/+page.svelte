@@ -2,7 +2,7 @@
 	import '../global.css';
 	import { createTexasHoldemGame } from '$lib/games/texas-holdem/store';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
-	import Card from '$lib/Components/Card.svelte';
+	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
 	const game = createTexasHoldemGame();
@@ -64,7 +64,7 @@
 				</label>
 			</div>
 
-			<Button on:click={handleSetup}>Start Game</Button>
+			<Button onclick={handleSetup} variant="deal">Start Game</Button>
 		</div>
 	</main>
 {:else}
@@ -91,7 +91,11 @@
 			<!-- Players -->
 			{#each $players as player, i}
 				<div class="player" style={getPlayerPosition(i, $players.length)}>
-					<div class="player-info" class:active={$currentPlayer === player} class:folded={player.folded}>
+					<div
+						class="player-info"
+						class:active={$currentPlayer === player}
+						class:folded={player.folded}
+					>
 						<div class="player-name">{player.name}</div>
 						<div class="player-chips">💰 ${player.chips}</div>
 						{#if player.currentBet > 0}
@@ -118,19 +122,19 @@
 		<!-- Controls -->
 		{#if $phase !== 'showdown' && $currentPlayer && $currentPlayer.type === 'human'}
 			<div class="controls">
-				<Button on:click={() => handlePlayerAction('fold')}>Fold</Button>
+				<Button onclick={() => handlePlayerAction('fold')} variant="draw">Fold</Button>
 				{#if $currentBet === $currentPlayer.currentBet}
-					<Button on:click={() => handlePlayerAction('check')}>Check</Button>
+					<Button onclick={() => handlePlayerAction('check')} variant="draw">Check</Button>
 				{:else}
-					<Button on:click={() => handlePlayerAction('call')}>
+					<Button onclick={() => handlePlayerAction('call')} variant="draw">
 						Call ${$currentBet - $currentPlayer.currentBet}
 					</Button>
 				{/if}
 				<div class="raise-control">
 					<input type="number" bind:value={raiseAmount} min="10" step="10" />
-					<Button on:click={() => handlePlayerAction('raise')}>Raise</Button>
+					<Button onclick={() => handlePlayerAction('raise')} variant="draw">Raise</Button>
 				</div>
-				<Button on:click={() => handlePlayerAction('all-in')}>All In</Button>
+				<Button onclick={() => handlePlayerAction('all-in')} variant="draw">All In</Button>
 			</div>
 		{/if}
 
@@ -140,7 +144,7 @@
 				{#each $winners as winner}
 					<p>{winner.name} - {winner.bestHand?.description}</p>
 				{/each}
-				<Button on:click={() => game.nextHand()}>Next Hand</Button>
+				<Button onclick={() => game.nextHand()} variant="deal">Next Hand</Button>
 			</div>
 		{/if}
 	</main>
