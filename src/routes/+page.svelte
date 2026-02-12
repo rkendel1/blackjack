@@ -3,6 +3,20 @@
 
 	const games = [
 		{
+			name: '🎮 Multiplayer Platform',
+			path: '/multiplayer',
+			description: 'StackLive Realtime Multiplayer - WebRTC P2P gaming infrastructure',
+			status: 'ready',
+			featured: true
+		},
+		{
+			name: '🃏 Multiplayer Blackjack',
+			path: '/blackjack-multiplayer',
+			description: 'Play Blackjack with friends in real-time - Full state sync & turns',
+			status: 'ready',
+			featured: true
+		},
+		{
 			name: 'Blackjack',
 			path: '/blackjack',
 			description: 'Classic casino card game - beat the dealer without going over 21',
@@ -76,11 +90,15 @@
 					href={game.status === 'ready' ? game.path : '#'}
 					class="game-card"
 					class:disabled={game.status !== 'ready'}
+					class:featured={game.featured}
 				>
 					<h2>{game.name}</h2>
 					<p class="description">{game.description}</p>
 					{#if game.status === 'coming-soon'}
 						<span class="badge">Coming Soon</span>
+					{/if}
+					{#if game.featured}
+						<span class="badge featured">NEW</span>
 					{/if}
 				</a>
 			{/each}
@@ -145,6 +163,16 @@
 		background: rgba(0, 0, 0, 0.6);
 	}
 
+	.game-card.featured {
+		background: linear-gradient(135deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+		border-color: rgba(102, 126, 234, 0.6);
+	}
+
+	.game-card.featured:hover {
+		border-color: rgba(102, 126, 234, 1);
+		background: linear-gradient(135deg, rgba(102, 126, 234, 0.5), rgba(118, 75, 162, 0.5));
+	}
+
 	.game-card.disabled {
 		opacity: 0.6;
 		cursor: not-allowed;
@@ -172,6 +200,23 @@
 		font-weight: bold;
 		margin-top: 1rem;
 		border: 1px solid goldenrod;
+	}
+
+	.badge.featured {
+		background: rgba(102, 126, 234, 0.4);
+		color: #667eea;
+		border-color: #667eea;
+		animation: pulse 2s ease-in-out infinite;
+	}
+
+	@keyframes pulse {
+		0%,
+		100% {
+			opacity: 1;
+		}
+		50% {
+			opacity: 0.7;
+		}
 	}
 
 	@media (max-width: 768px) {
