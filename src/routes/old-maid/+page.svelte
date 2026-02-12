@@ -1,18 +1,16 @@
 <script lang="ts">
 	import '../global.css';
-	import { createGoFishGame } from '$lib/games/go-fish/store';
+	import { createOldMaidGame } from '$lib/games/old-maid/store';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/Card.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createGoFishGame();
-	const { player, ai, deck, state, message, lastAction, start, askForRank } = game;
+	const game = createOldMaidGame();
+	const { player, ai, state, message, lastAction, start, playerDrawCard } = game;
 
-	import type { Rank } from '$lib/shared/deck';
-
-	function handleRankClick(rank: Rank) {
+	function handleCardClick(index: number) {
 		if ($state === 'player-turn') {
-			askForRank(rank);
+			playerDrawCard(index);
 		}
 	}
 </script>
@@ -23,21 +21,17 @@
 	<div class="container">
 		<div class="header">
 			<a href="/" class="back-button">← Back to Games</a>
-			<h1>Go Fish</h1>
+			<h1>Old Maid</h1>
 		</div>
 
 		<div class="scores">
 			<div class="score-item">
-				<span>Your Books:</span>
-				<strong>{$player.score}</strong>
+				<span>Your Pairs:</span>
+				<strong>{$player.pairCount}</strong>
 			</div>
 			<div class="score-item">
-				<span>Computer Books:</span>
-				<strong>{$ai.score}</strong>
-			</div>
-			<div class="score-item">
-				<span>Deck:</span>
-				<strong>{$deck.remaining}</strong>
+				<span>Computer Pairs:</span>
+				<strong>{$ai.pairCount}</strong>
 			</div>
 		</div>
 
@@ -54,8 +48,15 @@
 				<h3>Computer ({$ai.hand.length} cards)</h3>
 				<div class="cards-row">
 					<!-- eslint-disable-next-line @typescript-eslint/no-unused-vars -->
-					{#each $ai.hand as _}
-						<div class="card-back-small">?</div>
+					{#each $ai.hand as _, i}
+						<button
+							class="card-back-button"
+							class:selectable={$state === 'player-turn'}
+							on:click={() => handleCardClick(i)}
+							disabled={$state !== 'player-turn'}
+						>
+							<div class="card-back">?</div>
+						</button>
 					{/each}
 				</div>
 			</div>
@@ -65,14 +66,9 @@
 				<h3>Your Hand ({$player.hand.length} cards)</h3>
 				<div class="cards-row">
 					{#each $player.hand as card}
-						<button
-							class="card-button"
-							class:selectable={$state === 'player-turn'}
-							on:click={() => handleRankClick(card.rank)}
-							disabled={$state !== 'player-turn'}
-						>
+						<div class="player-card">
 							<Card name={card.displayName} />
-						</button>
+						</div>
 					{/each}
 				</div>
 			</div>
@@ -181,7 +177,6 @@
 		color: #c4c4cc;
 		font-size: 0.95rem;
 		margin: 0.5rem 0 0 0;
-		white-space: pre-line;
 	}
 
 	.game-area {
@@ -206,35 +201,40 @@
 		justify-content: center;
 	}
 
-	.card-back-small {
-		width: 60px;
-		height: 84px;
-		background: rgba(139, 0, 0, 0.6);
-		border: 2px solid rgba(255, 215, 0, 0.4);
-		border-radius: 6px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		font-size: 1.5rem;
-		color: rgba(255, 215, 0, 0.6);
-	}
-
-	.card-button {
+	.card-back-button {
 		background: none;
 		border: none;
 		padding: 0;
 		cursor: pointer;
-		transition: transform 0.2s;
-		opacity: 0.9;
 	}
 
-	.card-button.selectable:hover {
+	.card-back {
+		width: 80px;
+		height: 112px;
+		background: rgba(139, 0, 0, 0.6);
+		border: 2px solid rgba(255, 215, 0, 0.4);
+		border-radius: 8px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		font-size: 2rem;
+		color: rgba(255, 215, 0, 0.6);
+		transition:
+			transform 0.2s,
+			border-color 0.2s;
+	}
+
+	.card-back-button.selectable:hover .card-back {
 		transform: translateY(-10px);
-		opacity: 1;
+		border-color: goldenrod;
 	}
 
-	.card-button:disabled {
+	.card-back-button:disabled {
 		cursor: not-allowed;
+	}
+
+	.player-card {
+		opacity: 0.9;
 	}
 
 	.controls {
@@ -266,6 +266,12 @@
 
 		.message {
 			font-size: 1rem;
+		}
+
+		.card-back {
+			width: 60px;
+			height: 84px;
+			font-size: 1.5rem;
 		}
 	}
 </style>

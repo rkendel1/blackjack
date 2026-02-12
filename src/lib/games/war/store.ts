@@ -1,3 +1,4 @@
+import { writable, get } from 'svelte/store';
 import { Deck } from '$lib/shared/deck';
 import type { Card, Rank } from '$lib/shared/deck';
 import { BasePlayer, AIPlayer } from '$lib/shared/player';
@@ -19,7 +20,7 @@ const RANK_VALUES: Record<Rank, number> = {
 };
 
 export class WarPlayer extends BasePlayer {
-	wonCards = $state<Card[]>([]);
+	wonCards: Card[] = [];
 
 	get totalCards(): number {
 		return this.hand.length + this.wonCards.length;
@@ -42,7 +43,7 @@ export class WarPlayer extends BasePlayer {
 }
 
 export class WarAIPlayer extends AIPlayer {
-	wonCards = $state<Card[]>([]);
+	wonCards: Card[] = [];
 
 	get totalCards(): number {
 		return this.hand.length + this.wonCards.length;
@@ -69,97 +70,129 @@ export class WarAIPlayer extends AIPlayer {
 export type GameState = 'ready' | 'playing' | 'war' | 'won';
 export type RoundResult = 'player' | 'opponent' | 'war' | null;
 
-export class WarGame {
-	player = $state(new WarPlayer('Player'));
-	opponent = $state(new WarAIPlayer('Computer'));
-	state = $state<GameState>('ready');
-	playerCard = $state<Card | null>(null);
-	opponentCard = $state<Card | null>(null);
-	roundResult = $state<RoundResult>(null);
-	cardsInPlay = $state<Card[]>([]);
-	warCount = $state(0);
-	message = $state('');
-	winner = $state<'player' | 'opponent' | null>(null);
+export function createWarGame() {
+	const player = writable(new WarPlayer('Player'));
+	const opponent = writable(new WarAIPlayer('Computer'));
+	const state = writable<GameState>('ready');
+	const playerCard = writable<Card | null>(null);
+	const opponentCard = writable<Card | null>(null);
+	const roundResult = writable<RoundResult>(null);
+	const cardsInPlay = writable<Card[]>([]);
+	const warCount = writable(0);
+	const message = writable('');
+	const winner = writable<'player' | 'opponent' | null>(null);
 
-	start() {
+	const start = () => {
 		const deck = new Deck();
-		this.player = new WarPlayer('Player');
-		this.opponent = new WarAIPlayer('Computer');
+		const newPlayer = new WarPlayer('Player');
+		const newOpponent = new WarAIPlayer('Computer');
 
 		// Deal all cards equally
 		while (deck.remaining > 0) {
 			const card1 = deck.deal();
 			const card2 = deck.deal();
-			this.player.addCard(card1);
-			if (card2) this.opponent.addCard(card2);
+			newPlayer.addCard(card1);
+			if (card2) newOpponent.addCard(card2);
 		}
 
-		this.state = 'playing';
-		this.playerCard = null;
-		this.opponentCard = null;
-		this.roundResult = null;
-		this.cardsInPlay = [];
-		this.warCount = 0;
-		this.message = 'Click "Play Card" to start!';
-		this.winner = null;
-	}
+		player.set(newPlayer);
+		opponent.set(newOpponent);
+		state.set('playing');
+		playerCard.set(null);
+		opponentCard.set(null);
+		roundResult.set(null);
+		cardsInPlay.set([]);
+		warCount.set(0);
+		message.set('Click "Play Card" to start!');
+		winner.set(null);
+	};
 
-	playRound() {
-		if (this.state === 'won') return;
+	const checkWinner = () => {
+		const $player = get(player);
+		const $opponent = get(opponent);
 
-		this.playerCard = this.player.playCard();
-		this.opponentCard = this.opponent.playCard();
+		if ($player.totalCards === 0) {
+			state.set('won');
+			winner.set('opponent');
+			message.set('Computer wins the game!');
+		} else if ($opponent.totalCards === 0) {
+			state.set('won');
+			winner.set('player');
+			message.set('You win the game!');
+		}
+	};
 
-		if (!this.playerCard || !this.opponentCard) {
-			this.checkWinner();
+	const playRound = () => {
+		const $state = get(state);
+		if ($state === 'won') return;
+
+		const $player = get(player);
+		const $opponent = get(opponent);
+
+		const pCard = $player.playCard();
+		const oCard = $opponent.playCard();
+
+		playerCard.set(pCard);
+		opponentCard.set(oCard);
+
+		if (!pCard || !oCard) {
+			checkWinner();
 			return;
 		}
 
-		this.cardsInPlay.push(this.playerCard, this.opponentCard);
+		const $cardsInPlay = get(cardsInPlay);
+		const newCardsInPlay = [...$cardsInPlay, pCard, oCard];
+		cardsInPlay.set(newCardsInPlay);
 
-		const playerValue = RANK_VALUES[this.playerCard.rank];
-		const opponentValue = RANK_VALUES[this.opponentCard.rank];
+		const playerValue = RANK_VALUES[pCard.rank];
+		const opponentValue = RANK_VALUES[oCard.rank];
 
 		if (playerValue > opponentValue) {
-			this.roundResult = 'player';
-			this.player.addWonCards([...this.cardsInPlay]);
-			this.message = `You won this round! (+${this.cardsInPlay.length} cards)`;
-			this.cardsInPlay = [];
-			this.warCount = 0;
+			roundResult.set('player');
+			$player.addWonCards([...newCardsInPlay]);
+			message.set(`You won this round! (+${newCardsInPlay.length} cards)`);
+			cardsInPlay.set([]);
+			warCount.set(0);
 		} else if (opponentValue > playerValue) {
-			this.roundResult = 'opponent';
-			this.opponent.addWonCards([...this.cardsInPlay]);
-			this.message = `Computer won this round! (+${this.cardsInPlay.length} cards)`;
-			this.cardsInPlay = [];
-			this.warCount = 0;
+			roundResult.set('opponent');
+			$opponent.addWonCards([...newCardsInPlay]);
+			message.set(`Computer won this round! (+${newCardsInPlay.length} cards)`);
+			cardsInPlay.set([]);
+			warCount.set(0);
 		} else {
-			this.roundResult = 'war';
-			this.state = 'war';
-			this.warCount++;
-			this.message = 'WAR! Click "Play Card" again!';
+			roundResult.set('war');
+			state.set('war');
+			warCount.update((count) => count + 1);
+			message.set('WAR! Click "Play Card" again!');
 		}
 
-		this.checkWinner();
-	}
+		player.set($player);
+		opponent.set($opponent);
 
-	checkWinner() {
-		if (this.player.totalCards === 0) {
-			this.state = 'won';
-			this.winner = 'opponent';
-			this.message = 'Computer wins the game!';
-		} else if (this.opponent.totalCards === 0) {
-			this.state = 'won';
-			this.winner = 'player';
-			this.message = 'You win the game!';
-		}
-	}
+		checkWinner();
+	};
 
-	continueWar() {
-		// In war, each player plays 3 face-down cards and 1 face-up
-		// For simplicity, we'll just play 1 more card
-		if (this.state === 'war') {
-			this.state = 'playing';
-			this.playRound();
+	const continueWar = () => {
+		const $state = get(state);
+		if ($state === 'war') {
+			state.set('playing');
+			playRound();
 		}
-	}
+	};
+
+	return {
+		player,
+		opponent,
+		state,
+		playerCard,
+		opponentCard,
+		roundResult,
+		cardsInPlay,
+		warCount,
+		message,
+		winner,
+		start,
+		playRound,
+		continueWar
+	};
 }

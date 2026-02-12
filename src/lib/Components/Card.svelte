@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { flyAndFlip } from '$lib/animation';
 
-	const { name }: { name: string } = $props();
+	export let name: string;
 </script>
 
 <div class="card" in:flyAndFlip>

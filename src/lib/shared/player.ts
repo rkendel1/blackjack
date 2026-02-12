@@ -4,12 +4,13 @@ export type PlayerType = 'human' | 'ai';
 
 export class BasePlayer {
 	name: string;
-	hand = $state<Card[]>([]);
+	hand: Card[];
 	type: PlayerType;
 
 	constructor(name: string, type: PlayerType = 'human') {
 		this.name = name;
 		this.type = type;
+		this.hand = [];
 	}
 
 	addCard(card: Card) {

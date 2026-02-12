@@ -1,11 +1,13 @@
 <script lang="ts">
 	import '../global.css';
-	import { WarGame } from '$lib/games/war/store';
+	import { createWarGame } from '$lib/games/war/store';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/Card.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = new WarGame();
+	const game = createWarGame();
+	const { player, opponent, state, playerCard, opponentCard, message, warCount, start, playRound } =
+		game;
 </script>
 
 <CardsDefinitions />
@@ -21,10 +23,10 @@
 			<!-- Opponent Section -->
 			<div class="player-section">
 				<h2>Computer</h2>
-				<div class="card-count">Cards: {game.opponent.totalCards}</div>
+				<div class="card-count">Cards: {$opponent.totalCards}</div>
 				<div class="card-area">
-					{#if game.opponentCard}
-						<Card name={game.opponentCard.displayName} />
+					{#if $opponentCard}
+						<Card name={$opponentCard.displayName} />
 					{:else}
 						<div class="empty-slot">?</div>
 					{/if}
@@ -33,19 +35,19 @@
 
 			<!-- Message Area -->
 			<div class="message-area">
-				<p class="message">{game.message}</p>
-				{#if game.warCount > 0}
-					<p class="war-indicator">WAR x{game.warCount}</p>
+				<p class="message">{$message}</p>
+				{#if $warCount > 0}
+					<p class="war-indicator">WAR x{$warCount}</p>
 				{/if}
 			</div>
 
 			<!-- Player Section -->
 			<div class="player-section">
 				<h2>You</h2>
-				<div class="card-count">Cards: {game.player.totalCards}</div>
+				<div class="card-count">Cards: {$player.totalCards}</div>
 				<div class="card-area">
-					{#if game.playerCard}
-						<Card name={game.playerCard.displayName} />
+					{#if $playerCard}
+						<Card name={$playerCard.displayName} />
 					{:else}
 						<div class="empty-slot">?</div>
 					{/if}
@@ -55,12 +57,12 @@
 
 		<!-- Controls -->
 		<div class="controls">
-			{#if game.state === 'ready' || game.state === 'won'}
-				<Button variant="deal" onclick={() => game.start()}>
-					{game.state === 'ready' ? 'Start Game' : 'Play Again'}
+			{#if $state === 'ready' || $state === 'won'}
+				<Button variant="deal" onclick={() => start()}>
+					{$state === 'ready' ? 'Start Game' : 'Play Again'}
 				</Button>
-			{:else if game.state === 'playing' || game.state === 'war'}
-				<Button variant="draw" onclick={() => game.playRound()}>Play Card</Button>
+			{:else if $state === 'playing' || $state === 'war'}
+				<Button variant="draw" onclick={() => playRound()}>Play Card</Button>
 			{/if}
 		</div>
 	</div>

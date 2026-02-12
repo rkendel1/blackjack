@@ -31,9 +31,10 @@ export const dealCards = (deck: Card[], count: number): { dealt: Card[]; remaini
 };
 
 export class Deck {
-	cards = $state(buildDeck());
+	cards: Card[];
 
 	constructor() {
+		this.cards = buildDeck();
 		this.shuffle();
 	}
 

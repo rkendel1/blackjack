@@ -30,13 +30,13 @@
 			name: 'Old Maid',
 			path: '/old-maid',
 			description: 'Avoid being left with the Old Maid card',
-			status: 'coming-soon'
+			status: 'ready'
 		},
 		{
 			name: 'Crazy Eights',
 			path: '/crazy-eights',
 			description: 'Discard all your cards by matching rank or suit',
-			status: 'coming-soon'
+			status: 'ready'
 		},
 		{
 			name: 'Klondike Solitaire',

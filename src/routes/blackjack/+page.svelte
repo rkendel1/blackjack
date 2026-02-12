@@ -1,7 +1,7 @@
 <script lang="ts">
-	import './global.css';
+	import '../global.css';
 	import audioPath from '$lib/assets/draw.mp3';
-	import { BlackjackGame } from '$lib/games/blackjack/store';
+	import { createBlackjackGame } from '$lib/games/blackjack/store';
 
 	import GameControlls from '$lib/Components/GameControlls.svelte';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
@@ -9,7 +9,7 @@
 	import Hand from '$lib/Components/Hand.svelte';
 	import { onMount } from 'svelte';
 
-	const game = new BlackjackGame();
+	const game = createBlackjackGame();
 
 	onMount(() => {
 		// Setting audio in onMount since Audio is not present on the server
@@ -22,19 +22,19 @@
 <section>
 	<Deck />
 	<div>
-		<Hand hand={game.dealer.hand} score={game.dealer.score} />
+		<Hand hand={$game.dealer.hand} score={$game.dealer.score} />
 
 		<GameControlls
-			winner={game.winner}
-			inGame={game.inGame}
-			turn={game.turn}
+			winner={$game.winner}
+			inGame={$game.inGame}
+			turn={$game.turn}
 			draw={() => game.playerTurn('draw')}
 			stop={() => game.playerTurn('stop')}
 			start={() => game.start()}
 			restart={() => game.start(true)}
 		/>
 
-		<Hand hand={game.player.hand} score={game.player.score} />
+		<Hand hand={$game.player.hand} score={$game.player.score} />
 	</div>
 </section>
 

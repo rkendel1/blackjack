@@ -1,3 +1,4 @@
+import { writable, derived, get } from 'svelte/store';
 import { Deck } from '$lib/shared/deck';
 import type { Card } from '$lib/shared/deck';
 import { BasePlayer } from '$lib/shared/player';
@@ -42,8 +43,13 @@ export const calculateScore = (cards: Card[]): number => {
 };
 
 export class BlackjackPlayer extends BasePlayer {
-	score = $derived(calculateScore(this.hand));
-	canDraw = $derived(this.score < 21);
+	get score(): number {
+		return calculateScore(this.hand);
+	}
+
+	get canDraw(): boolean {
+		return this.score < 21;
+	}
 
 	draw = (card: Card) => {
 		if (this.canDraw) {
@@ -53,103 +59,140 @@ export class BlackjackPlayer extends BasePlayer {
 }
 
 export class BlackjackDealer extends BasePlayer {
-	score = $derived(calculateScore(this.hand));
-	shouldDraw = $derived(this.score < 17);
+	get score(): number {
+		return calculateScore(this.hand);
+	}
+
+	get shouldDraw(): boolean {
+		return this.score < 17;
+	}
 
 	draw = (card: Card) => {
 		this.hand.push(card);
 	};
 }
 
-export class BlackjackGame {
-	winner = $state<Winner>(null);
-	player = $state(new BlackjackPlayer('Player'));
-	dealer = $state(new BlackjackDealer('Dealer'));
-	deck = $state(new Deck());
-	turn = $state<Turn>(null);
-	inGame = $derived(this.turn !== null);
-	drawSound: HTMLAudioElement | null = null;
+export type Winner = null | 'Player' | 'Dealer' | 'Draw';
+export type Turn = null | 'Player' | 'Dealer';
 
-	start = async (restart = false) => {
-		this.deck = new Deck();
-		this.player = new BlackjackPlayer('Player');
-		this.dealer = new BlackjackDealer('Dealer');
-		this.winner = null;
-		this.turn = 'Player';
+export function createBlackjackGame() {
+	const player = writable(new BlackjackPlayer('Player'));
+	const dealer = writable(new BlackjackDealer('Dealer'));
+	const deck = writable(new Deck());
+	const winner = writable<Winner>(null);
+	const turn = writable<Turn>(null);
 
-		if (restart) {
-			// Wait one tick to trigger the animation on restart
-			await tick();
-		}
+	let drawSound: HTMLAudioElement | null = null;
 
-		this.playDrawSound();
-		this.dealer.draw(this.deck.deal());
-		this.player.draw(this.deck.deal());
-		this.player.draw(this.deck.deal());
+	const inGame = derived(turn, ($turn) => $turn !== null);
 
-		this.checkBlackjack();
-	};
-
-	checkBlackjack = () => {
-		if (this.player.score === 21) {
-			this.winner = 'Player';
-		}
-	};
-
-	checkBust = () => {
-		if (this.player.score > 21) {
-			this.winner = 'Dealer';
-		}
-	};
-
-	calculateWinner = () => {
-		if (this.dealer.score > 21) {
-			this.winner = 'Player';
-		} else if (this.player.score > this.dealer.score) {
-			this.winner = 'Player';
-		} else if (this.player.score < this.dealer.score) {
-			this.winner = 'Dealer';
-		} else {
-			this.winner = 'Draw';
-		}
-	};
-
-	playerTurn = (option: 'draw' | 'stop') => {
-		if (option === 'draw') {
-			this.playDrawSound();
-			this.player.draw(this.deck.deal());
-			this.checkBust();
-		} else {
-			this.dealerTurn();
-		}
-	};
-
-	dealerTurn = async () => {
-		this.turn = 'Dealer';
-
-		while (this.dealer.shouldDraw) {
-			this.dealer.draw(this.deck.deal());
-			await this.playDrawSound();
-		}
-
-		this.calculateWinner();
-	};
-
-	setAudio(audio: HTMLAudioElement) {
-		this.drawSound = audio;
-	}
-
-	playDrawSound = () => {
+	const playDrawSound = () => {
 		return new Promise((resolve) => {
-			if (this.drawSound) {
-				this.drawSound.onended = resolve;
-				this.drawSound?.play();
+			if (drawSound) {
+				drawSound.onended = resolve;
+				drawSound?.play();
 				return;
 			}
 			resolve(null);
 		});
 	};
-}
 
-export type Winner = null | 'Player' | 'Dealer' | 'Draw';
-export type Turn = null | 'Player' | 'Dealer';
+	const checkBlackjack = () => {
+		const $player = get(player);
+		if ($player.score === 21) {
+			winner.set('Player');
+		}
+	};
+
+	const checkBust = () => {
+		const $player = get(player);
+		if ($player.score > 21) {
+			winner.set('Dealer');
+		}
+	};
+
+	const calculateWinner = () => {
+		const $player = get(player);
+		const $dealer = get(dealer);
+
+		if ($dealer.score > 21) {
+			winner.set('Player');
+		} else if ($player.score > $dealer.score) {
+			winner.set('Player');
+		} else if ($player.score < $dealer.score) {
+			winner.set('Dealer');
+		} else {
+			winner.set('Draw');
+		}
+	};
+
+	const dealerTurn = async () => {
+		turn.set('Dealer');
+		const $dealer = get(dealer);
+		const $deck = get(deck);
+
+		while ($dealer.shouldDraw) {
+			$dealer.draw($deck.deal());
+			dealer.set($dealer);
+			await playDrawSound();
+		}
+
+		calculateWinner();
+	};
+
+	const start = async (restart = false) => {
+		const newDeck = new Deck();
+		const newPlayer = new BlackjackPlayer('Player');
+		const newDealer = new BlackjackDealer('Dealer');
+
+		deck.set(newDeck);
+		player.set(newPlayer);
+		dealer.set(newDealer);
+		winner.set(null);
+		turn.set('Player');
+
+		if (restart) {
+			await tick();
+		}
+
+		await playDrawSound();
+		newDealer.draw(newDeck.deal());
+		newPlayer.draw(newDeck.deal());
+		newPlayer.draw(newDeck.deal());
+
+		dealer.set(newDealer);
+		player.set(newPlayer);
+
+		checkBlackjack();
+	};
+
+	const playerTurn = (option: 'draw' | 'stop') => {
+		const $player = get(player);
+		const $deck = get(deck);
+
+		if (option === 'draw') {
+			playDrawSound();
+			$player.draw($deck.deal());
+			player.set($player);
+			checkBust();
+		} else {
+			dealerTurn();
+		}
+	};
+
+	const setAudio = (audio: HTMLAudioElement) => {
+		drawSound = audio;
+	};
+
+	return {
+		player,
+		dealer,
+		deck,
+		winner,
+		turn,
+		inGame,
+		start,
+		playerTurn,
+		setAudio
+	};
+}

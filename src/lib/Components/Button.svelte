@@ -1,20 +1,10 @@
 <script lang="ts">
-	import type { Snippet } from 'svelte';
-
-	const {
-		disabled,
-		onclick,
-		children,
-		variant
-	}: {
-		disabled?: boolean;
-		onclick: () => void;
-		children: Snippet;
-		variant: string;
-	} = $props();
+	export let disabled: boolean = false;
+	export let onclick: () => void;
+	export let variant: string;
 </script>
 
-<button class={variant} {onclick} {disabled}>{@render children()}</button>
+<button class={variant} on:click={onclick} {disabled}><slot /></button>
 
 <style>
 	button {

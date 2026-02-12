@@ -2,7 +2,8 @@
 	import type { Card as CardType } from '$lib/utils';
 	import Card from './Card.svelte';
 
-	const { hand, score }: { hand: CardType[]; score: number } = $props();
+	export let hand: CardType[];
+	export let score: number;
 </script>
 
 <div class="wrapper">
