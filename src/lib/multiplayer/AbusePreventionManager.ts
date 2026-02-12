@@ -83,7 +83,7 @@ export class AbusePreventionManager {
 		sessions.add(sessionId);
 		this.activeSessions.set(userId, sessions);
 
-		console.log('[AbuseP revention] Session created by', userId, '- Count:', limit.count);
+		console.log('[AbusePrevention] Session created by', userId, '- Count:', limit.count);
 	}
 
 	/**
