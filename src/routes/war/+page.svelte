@@ -1,12 +1,12 @@
 <script lang="ts">
 	import '../global.css';
-	import { createWarGame } from '$lib/games/war/store';
+	import { createWarStore } from '$lib/adapters/createWarStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/Card.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createWarGame();
-	const { player, opponent, state, playerCard, opponentCard, message, warCount, start, playRound } =
+	const game = createWarStore();
+	const { player, opponent, gameState, playerCard, opponentCard, message, warCount, start, playRound } =
 		game;
 </script>
 
@@ -57,11 +57,11 @@
 
 		<!-- Controls -->
 		<div class="controls">
-			{#if $state === 'ready' || $state === 'won'}
+			{#if $gameState === 'ready' || $gameState === 'won'}
 				<Button variant="deal" onclick={() => start()}>
-					{$state === 'ready' ? 'Start Game' : 'Play Again'}
+					{$gameState === 'ready' ? 'Start Game' : 'Play Again'}
 				</Button>
-			{:else if $state === 'playing' || $state === 'war'}
+			{:else if $gameState === 'playing' || $gameState === 'war'}
 				<Button variant="draw" onclick={() => playRound()}>Play Card</Button>
 			{/if}
 		</div>
