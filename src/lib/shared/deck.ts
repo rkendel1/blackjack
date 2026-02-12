@@ -21,7 +21,13 @@ export const buildDeck = (): Card[] => {
 };
 
 export const shuffleDeck = (deck: Card[]): Card[] => {
-	return [...deck].sort(() => Math.random() - 0.5);
+	const shuffled = [...deck];
+	// Fisher-Yates shuffle algorithm for uniform distribution
+	for (let i = shuffled.length - 1; i > 0; i--) {
+		const j = Math.floor(Math.random() * (i + 1));
+		[shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+	}
+	return shuffled;
 };
 
 export const dealCards = (deck: Card[], count: number): { dealt: Card[]; remaining: Card[] } => {

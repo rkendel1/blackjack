@@ -71,7 +71,7 @@ export class OldMaidBot extends BotPlayer {
 
 	chooseCardIndex(): number {
 		// Bot randomly chooses a card index from opponent
-		return Math.floor(Math.random() * 100) % 100; // Will be modulo'd by hand length
+		return Math.floor(Math.random() * 1000); // Will be modulo'd by hand length
 	}
 }
 
