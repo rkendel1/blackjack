@@ -45,7 +45,7 @@ export class ConvexSignalingClient implements SignalingAdapter {
 
 		await mutations.createSession({
 			sessionId: session.id,
-			gameId: session.gameId,
+			gameId: session.gameId ?? '',
 			hostId: session.hostId,
 			hostName: session.participants.find((p) => p.role === 'host')?.user?.name || 'Host',
 			mode: session.mode,

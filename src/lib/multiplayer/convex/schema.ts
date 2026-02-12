@@ -3,7 +3,14 @@
  * These define the database schema for Convex backend
  */
 
-import type { AuthorityMode, SessionState, ParticipantRole, ConnectionStatus } from '../types';
+import type {
+	AuthorityMode,
+	SessionState,
+	SessionType,
+	ParticipantRole,
+	ConnectionStatus,
+	InteractionType
+} from '../types';
 
 /**
  * Sessions Table Schema
@@ -13,7 +20,9 @@ export interface SessionSchema {
 	_id: string;
 	_creationTime: number;
 	sessionId: string;
-	gameId: string;
+	gameId?: string; // Optional for non-game embeds
+	embedId?: string; // Unique identifier for the embed
+	type?: SessionType; // Type of session (game, class, quiz, poll, etc.)
 	hostId: string;
 	mode: AuthorityMode;
 	status: SessionState;
@@ -21,6 +30,8 @@ export interface SessionSchema {
 	allowSpectators: boolean;
 	visibility: 'public' | 'private';
 	matchmaking: boolean;
+	video?: boolean; // Video streaming enabled
+	audio?: boolean; // Audio streaming enabled
 	createdAt: number;
 	expiresAt: number;
 	lastActivity: number;
@@ -58,6 +69,21 @@ export interface SignalingMessageSchema {
 	payload: string; // JSON stringified RTCSessionDescriptionInit or RTCIceCandidateInit
 	delivered: boolean;
 	expiresAt: number;
+}
+
+/**
+ * Interactions Table Schema
+ * Stores interactive messages (polls, quizzes, reactions, snaps)
+ */
+export interface InteractionSchema {
+	_id: string;
+	_creationTime: number;
+	sessionId: string;
+	fromUserId: string;
+	type: InteractionType;
+	payload: string; // JSON stringified interaction data
+	timestamp: number;
+	expiresAt?: number;
 }
 
 /**
@@ -128,8 +154,10 @@ export const convexSchema = {
 		indexes: {
 			by_session_id: ['sessionId'],
 			by_game_id: ['gameId'],
+			by_embed_id: ['embedId'],
 			by_host_id: ['hostId'],
 			by_status: ['status'],
+			by_type: ['type'],
 			by_visibility: ['visibility'],
 			by_expiration: ['expiresAt']
 		}
@@ -146,6 +174,16 @@ export const convexSchema = {
 			by_session_id: ['sessionId'],
 			by_recipient: ['to'],
 			by_session_and_recipient: ['sessionId', 'to'],
+			by_expiration: ['expiresAt']
+		}
+	},
+	interactions: {
+		indexes: {
+			by_session_id: ['sessionId'],
+			by_type: ['type'],
+			by_user_id: ['fromUserId'],
+			by_session_and_type: ['sessionId', 'type'],
+			by_timestamp: ['timestamp'],
 			by_expiration: ['expiresAt']
 		}
 	},
@@ -191,6 +229,7 @@ export type ConvexDocument<T> = T & {
 export type SessionDocument = ConvexDocument<SessionSchema>;
 export type ParticipantDocument = ConvexDocument<ParticipantSchema>;
 export type SignalingMessageDocument = ConvexDocument<SignalingMessageSchema>;
+export type InteractionDocument = ConvexDocument<InteractionSchema>;
 export type MatchmakingQueueDocument = ConvexDocument<MatchmakingQueueSchema>;
 export type SessionEventDocument = ConvexDocument<SessionEventSchema>;
 export type UserPresenceDocument = ConvexDocument<UserPresenceSchema>;

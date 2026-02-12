@@ -19,6 +19,8 @@ export class SessionManager {
 		this.session = {
 			id: sessionId,
 			gameId: config.gameId,
+			embedId: config.embedId,
+			type: config.type,
 			hostId,
 			mode: config.mode,
 			status: 'CREATING',
