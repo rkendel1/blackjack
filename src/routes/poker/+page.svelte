@@ -1,11 +1,11 @@
 <script lang="ts">
 	import '../global.css';
-	import { createPokerGame } from '$lib/games/poker/store';
+	import { createPokerStore } from '$lib/adapters/createPokerStore';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Card from '$lib/Components/SolitaireCard.svelte';
 	import Button from '$lib/Components/Button.svelte';
 
-	const game = createPokerGame();
+	const game = createPokerStore();
 	const { players, pot, currentBet, currentPlayer, currentPlayerIndex, phase, winners } = game;
 
 	let humanCount = 1;
@@ -27,21 +27,13 @@
 	}
 
 	function toggleCardSelection(playerIndex: number, cardIndex: number) {
-		$players[playerIndex].selectedCards[cardIndex] =
-			!$players[playerIndex].selectedCards[cardIndex];
-		players.set($players);
+		if (playerIndex === $currentPlayerIndex) {
+			game.toggleCard(cardIndex);
+		}
 	}
 
 	function handleDraw() {
 		game.humanDraw();
-
-		// Process bots' draws
-		game.drawPhase();
-
-		// Move to final betting
-		setTimeout(() => {
-			phase.set('final-betting');
-		}, 500);
 	}
 </script>
 
