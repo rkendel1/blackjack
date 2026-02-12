@@ -11,6 +11,14 @@ export { useStackLiveMultiplayer } from './useStackLiveMultiplayer';
 export { useStackLiveInteraction } from './useStackLiveInteraction';
 export type { StackLiveInteractionConfig, StackLiveInteractionSession } from './useStackLiveInteraction';
 
+// AR/VR Runtime
+export { useStackLiveARVR } from './useStackLiveARVR';
+export { ARVRManager } from './ARVRManager';
+export { AvatarManager } from './AvatarManager';
+export { FilterManager } from './FilterManager';
+export { GestureDetector } from './GestureDetector';
+export { SpatialInteractionManager } from './SpatialInteractionManager';
+
 // Managers
 export { PeerConnectionManager } from './PeerConnectionManager';
 export { SessionManager } from './SessionManager';
@@ -55,5 +63,15 @@ export type {
 	LifecycleEvent,
 	LifecycleEventType,
 	User,
-	RTCConfig
+	RTCConfig,
+	AvatarMessage,
+	FilterMessage,
+	GestureMessage,
+	SpatialMessage,
+	ARVRSessionState,
+	XRSessionConfig,
+	AvatarCustomization,
+	FilterPreset,
+	FilterType,
+	FilterCategory
 } from './types';

@@ -43,10 +43,14 @@ export type StackLiveMessage =
 	| { type: 'reaction'; payload: string }
 	| { type: 'snap'; payload: SnapMessage }
 	| { type: 'videoFrame'; payload: MediaStreamTrack }
-	| { type: 'audioFrame'; payload: MediaStreamTrack };
+	| { type: 'audioFrame'; payload: MediaStreamTrack }
+	| { type: 'avatar'; payload: AvatarMessage }
+	| { type: 'filter'; payload: FilterMessage }
+	| { type: 'gesture'; payload: GestureMessage }
+	| { type: 'spatial'; payload: SpatialMessage };
 
 // Interaction types for realtime embed interactions
-export type InteractionType = 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'vote' | 'answer' | 'chat' | 'media' | 'pollResponse';
+export type InteractionType = 'poll' | 'quiz' | 'reaction' | 'snap' | 'input' | 'vote' | 'answer' | 'chat' | 'media' | 'pollResponse' | 'avatar' | 'filter' | 'gesture' | 'spatial';
 
 // Poll message structure
 export interface PollMessage {
@@ -225,4 +229,139 @@ export interface LifecycleEvent {
 // WebRTC configuration
 export interface RTCConfig {
 	iceServers: RTCIceServer[];
+}
+
+// AR/VR Support Types
+
+// Avatar message structure
+export interface AvatarMessage {
+	id: string;
+	userId: string;
+	sessionId?: string;
+	avatarModel: string; // URL to glTF or USDZ file
+	customizations: {
+		hair?: string;
+		clothing?: string;
+		accessories?: string[];
+		expressions?: Record<string, number>; // expression name -> intensity (0-1)
+		skinTone?: string;
+		bodyType?: string;
+	};
+	transform?: {
+		position: [number, number, number];
+		rotation: [number, number, number, number]; // quaternion
+		scale: [number, number, number];
+	};
+	timestamp: number;
+}
+
+// Filter types for AR effects
+export type FilterType = 'face' | 'body' | 'environment' | 'object';
+export type FilterCategory = 'beauty' | 'fun' | 'artistic' | 'seasonal' | 'brand';
+
+// Filter message structure
+export interface FilterMessage {
+	id: string;
+	userId: string;
+	sessionId?: string;
+	filterType: FilterType;
+	filterCategory?: FilterCategory;
+	filterName: string;
+	filterUrl?: string; // URL to filter asset
+	parameters?: Record<string, unknown>; // filter-specific params
+	intensity?: number; // 0-1
+	enabled: boolean;
+	timestamp: number;
+}
+
+// Gesture detection data
+export interface GestureMessage {
+	id: string;
+	userId: string;
+	sessionId?: string;
+	gestureType: 'hand' | 'face' | 'body' | 'pose';
+	landmarks?: Array<{
+		x: number;
+		y: number;
+		z?: number;
+		visibility?: number;
+	}>;
+	gesture?: string; // recognized gesture name (e.g., "thumbsUp", "wave", "smile")
+	confidence?: number; // 0-1
+	timestamp: number;
+}
+
+// Spatial interaction data
+export interface SpatialMessage {
+	id: string;
+	userId: string;
+	sessionId?: string;
+	interactionType: 'place' | 'move' | 'rotate' | 'scale' | 'grab' | 'point' | 'draw';
+	objectId?: string; // ID of object being interacted with
+	position?: [number, number, number];
+	rotation?: [number, number, number, number]; // quaternion
+	scale?: [number, number, number];
+	rayOrigin?: [number, number, number];
+	rayDirection?: [number, number, number];
+	drawPath?: Array<[number, number, number]>;
+	timestamp: number;
+}
+
+// WebXR session configuration
+export interface XRSessionConfig {
+	mode: 'immersive-vr' | 'immersive-ar' | 'inline';
+	requiredFeatures?: string[];
+	optionalFeatures?: string[];
+	domOverlay?: Element;
+}
+
+// AR/VR session state
+export interface ARVRSessionState {
+	active: boolean;
+	mode?: 'ar' | 'vr';
+	xrSession?: XRSession;
+	avatarEnabled: boolean;
+	filtersEnabled: boolean;
+	spatialEnabled: boolean;
+	gestureDetectionEnabled: boolean;
+}
+
+// Avatar customization options
+export interface AvatarCustomization {
+	hair?: {
+		style: string;
+		color: string;
+	};
+	clothing?: {
+		top: string;
+		bottom: string;
+		outfit?: string;
+	};
+	accessories?: Array<{
+		type: string;
+		id: string;
+		position?: string;
+	}>;
+	expressions?: {
+		smile?: number;
+		surprised?: number;
+		angry?: number;
+		sad?: number;
+		[key: string]: number | undefined;
+	};
+	skinTone?: string;
+	bodyType?: 'slim' | 'average' | 'athletic' | 'heavy';
+}
+
+// Filter preset
+export interface FilterPreset {
+	id: string;
+	name: string;
+	type: FilterType;
+	category: FilterCategory;
+	thumbnailUrl?: string;
+	assetUrl?: string;
+	parameters?: Record<string, unknown>;
+	requiresCamera?: boolean;
+	deviceCompatibility?: string[];
 }
