@@ -52,13 +52,13 @@ export class InteractionManager {
 	handleInteraction(type: InteractionType, payload: unknown, fromUserId: string): void {
 		this.log(`Handling ${type} interaction from user ${fromUserId}`, payload);
 
-		// Store responses based on type
-		if (type === 'poll') {
-			this.handlePollResponse(payload as PollResponse);
-		} else if (type === 'quiz') {
-			this.handleQuizResponse(payload as QuizResponse);
-		} else if (type === 'snap') {
-			this.handleSnapMessage(payload as SnapMessage);
+		// Store responses based on type with validation
+		if (type === 'poll' && this.isPollResponse(payload)) {
+			this.handlePollResponse(payload);
+		} else if (type === 'quiz' && this.isQuizResponse(payload)) {
+			this.handleQuizResponse(payload);
+		} else if (type === 'snap' && this.isSnapMessage(payload)) {
+			this.handleSnapMessage(payload);
 		}
 
 		// Notify registered callbacks
@@ -191,5 +191,38 @@ export class InteractionManager {
 		if (this.debugMode) {
 			console.log(`[InteractionManager] ${message}`, data);
 		}
+	}
+
+	/**
+	 * Type guards for runtime validation
+	 */
+	private isPollResponse(payload: unknown): payload is PollResponse {
+		return (
+			typeof payload === 'object' &&
+			payload !== null &&
+			'pollId' in payload &&
+			'userId' in payload &&
+			'answers' in payload
+		);
+	}
+
+	private isQuizResponse(payload: unknown): payload is QuizResponse {
+		return (
+			typeof payload === 'object' &&
+			payload !== null &&
+			'quizId' in payload &&
+			'userId' in payload &&
+			'answer' in payload
+		);
+	}
+
+	private isSnapMessage(payload: unknown): payload is SnapMessage {
+		return (
+			typeof payload === 'object' &&
+			payload !== null &&
+			'id' in payload &&
+			'type' in payload &&
+			'data' in payload
+		);
 	}
 }

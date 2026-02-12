@@ -89,6 +89,7 @@ export function useStackLiveInteraction(
 	let runtime: StackLiveMultiplayerRuntime | null = null;
 	let interactionManager: InteractionManager | null = null;
 	let mediaManager: MediaStreamManager | null = null;
+	let qualityCheckInterval: ReturnType<typeof setInterval> | null = null;
 
 	// Reactive stores
 	const session = writable<Session | null>(null);
@@ -149,11 +150,13 @@ export function useStackLiveInteraction(
 
 		// Initialize media if needed
 		if (config.video || config.audio) {
-			const stream = await mediaManager!.initializeLocalStream({
-				video: config.video,
-				audio: config.audio
-			});
-			localStream.set(stream);
+			if (mediaManager) {
+				const stream = await mediaManager.initializeLocalStream({
+					video: config.video,
+					audio: config.audio
+				});
+				localStream.set(stream);
+			}
 		}
 
 		// Create session
@@ -201,11 +204,13 @@ export function useStackLiveInteraction(
 
 		// Initialize media if needed
 		if (config.video || config.audio) {
-			const stream = await mediaManager!.initializeLocalStream({
-				video: config.video,
-				audio: config.audio
-			});
-			localStream.set(stream);
+			if (mediaManager) {
+				const stream = await mediaManager.initializeLocalStream({
+					video: config.video,
+					audio: config.audio
+				});
+				localStream.set(stream);
+			}
 		}
 
 		// Join session
@@ -247,7 +252,10 @@ export function useStackLiveInteraction(
 		});
 
 		// Update connection quality periodically
-		setInterval(() => {
+		if (qualityCheckInterval) {
+			clearInterval(qualityCheckInterval);
+		}
+		qualityCheckInterval = setInterval(() => {
 			if (runtime) {
 				connectionQuality.set(runtime.getConnectionQuality());
 			}
@@ -325,7 +333,10 @@ export function useStackLiveInteraction(
 		allowMultiple = false,
 		expiresAt?: number
 	): PollMessage {
-		const poll = interactionManager!.createPoll(question, options, allowMultiple, expiresAt);
+		if (!interactionManager) {
+			throw new Error('Interaction manager not initialized. Call start() or connect() first.');
+		}
+		const poll = interactionManager.createPoll(question, options, allowMultiple, expiresAt);
 		send({ type: 'poll', payload: poll });
 		return poll;
 	}
@@ -340,7 +351,10 @@ export function useStackLiveInteraction(
 		timeLimit?: number,
 		points?: number
 	): QuizMessage {
-		const quiz = interactionManager!.createQuiz(question, options, correctAnswer, timeLimit, points);
+		if (!interactionManager) {
+			throw new Error('Interaction manager not initialized. Call start() or connect() first.');
+		}
+		const quiz = interactionManager.createQuiz(question, options, correctAnswer, timeLimit, points);
 		send({ type: 'quiz', payload: quiz });
 		return quiz;
 	}
@@ -392,6 +406,12 @@ export function useStackLiveInteraction(
 	 * Cleanup
 	 */
 	function destroy(): void {
+		// Clear interval
+		if (qualityCheckInterval) {
+			clearInterval(qualityCheckInterval);
+			qualityCheckInterval = null;
+		}
+
 		if (runtime) {
 			runtime.destroy();
 			runtime = null;
