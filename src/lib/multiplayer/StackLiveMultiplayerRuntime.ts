@@ -6,6 +6,10 @@
 import { PeerConnectionManager } from './PeerConnectionManager';
 import { SessionManager } from './SessionManager';
 import { LatencyManager } from './LatencyManager';
+import { MatchmakingManager } from './MatchmakingManager';
+import { AbusePreventionManager } from './AbusePreventionManager';
+import { URLJoinManager } from './URLJoinManager';
+import { MockSignalingAdapter, type SignalingAdapter } from './SignalingAdapter';
 import type {
 	MultiplayerConfig,
 	Session,
@@ -15,7 +19,8 @@ import type {
 	ConnectionQuality,
 	RTCConfig,
 	SessionConfig,
-	Participant
+	Participant,
+	User
 } from './types';
 
 export class StackLiveMultiplayerRuntime {
@@ -23,13 +28,19 @@ export class StackLiveMultiplayerRuntime {
 	private peerManager: PeerConnectionManager;
 	private sessionManager: SessionManager;
 	private latencyManager: LatencyManager;
+	private matchmakingManager: MatchmakingManager;
+	private abusePreventionManager: AbusePreventionManager;
+	private urlJoinManager: URLJoinManager;
+	private signalingAdapter: SignalingAdapter;
 	private userId: string;
+	private user: User;
 	private eventCallbacks: Map<LifecycleEventType, ((data?: unknown) => void)[]> = new Map();
 	private inputCallback?: (input: unknown) => void;
 	private stateSyncCallback?: (state: unknown) => void;
 	private debugMode: boolean;
+	private cleanupInterval?: number;
 
-	constructor(config: MultiplayerConfig, userId?: string) {
+	constructor(config: MultiplayerConfig, userId?: string, user?: User) {
 		this.config = {
 			mode: 'host-authoritative',
 			matchmaking: false,
@@ -42,6 +53,10 @@ export class StackLiveMultiplayerRuntime {
 
 		this.debugMode = this.config.debug ?? false;
 		this.userId = userId ?? this.generateUserId();
+		this.user = user ?? {
+			id: this.userId,
+			name: `Player-${this.userId.substring(0, 8)}`
+		};
 
 		// Initialize managers
 		const rtcConfig: RTCConfig = {
@@ -54,6 +69,10 @@ export class StackLiveMultiplayerRuntime {
 		this.peerManager = new PeerConnectionManager(rtcConfig);
 		this.sessionManager = new SessionManager();
 		this.latencyManager = new LatencyManager();
+		this.matchmakingManager = new MatchmakingManager();
+		this.abusePreventionManager = new AbusePreventionManager();
+		this.urlJoinManager = new URLJoinManager();
+		this.signalingAdapter = new MockSignalingAdapter();
 
 		this.setupEventHandlers();
 		this.log('Multiplayer runtime initialized', this.config);

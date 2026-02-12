@@ -10,6 +10,13 @@
 			featured: true
 		},
 		{
+			name: '🃏 Multiplayer Blackjack',
+			path: '/blackjack-multiplayer',
+			description: 'Play Blackjack with friends in real-time - Full state sync & turns',
+			status: 'ready',
+			featured: true
+		},
+		{
 			name: 'Blackjack',
 			path: '/blackjack',
 			description: 'Classic casino card game - beat the dealer without going over 21',
