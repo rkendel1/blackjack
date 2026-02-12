@@ -2,7 +2,7 @@
 	import './global.css';
 	import audioPath from '$lib/assets/draw.mp3';
 	import { Game } from '$lib/gameStore.svelte';
-	import LandscapeMessage from '$lib/Components/LandscapeMessage.svelte';
+
 	import GameControlls from '$lib/Components/GameControlls.svelte';
 	import CardsDefinitions from '$lib/Components/CardsDefinitions.svelte';
 	import Deck from '$lib/Components/Deck.svelte';
@@ -17,7 +17,6 @@
 	});
 </script>
 
-<LandscapeMessage />
 <CardsDefinitions />
 
 <section>
@@ -56,9 +55,10 @@
 		gap: 20px;
 	}
 
-	@media (max-width: 968px) and (orientation: landscape) {
+	@media (max-width: 768px) {
 		div {
-			padding: 8px;
+			padding: 16px 8px;
+			gap: 12px;
 		}
 	}
 </style>

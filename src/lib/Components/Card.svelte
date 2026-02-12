@@ -39,19 +39,10 @@
 		z-index: 2;
 	}
 
-	@media (max-width: 968px) and (orientation: landscape) {
+	@media (max-width: 768px) {
 		.card {
-			width: 50px;
-			height: 80px;
-		}
-
-		svg {
-			width: 100%;
-			height: 100%;
-		}
-
-		use {
-			transform: scale(0.3);
+			width: 80px;
+			height: 112px;
 		}
 	}
 </style>

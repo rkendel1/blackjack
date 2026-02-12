@@ -40,10 +40,16 @@
 		border-radius: 12px;
 	}
 
-	@media (max-width: 968px) and (orientation: landscape) {
+	@media (max-width: 768px) {
 		.wrapper {
-			padding: 4px 8px;
-			gap: 10px;
+			padding: 4px 12px;
+			gap: 8px;
+		}
+
+		.score {
+			width: 48px;
+			height: 32px;
+			font-size: 20px;
 		}
 	}
 </style>
