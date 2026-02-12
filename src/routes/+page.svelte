@@ -18,13 +18,13 @@
 			name: 'War',
 			path: '/war',
 			description: 'Simple card battle game - highest card wins',
-			status: 'coming-soon'
+			status: 'ready'
 		},
 		{
 			name: 'Go Fish',
 			path: '/go-fish',
 			description: 'Collect matching sets by asking opponents for cards',
-			status: 'coming-soon'
+			status: 'ready'
 		},
 		{
 			name: 'Old Maid',
