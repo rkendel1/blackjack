@@ -6,9 +6,11 @@ import './ARVRScene.wc.svelte';
 import './ARVRAvatar.wc.svelte';
 import './ARVRFilter.wc.svelte';
 import './ARVRSpatial.wc.svelte';
+import './MessagingEmbed.wc.svelte';
 
 // Re-export for convenience (though the custom elements are automatically registered)
 export { default as ARVRScene } from './ARVRScene.wc.svelte';
 export { default as ARVRAvatar } from './ARVRAvatar.wc.svelte';
 export { default as ARVRFilter } from './ARVRFilter.wc.svelte';
 export { default as ARVRSpatial } from './ARVRSpatial.wc.svelte';
+export { default as MessagingEmbed } from './MessagingEmbed.wc.svelte';
