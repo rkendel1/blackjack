@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Card as CardType } from '$lib/utils';
+	import type { Card as CardType } from '$lib/shared/deck';
 	import Card from './Card.svelte';
 
 	export let hand: CardType[];

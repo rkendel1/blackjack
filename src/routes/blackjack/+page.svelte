@@ -10,6 +10,7 @@
 	import { onMount } from 'svelte';
 
 	const game = createBlackjackGame();
+	const { player, dealer, winner, turn, inGame } = game;
 
 	onMount(() => {
 		// Setting audio in onMount since Audio is not present on the server
@@ -22,19 +23,19 @@
 <section>
 	<Deck />
 	<div>
-		<Hand hand={$game.dealer.hand} score={$game.dealer.score} />
+		<Hand hand={$dealer.hand} score={$dealer.score} />
 
 		<GameControlls
-			winner={$game.winner}
-			inGame={$game.inGame}
-			turn={$game.turn}
+			winner={$winner}
+			inGame={$inGame}
+			turn={$turn}
 			draw={() => game.playerTurn('draw')}
 			stop={() => game.playerTurn('stop')}
 			start={() => game.start()}
 			restart={() => game.start(true)}
 		/>
 
-		<Hand hand={$game.player.hand} score={$game.player.score} />
+		<Hand hand={$player.hand} score={$player.score} />
 	</div>
 </section>
 
