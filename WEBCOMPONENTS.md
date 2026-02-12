@@ -210,7 +210,7 @@ A component for interactive 3D objects that can be placed and manipulated in AR/
 
 ## Installation
 
-### SvelteKit / Svelte Projects
+### Svelte 4 Projects
 
 Import the web components module in your page or layout:
 

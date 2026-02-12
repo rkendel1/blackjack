@@ -37,7 +37,9 @@
 				{#if type === 'image'}
 					<img src={message.mediaUrl} alt="Shared media" />
 				{:else if type === 'video'}
-					<video src={message.mediaUrl} controls />
+					<video src={message.mediaUrl} controls aria-label="Shared video message">
+						<track kind="captions" />
+					</video>
 				{:else if type === 'audio'}
 					<audio src={message.mediaUrl} controls />
 				{:else}
