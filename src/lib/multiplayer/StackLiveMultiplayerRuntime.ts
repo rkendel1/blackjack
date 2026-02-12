@@ -233,6 +233,20 @@ export class StackLiveMultiplayerRuntime {
 	}
 
 	/**
+	 * Get local user ID
+	 */
+	getLocalUserId(): string {
+		return this.userId;
+	}
+
+	/**
+	 * Get local user information
+	 */
+	getLocalUser(): User {
+		return this.user;
+	}
+
+	/**
 	 * Setup event handlers for internal managers
 	 */
 	private setupEventHandlers(): void {

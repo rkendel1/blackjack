@@ -1,6 +1,6 @@
 /**
  * InteractionManager
- * Manages interactive messages (polls, quizzes, reactions, snaps)
+ * Manages interactive messages (polls, quizzes, reactions, snaps, chat, media)
  */
 
 import type {
@@ -9,7 +9,9 @@ import type {
 	PollResponse,
 	QuizMessage,
 	QuizResponse,
-	SnapMessage
+	SnapMessage,
+	ChatMessage,
+	MediaMessage
 } from './types';
 
 export class InteractionManager {
@@ -17,6 +19,8 @@ export class InteractionManager {
 	private pollResponses: Map<string, PollResponse[]> = new Map();
 	private quizResponses: Map<string, QuizResponse[]> = new Map();
 	private snapMessages: Map<string, SnapMessage[]> = new Map();
+	private chatMessages: Map<string, ChatMessage[]> = new Map();
+	private mediaMessages: Map<string, MediaMessage[]> = new Map();
 	private debugMode: boolean;
 
 	constructor(debug = false) {
@@ -59,6 +63,10 @@ export class InteractionManager {
 			this.handleQuizResponse(payload);
 		} else if (type === 'snap' && this.isSnapMessage(payload)) {
 			this.handleSnapMessage(payload);
+		} else if (type === 'chat' && this.isChatMessage(payload)) {
+			this.handleChatMessage(payload);
+		} else if (type === 'media' && this.isMediaMessage(payload)) {
+			this.handleMediaMessage(payload);
 		}
 
 		// Notify registered callbacks
@@ -148,6 +156,24 @@ export class InteractionManager {
 	}
 
 	/**
+	 * Handle chat message
+	 */
+	private handleChatMessage(chat: ChatMessage): void {
+		const sessionChats = this.chatMessages.get(chat.sessionId) || [];
+		sessionChats.push(chat);
+		this.chatMessages.set(chat.sessionId, sessionChats);
+	}
+
+	/**
+	 * Handle media message
+	 */
+	private handleMediaMessage(media: MediaMessage): void {
+		const sessionMedia = this.mediaMessages.get(media.sessionId) || [];
+		sessionMedia.push(media);
+		this.mediaMessages.set(media.sessionId, sessionMedia);
+	}
+
+	/**
 	 * Get poll results
 	 */
 	getPollResults(pollId: string): PollResponse[] {
@@ -169,12 +195,42 @@ export class InteractionManager {
 	}
 
 	/**
+	 * Get chat messages
+	 */
+	getChatMessages(sessionId: string): ChatMessage[] {
+		return this.chatMessages.get(sessionId) || [];
+	}
+
+	/**
+	 * Get media messages
+	 */
+	getMediaMessages(sessionId: string): MediaMessage[] {
+		return this.mediaMessages.get(sessionId) || [];
+	}
+
+	/**
+	 * Get all messages (chat + media) for a session
+	 */
+	getMessages(sessionId: string, options?: { limit?: number }): (ChatMessage | MediaMessage)[] {
+		const chats = this.getChatMessages(sessionId);
+		const media = this.getMediaMessages(sessionId);
+		const allMessages = [...chats, ...media].sort((a, b) => a.timestamp - b.timestamp);
+		
+		if (options?.limit) {
+			return allMessages.slice(-options.limit);
+		}
+		return allMessages;
+	}
+
+	/**
 	 * Clear interaction data for a session
 	 */
 	clearSession(sessionId: string): void {
 		this.pollResponses.clear();
 		this.quizResponses.clear();
 		this.snapMessages.delete(sessionId);
+		this.chatMessages.delete(sessionId);
+		this.mediaMessages.delete(sessionId);
 	}
 
 	/**
@@ -223,6 +279,28 @@ export class InteractionManager {
 			'id' in payload &&
 			'type' in payload &&
 			'data' in payload
+		);
+	}
+
+	private isChatMessage(payload: unknown): payload is ChatMessage {
+		return (
+			typeof payload === 'object' &&
+			payload !== null &&
+			'sessionId' in payload &&
+			'fromUserId' in payload &&
+			'payload' in payload &&
+			typeof (payload as ChatMessage).payload === 'string'
+		);
+	}
+
+	private isMediaMessage(payload: unknown): payload is MediaMessage {
+		return (
+			typeof payload === 'object' &&
+			payload !== null &&
+			'sessionId' in payload &&
+			'fromUserId' in payload &&
+			'mediaUrl' in payload &&
+			'mediaType' in payload
 		);
 	}
 }
