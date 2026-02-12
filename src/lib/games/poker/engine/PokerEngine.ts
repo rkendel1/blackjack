@@ -85,14 +85,14 @@ class Bot extends Player {
 			this.hand.forEach((card) => {
 				rankCounts.set(card.rank, (rankCounts.get(card.rank) || 0) + 1);
 			});
-			const quadRank = Array.from(rankCounts.entries()).find(([_, count]) => count === 4)?.[0];
+			const quadRank = Array.from(rankCounts.entries()).find(([, count]) => count === 4)?.[0];
 			this.selectedCards = this.hand.map((card) => card.rank !== quadRank);
 		} else if (handRank === 'three-of-a-kind') {
 			const rankCounts = new Map<string, number>();
 			this.hand.forEach((card) => {
 				rankCounts.set(card.rank, (rankCounts.get(card.rank) || 0) + 1);
 			});
-			const tripRank = Array.from(rankCounts.entries()).find(([_, count]) => count === 3)?.[0];
+			const tripRank = Array.from(rankCounts.entries()).find(([, count]) => count === 3)?.[0];
 			this.selectedCards = this.hand.map((card) => card.rank !== tripRank);
 		} else if (handRank === 'two-pair') {
 			const rankCounts = new Map<string, number>();
@@ -100,7 +100,7 @@ class Bot extends Player {
 				rankCounts.set(card.rank, (rankCounts.get(card.rank) || 0) + 1);
 			});
 			const pairRanks = Array.from(rankCounts.entries())
-				.filter(([_, count]) => count === 2)
+				.filter(([, count]) => count === 2)
 				.map(([rank]) => rank);
 			this.selectedCards = this.hand.map((card) => !pairRanks.includes(card.rank));
 		} else if (handRank === 'pair') {
@@ -108,7 +108,7 @@ class Bot extends Player {
 			this.hand.forEach((card) => {
 				rankCounts.set(card.rank, (rankCounts.get(card.rank) || 0) + 1);
 			});
-			const pairRank = Array.from(rankCounts.entries()).find(([_, count]) => count === 2)?.[0];
+			const pairRank = Array.from(rankCounts.entries()).find(([, count]) => count === 2)?.[0];
 			this.selectedCards = this.hand.map((card) => card.rank !== pairRank);
 		} else {
 			if (this.difficulty === 'easy') {
@@ -130,7 +130,7 @@ class Bot extends Player {
 		}
 	}
 
-	makeDecision(currentBet: number, pot: number): { action: PlayerAction; amount?: number } {
+	makeDecision(currentBet: number): { action: PlayerAction; amount?: number } {
 		this.evaluateHand();
 		const handStrength = this.bestHand ? this.bestHand.score / 10000000 : 0.1;
 		const toCall = currentBet - this.currentBet;
@@ -380,7 +380,7 @@ export class PokerEngine {
 	private processBotAction(): void {
 		const bot = this.players[this.currentPlayerIndex];
 		if (bot.type === 'bot') {
-			const decision = (bot as Bot).makeDecision(this.currentBet, this.pot);
+			const decision = (bot as Bot).makeDecision(this.currentBet);
 			this.handlePlayerAction(decision.action, decision.amount);
 		}
 	}
