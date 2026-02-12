@@ -84,9 +84,27 @@ export default {
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production,
-				// enable custom element support for web components
+				// enable custom element support for .wc.svelte files
+				customElement: true
+			},
+			// Only apply customElement to .wc.svelte files
+			include: /\.wc\.svelte$/
+		}),
+		svelte({
+			preprocess: sveltePreprocess({
+				sourceMap: !production,
+				typescript: {
+					tsconfigFile: './tsconfig.json'
+				}
+			}),
+			compilerOptions: {
+				// enable run-time checks when not in production
+				dev: !production,
+				// regular components don't use custom elements
 				customElement: false
-			}
+			},
+			// Apply to all non-.wc.svelte files
+			exclude: /\.wc\.svelte$/
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
