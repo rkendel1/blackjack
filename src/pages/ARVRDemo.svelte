@@ -8,7 +8,7 @@
 	let userId = `user-${Math.random().toString(36).substring(2, 9)}`;
 	let sessionId = `demo-session-${Date.now()}`;
 
-	const arvr = useStackLiveARVR(userId, sessionId);
+	const { sessionState, avatars, filters, lastGesture, spatialObjects, startSession, stopSession } = useStackLiveARVR(userId, sessionId);
 
 	onMount(async () => {
 		// Request camera access for AR/VR features
@@ -64,12 +64,12 @@
 				<p><strong>Session ID:</strong> <code>{sessionId}</code></p>
 				<p>
 					<strong>Session Active:</strong>
-					<span class:active={$arvr.sessionState.active}>
-						{$arvr.sessionState.active ? '✓ Yes' : '✗ No'}
+					<span class:active={$sessionState.active}>
+						{$sessionState.active ? '✓ Yes' : '✗ No'}
 					</span>
 				</p>
-				{#if $arvr.sessionState.active}
-					<p><strong>Mode:</strong> {$arvr.sessionState.mode?.toUpperCase()}</p>
+				{#if $sessionState.active}
+					<p><strong>Mode:</strong> {$sessionState.mode?.toUpperCase()}</p>
 				{/if}
 			</div>
 		</div>
