@@ -8,11 +8,8 @@ import './ARVRFilter.wc.svelte';
 import './ARVRSpatial.wc.svelte';
 import './MessagingEmbed.wc.svelte';
 import './TicTacToeEmbed.wc.svelte';
-<<<<<<< copilot/add-user-customizable-rss-reader
 import './RSSReaderEmbed.wc.svelte';
-=======
 import './RoomEmbed.wc.svelte';
->>>>>>> main
 
 // Re-export for convenience (though the custom elements are automatically registered)
 export { default as ARVRScene } from './ARVRScene.wc.svelte';
@@ -21,8 +18,6 @@ export { default as ARVRFilter } from './ARVRFilter.wc.svelte';
 export { default as ARVRSpatial } from './ARVRSpatial.wc.svelte';
 export { default as MessagingEmbed } from './MessagingEmbed.wc.svelte';
 export { default as TicTacToeEmbed } from './TicTacToeEmbed.wc.svelte';
-<<<<<<< copilot/add-user-customizable-rss-reader
 export { default as RSSReaderEmbed } from './RSSReaderEmbed.wc.svelte';
-=======
 export { default as RoomEmbed } from './RoomEmbed.wc.svelte';
->>>>>>> main
+

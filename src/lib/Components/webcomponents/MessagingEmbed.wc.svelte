@@ -2,8 +2,7 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { useStackLiveInteraction } from '$lib/multiplayer/useStackLiveInteraction';
-	import type { StackLiveInteractionConfig } from '$lib/multiplayer/useStackLiveInteraction';
+	import { createMessagingBackend } from '$lib/backends/messaging';
 	import type { ChatMessage, MediaMessage } from '$lib/multiplayer/types';
 	import ConversationList from '../messaging/ConversationList.svelte';
 	import ChatView from '../messaging/ChatView.svelte';
@@ -14,10 +13,12 @@
 	export let sessionId: string = '';
 	export let enableVideo: string = 'true';
 	export let enableAudio: string = 'true';
+	export let maxParticipants: string = '10';
 
-	// Convert string attributes to booleans
+	// Convert string attributes to proper types
 	$: enableVideoBool = enableVideo === 'true';
 	$: enableAudioBool = enableAudio === 'true';
+	$: maxParticipantsNum = parseInt(maxParticipants) || 10;
 	$: sessionIdOrUndefined = sessionId || undefined;
 
 	// State
@@ -25,39 +26,54 @@
 	let selectedConversationId: string | null = null;
 	let isInitialized = false;
 
-	// Configure interaction session
-	$: config = {
+	// Create the FULL-FEATURED messaging backend with all capabilities
+	$: backend = createMessagingBackend({
 		embedId,
-		type: 'collaborative' as const,
 		sessionId: sessionIdOrUndefined,
-		maxParticipants: 10,
-		video: enableVideoBool,
-		audio: enableAudioBool,
+		enableVideo: enableVideoBool,
+		enableAudio: enableAudioBool,
+		maxParticipants: maxParticipantsNum,
 		debug: true
-	} satisfies StackLiveInteractionConfig;
+	});
 
-	$: interaction = useStackLiveInteraction(config);
-	$: ({
-		session,
-		participants,
+	// Destructure ALL stores and actions from backend
+	$: ({ 
+		// Stores
+		session, 
+		participants, 
+		messages, 
+		isConnected, 
 		isHost,
-		isConnected,
+		connectionQuality,
+		sessionState,
 		localStream,
 		remoteStreams,
-		start,
-		connect,
-		send,
+		// Actions
+		start, 
+		join, 
+		stop,
+		sendMessage, 
+		sendMedia,
+		sendReaction,
 		getMessages,
-		getLocalUserId
-	} = interaction);
+		createPoll,
+		createQuiz,
+		getPollResults,
+		getQuizResults,
+		toggleVideo,
+		toggleAudio,
+		on,
+		getLocalUserId, 
+		destroy 
+	} = backend);
 
-	// Messages store for current conversation
-	let messages: (ChatMessage | MediaMessage)[] = [];
+	// Local messages for display (synced from backend)
+	let displayMessages: (ChatMessage | MediaMessage)[] = [];
 
 	onMount(async () => {
 		if (sessionIdOrUndefined) {
 			// Join existing session
-			const success = await connect({ role: 'player' });
+			const success = await join(sessionIdOrUndefined);
 			isInitialized = success;
 		} else {
 			// Create new session as host
@@ -68,7 +84,7 @@
 		// Set up message refresh
 		const interval = setInterval(() => {
 			if ($session && selectedConversationId) {
-				messages = getMessages({ limit: 100 });
+				displayMessages = getMessages({ limit: 100 });
 			}
 		}, 1000);
 
@@ -85,7 +101,7 @@
 	});
 
 	onDestroy(() => {
-		interaction.destroy();
+		destroy();
 	});
 
 	function handleSelectConversation(conversationId: string) {
@@ -93,7 +109,7 @@
 		currentView = 'chat';
 		// Load messages for this conversation
 		if ($session) {
-			messages = getMessages({ limit: 100 });
+			displayMessages = getMessages({ limit: 100 });
 		}
 	}
 
@@ -112,19 +128,17 @@
 
 	function handleSendMessage(text: string) {
 		if (!text.trim()) return;
-		send({
-			type: 'chat',
-			payload: text.trim()
-		});
+		sendMessage(text);
+		displayMessages = getMessages({ limit: 100 });
 	}
 
 	function handleSendMedia(mediaUrl: string, mediaType: string, caption?: string) {
-		send({
-			type: 'media',
-			payload: { caption },
-			mediaUrl,
-			mediaType
-		});
+		sendMedia(mediaUrl, mediaType, caption);
+		displayMessages = getMessages({ limit: 100 });
+	}
+
+	function handleReaction(messageId: string, reaction: string) {
+		sendReaction(messageId, reaction);
 	}
 
 	// Get conversation info
@@ -148,7 +162,7 @@
 		/>
 	{:else if currentView === 'chat'}
 		<ChatView
-			{messages}
+			messages={displayMessages}
 			conversationName={conversationName}
 			currentUserId={getLocalUserId()}
 			onBack={handleBackToInbox}

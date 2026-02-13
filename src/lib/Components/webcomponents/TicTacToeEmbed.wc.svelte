@@ -2,8 +2,8 @@
 
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { createMultiplayerTicTacToe } from '$lib/multiplayer/games/MultiplayerTicTacToe';
-  import { createTicTacToeStore } from '$lib/games/tictactoe/store';
+  import { createMultiplayerTicTacToe } from '$lib/backends/multiplayer';
+  import { createTicTacToeStore } from '$lib/backends/games';
   import type { Player } from '$lib/games/tictactoe/engine/types';
 
   // Exposed attributes (all strings for web components)
