@@ -25,6 +25,7 @@
 	import TicTacToe from './pages/TicTacToe.svelte';
 	import TicTacToeMultiplayer from './pages/TicTacToeMultiplayer.svelte';
 	import TicTacToeEmbedDemo from './pages/TicTacToeEmbedDemo.svelte';
+	import RSSReaderDemo from './pages/RSSReaderDemo.svelte';
 
 	// Initialize Vercel analytics
 	inject({ mode: dev ? 'development' : 'production' });
@@ -50,7 +51,8 @@
 		{ path: '/messaging/demo', component: MessagingDemo },
 		{ path: '/tictactoe', component: TicTacToe },
 		{ path: '/tictactoe-multiplayer', component: TicTacToeMultiplayer },
-		{ path: '/tictactoe-embed-demo', component: TicTacToeEmbedDemo }
+		{ path: '/tictactoe-embed-demo', component: TicTacToeEmbedDemo },
+		{ path: '/rss-reader-demo', component: RSSReaderDemo }
 	];
 
 	const router = createRouter(routes);

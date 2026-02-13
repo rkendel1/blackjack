@@ -12,6 +12,7 @@ Or view the demo pages:
 - [Web Components Demo](/webcomponents-demo) - Component showcase and documentation
 - [Messaging Demo](/messaging) - Full messaging app with video calls
 - [AR/VR Demo](/arvr-demo) - Interactive AR/VR control panel
+- [RSS Reader Demo](/rss-reader-demo) - Customizable RSS feed reader
 
 ## Components
 
@@ -73,9 +74,87 @@ A full-featured iMessage-style messaging embed with text chat, media sharing, an
 
 ---
 
+#### 2. `<sl-rss-reader>`
+
+A user-customizable RSS feed reader component with auto-refresh, theming, and various display options.
+
+##### Attributes
+
+- `feed-url` (string): URL of the RSS feed to display. Default: ''
+- `max-items` (string): Maximum number of items to display. Default: '10'
+- `refresh-interval` (string): Auto-refresh interval in milliseconds (0 = disabled). Default: '300000' (5 minutes)
+- `show-images` ('true' | 'false'): Show article images/thumbnails. Default: 'true'
+- `show-description` ('true' | 'false'): Show article descriptions. Default: 'true'
+- `show-date` ('true' | 'false'): Show publication dates. Default: 'true'
+- `theme` (string): Visual theme: 'light' or 'dark'. Default: 'light'
+- `compact` ('true' | 'false'): Use compact layout with less spacing. Default: 'false'
+- `open-in-new-tab` ('true' | 'false'): Open article links in new tab. Default: 'true'
+
+##### Events
+
+- `ready`: Fired when the component is initialized
+  - `detail`: `{ feedUrl: string, maxItems: number }`
+- `feed-loaded`: Fired when feed is successfully loaded
+  - `detail`: `{ feedUrl: string, itemCount: number, feedTitle: string }`
+- `item-clicked`: Fired when a feed item is clicked
+  - `detail`: `{ item: RSSItem }`
+- `error`: Fired when an error occurs loading the feed
+  - `detail`: `{ feedUrl: string, error: string }`
+
+##### Example
+
+```html
+<!-- Basic RSS reader -->
+<sl-rss-reader
+  feed-url="https://hnrss.org/frontpage"
+></sl-rss-reader>
+
+<!-- Customized display -->
+<sl-rss-reader
+  feed-url="https://techcrunch.com/feed/"
+  max-items="5"
+  theme="dark"
+  compact="true"
+  show-images="false"
+></sl-rss-reader>
+
+<!-- With auto-refresh and events -->
+<sl-rss-reader
+  feed-url="https://www.theverge.com/rss/index.xml"
+  refresh-interval="60000"
+  max-items="20"
+></sl-rss-reader>
+
+<script>
+  const reader = document.querySelector('sl-rss-reader');
+  
+  reader.addEventListener('feed-loaded', (e) => {
+    console.log('Loaded', e.detail.itemCount, 'items');
+  });
+  
+  reader.addEventListener('item-clicked', (e) => {
+    console.log('Clicked:', e.detail.item.title);
+  });
+</script>
+```
+
+##### Features
+
+- 📡 RSS Feed Support - Display any RSS feed via CORS proxy
+- 🔄 Auto-Refresh - Automatically update feed at configurable intervals
+- 🎨 Theming - Light and dark theme options
+- 📱 Responsive - Adapts to different screen sizes
+- 🖼️ Image Support - Display article thumbnails and images
+- ⚡ Compact Mode - Space-efficient layout option
+- 🔗 Customizable Links - Control link behavior (new tab, same tab)
+- 📅 Smart Dates - Relative time display (e.g., "2h ago")
+- 🎯 Event-Driven - Custom events for feed loaded, errors, clicks
+
+---
+
 ### AR/VR Components
 
-#### 2. `<sl-arvr-scene>`
+#### 3. `<sl-arvr-scene>`
 
 The main AR/VR scene component that provides a full immersive experience with camera integration, WebXR support, and real-time rendering.
 
@@ -149,7 +228,7 @@ The main AR/VR scene component that provides a full immersive experience with ca
 
 ---
 
-#### 3. `<sl-arvr-avatar>`
+#### 4. `<sl-arvr-avatar>`
 
 A component for displaying 3D avatars with customization options.
 
@@ -191,7 +270,7 @@ A component for displaying 3D avatars with customization options.
 
 ---
 
-#### 4. `<sl-arvr-filter>`
+#### 5. `<sl-arvr-filter>`
 
 A component representing an AR filter that can be applied to faces, bodies, or environments.
 
@@ -230,7 +309,7 @@ A component representing an AR filter that can be applied to faces, bodies, or e
 
 ---
 
-#### 5. `<sl-arvr-spatial>`
+#### 6. `<sl-arvr-spatial>`
 
 A component for interactive 3D objects that can be placed and manipulated in AR/VR space.
 
