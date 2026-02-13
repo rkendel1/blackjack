@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>sl-messaging - Pure JavaScript Example</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+
+		body {
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+			min-height: 100vh;
+			background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			padding: 2rem;
+		}
+
+		.header {
+			text-align: center;
+			color: white;
+			margin-bottom: 2rem;
+		}
+
+		.header h1 {
+			font-size: 2.5rem;
+			margin-bottom: 0.5rem;
+		}
+
+		.header p {
+			font-size: 1.25rem;
+			opacity: 0.9;
+		}
+
+		.controls {
+			background: white;
+			padding: 1.5rem;
+			border-radius: 12px;
+			margin-bottom: 1rem;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			max-width: 500px;
+			width: 100%;
+		}
+
+		.controls h2 {
+			color: #667eea;
+			margin-bottom: 1rem;
+			font-size: 1.25rem;
+		}
+
+		.control-group {
+			margin-bottom: 1rem;
+		}
+
+		.control-group label {
+			display: block;
+			margin-bottom: 0.5rem;
+			font-weight: 600;
+			color: #333;
+		}
+
+		.control-group input,
+		.control-group select {
+			width: 100%;
+			padding: 0.5rem;
+			border: 1px solid #e5e5e5;
+			border-radius: 8px;
+			font-size: 0.9375rem;
+		}
+
+		.control-group button {
+			width: 100%;
+			padding: 0.75rem;
+			background: #007aff;
+			color: white;
+			border: none;
+			border-radius: 8px;
+			cursor: pointer;
+			font-size: 1rem;
+			font-weight: 600;
+			transition: background 0.2s;
+		}
+
+		.control-group button:hover {
+			background: #0051d5;
+		}
+
+		.container {
+			width: 100%;
+			max-width: 500px;
+		}
+
+		#status {
+			background: white;
+			padding: 1rem;
+			border-radius: 8px;
+			margin-top: 1rem;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+		}
+
+		#status h3 {
+			color: #667eea;
+			margin-bottom: 0.5rem;
+		}
+
+		#status pre {
+			background: #f5f5f5;
+			padding: 0.75rem;
+			border-radius: 4px;
+			overflow-x: auto;
+			font-size: 0.875rem;
+		}
+
+		@media (max-width: 768px) {
+			body {
+				padding: 1rem;
+			}
+
+			.header h1 {
+				font-size: 1.75rem;
+			}
+
+			.header p {
+				font-size: 1rem;
+			}
+		}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<h1>💬 sl-messaging</h1>
+		<p>Pure JavaScript Integration</p>
+	</div>
+
+	<div class="controls">
+		<h2>Component Controls</h2>
+		
+		<div class="control-group">
+			<label for="embedId">Embed ID:</label>
+			<input type="text" id="embedId" value="my-messaging-app" />
+		</div>
+
+		<div class="control-group">
+			<label for="sessionId">Session ID (optional):</label>
+			<input type="text" id="sessionId" placeholder="Leave empty for new session" />
+		</div>
+
+		<div class="control-group">
+			<label for="enableVideo">Enable Video:</label>
+			<select id="enableVideo">
+				<option value="true">Yes</option>
+				<option value="false">No</option>
+			</select>
+		</div>
+
+		<div class="control-group">
+			<label for="enableAudio">Enable Audio:</label>
+			<select id="enableAudio">
+				<option value="true">Yes</option>
+				<option value="false">No</option>
+			</select>
+		</div>
+
+		<div class="control-group">
+			<button onclick="createComponent()">Create Component</button>
+		</div>
+
+		<div class="control-group">
+			<button onclick="destroyComponent()" style="background: #ff3b30;">Destroy Component</button>
+		</div>
+	</div>
+
+	<div class="container" id="component-container">
+		<!-- Component will be inserted here -->
+	</div>
+
+	<div id="status">
+		<h3>Status</h3>
+		<pre id="statusText">Ready to create component...</pre>
+	</div>
+
+	<!-- Load the compiled bundle -->
+	<script src="/build/bundle.js"></script>
+	
+	<script>
+		let componentInstance = null;
+
+		// Create the component
+		function createComponent() {
+			// Remove existing component if any
+			destroyComponent();
+
+			// Get values from inputs
+			const embedId = document.getElementById('embedId').value;
+			const sessionId = document.getElementById('sessionId').value;
+			const enableVideo = document.getElementById('enableVideo').value;
+			const enableAudio = document.getElementById('enableAudio').value;
+
+			// Create the component
+			const messaging = document.createElement('sl-messaging');
+			messaging.setAttribute('embedId', embedId);
+			messaging.setAttribute('sessionId', sessionId);
+			messaging.setAttribute('enableVideo', enableVideo);
+			messaging.setAttribute('enableAudio', enableAudio);
+
+			// Listen for ready event
+			messaging.addEventListener('ready', (event) => {
+				updateStatus('Component ready!\n' + JSON.stringify(event.detail, null, 2));
+			});
+
+			// Add to DOM
+			const container = document.getElementById('component-container');
+			container.appendChild(messaging);
+			componentInstance = messaging;
+
+			updateStatus('Component created with:\n' + JSON.stringify({
+				embedId,
+				sessionId: sessionId || '(auto-generated)',
+				enableVideo,
+				enableAudio
+			}, null, 2));
+		}
+
+		// Destroy the component
+		function destroyComponent() {
+			const container = document.getElementById('component-container');
+			if (container && container.firstChild) {
+				container.removeChild(container.firstChild);
+				componentInstance = null;
+				updateStatus('Component destroyed');
+			}
+		}
+
+		// Update status display
+		function updateStatus(text) {
+			document.getElementById('statusText').textContent = text;
+		}
+
+		// Demonstrate updating attributes
+		function updateAttribute(name, value) {
+			if (componentInstance) {
+				componentInstance.setAttribute(name, value);
+				updateStatus(`Updated ${name} to: ${value}`);
+			}
+		}
+
+		// Create component on load
+		document.addEventListener('DOMContentLoaded', () => {
+			// Auto-create component
+			createComponent();
+		});
+	</script>
+</body>
+</html>

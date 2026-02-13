@@ -17,9 +17,9 @@
 			featured: true
 		},
 		{
-			name: '💬 Messaging Demo',
-			path: '/messaging/demo',
-			description: 'StackLive Messaging with video calls, chat & media sharing',
+			name: '💬 sl-messaging',
+			path: '/messaging',
+			description: 'Minimal messaging web component - drop-in ready',
 			status: 'ready',
 			featured: true
 		},

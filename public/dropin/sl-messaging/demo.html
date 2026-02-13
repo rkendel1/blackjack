@@ -157,18 +157,19 @@ enableAudio  - Enable audio features ("true"/"false")</code></pre>
 		</div>
 	</div>
 
+	<!-- Load the compiled bundle from the build directory -->
+	<script src="/build/bundle.js"></script>
+	
 	<script>
-		// This would normally load the compiled component bundle
-		// For development, you need to build the component first
-		console.log('sl-messaging demo loaded');
-		
 		// Listen for component ready event
-		const messaging = document.querySelector('sl-messaging');
-		if (messaging) {
-			messaging.addEventListener('ready', (event) => {
-				console.log('Messaging component ready:', event.detail);
-			});
-		}
+		document.addEventListener('DOMContentLoaded', () => {
+			const messaging = document.querySelector('sl-messaging');
+			if (messaging) {
+				messaging.addEventListener('ready', (event) => {
+					console.log('Messaging component ready:', event.detail);
+				});
+			}
+		});
 	</script>
 </body>
 </html>
