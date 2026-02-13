@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { createTicTacToeStore } from '$lib/games/tictactoe/store';
+  import { createTicTacToeStore } from '$lib/adapters/createTicTacToeStore';
   import type { Player } from '$lib/games/tictactoe/engine/types';
 
   let enableBot = true;
