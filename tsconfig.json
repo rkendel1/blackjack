@@ -15,8 +15,8 @@
 		"types": ["svelte", "@types/webxr"],
 		"baseUrl": ".",
 		"paths": {
-			"$lib": ["src/lib"],
-			"$lib/*": ["src/lib/*"]
+			"$frontend": ["src/frontend"],
+			"$frontend/*": ["src/frontend/*"]
 		}
 	},
 	"include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"],

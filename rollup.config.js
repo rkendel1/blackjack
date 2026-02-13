@@ -115,7 +115,7 @@ if (typeof process === 'undefined') {
 }
 
 export default {
-	input: 'src/main.ts',
+	input: 'src/frontend/main.ts',
 	output: {
 		sourcemap: true,
 		format: 'iife',
@@ -125,7 +125,7 @@ export default {
 	plugins: [
 		alias({
 			entries: [
-				{ find: '$lib', replacement: path.resolve(__dirname, 'src/lib') }
+				{ find: '$frontend', replacement: path.resolve(__dirname, 'src/frontend') }
 			]
 		}),
 		rawPlugin(),
