@@ -2,6 +2,32 @@
 
 A collection of classic card games built with Svelte 4, optimized for mobile-first design. Play against bots in various popular card games!
 
+## 🎯 NEW: Backend Separation Architecture
+
+This project now features a **complete separation layer** between TypeScript backend infrastructure and frontend components:
+
+- **🔧 Backends** (`src/lib/backends/`) - Full-featured TypeScript infrastructure
+  - Messaging (complete StackLive integration)
+  - Games (all game engines + adapters)
+  - Multiplayer (WebRTC, sessions, peer management)
+  - AR/VR (avatars, filters, gestures)
+  
+- **🎨 Frontends** (`src/lib/Components/`) - Highly configurable UI components
+  - Messaging components (ChatView, ConversationList, VideoCallPanel)
+  - Game components
+  - Web components (thin wrappers connecting backend + frontend)
+
+**Key Benefits:**
+- ✅ 100% Full-featured - nothing simplified
+- ✅ Clean separation - backend logic vs UI presentation
+- ✅ Highly reusable - backends work in any framework
+- ✅ Type-safe - complete TypeScript support
+- ✅ Drop-in ready - web components for any website
+
+**See:** [`BACKEND_ARCHITECTURE.md`](./BACKEND_ARCHITECTURE.md) | [`BACKEND_SEPARATION_EXAMPLES.md`](./BACKEND_SEPARATION_EXAMPLES.md)
+
+---
+
 ![Card Games Collection](https://github.com/user-attachments/assets/97e37f51-598a-45ed-898c-882e13901032)
 
 ## 🎮 Available Games
