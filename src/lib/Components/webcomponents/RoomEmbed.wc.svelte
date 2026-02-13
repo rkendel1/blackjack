@@ -2,9 +2,9 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { useStackLiveInteraction } from '$lib/multiplayer/useStackLiveInteraction';
-	import type { StackLiveInteractionConfig } from '$lib/multiplayer/useStackLiveInteraction';
-	import type { ChatMessage, MediaMessage, Participant } from '$lib/multiplayer/types';
+	import { useStackLiveInteraction } from '$lib/backends/multiplayer';
+	import type { StackLiveInteractionConfig } from '$lib/backends/multiplayer';
+	import type { ChatMessage, MediaMessage, Participant } from '$lib/backends/multiplayer';
 
 	// Exposed attributes (all strings for web components)
 	export let embedId: string = 'room';

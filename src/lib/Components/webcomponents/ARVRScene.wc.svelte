@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { useStackLiveARVR } from '$lib/multiplayer/useStackLiveARVR';
+	import { useStackLiveARVR } from '$lib/backends/arvr';
 
 	// Exposed attributes
 	export let userId: string = '';
@@ -35,7 +35,7 @@
 			sessionId = `session-${Date.now()}`;
 		}
 
-		// Initialize AR/VR hook
+		// Initialize AR/VR hook using backend
 		arvr = useStackLiveARVR(userId, sessionId);
 
 		// Request camera access
