@@ -21,7 +21,6 @@
 	import ARVRDemo from './pages/ARVRDemo.svelte';
 	import WebComponentsDemo from './pages/WebComponentsDemo.svelte';
 	import Messaging from './pages/Messaging.svelte';
-	import MessagingDemo from './pages/MessagingDemo.svelte';
 	import TicTacToe from './pages/TicTacToe.svelte';
 	import TicTacToeMultiplayer from './pages/TicTacToeMultiplayer.svelte';
 	import TicTacToeEmbedDemo from './pages/TicTacToeEmbedDemo.svelte';
@@ -52,7 +51,6 @@
 		{ path: '/arvr-demo', component: ARVRDemo },
 		{ path: '/webcomponents-demo', component: WebComponentsDemo },
 		{ path: '/messaging', component: Messaging },
-		{ path: '/messaging/demo', component: MessagingDemo },
 		{ path: '/tictactoe', component: TicTacToe },
 		{ path: '/tictactoe-multiplayer', component: TicTacToeMultiplayer },
 		{ path: '/tictactoe-embed-demo', component: TicTacToeEmbedDemo },
