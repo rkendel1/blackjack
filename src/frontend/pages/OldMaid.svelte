@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createOldMaidStore } from '$lib/adapters/createOldMaidStore';
+	import { createOldMaidStore } from '../../backend/adapters/createOldMaidStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/Card.svelte';
 	import Button from '$frontend/components/Button.svelte';

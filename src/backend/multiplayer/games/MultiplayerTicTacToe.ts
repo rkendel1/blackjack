@@ -3,8 +3,8 @@
  * Integrates TicTacToe engine with multiplayer runtime
  */
 
-import { TicTacToeEngine } from '$lib/games/tictactoe/engine/TicTacToeEngine';
-import type { TicTacToeState, TicTacToeMove, Player } from '$lib/games/tictactoe/engine/types';
+import { TicTacToeEngine } from '../../games/tictactoe/engine/TicTacToeEngine';
+import type { TicTacToeState, TicTacToeMove, Player } from '../../games/tictactoe/engine/types';
 import { useStackLiveMultiplayer } from '../useStackLiveMultiplayer';
 import { GameStateSyncManager, GameSyncMessageAdapter } from '../GameStateSyncManager';
 import type { MultiplayerConfig } from '../types';

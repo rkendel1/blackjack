@@ -1,7 +1,7 @@
 import { writable, derived, get } from 'svelte/store';
-import { Deck } from '$lib/shared/deck';
-import type { Card, Rank, Suit } from '$lib/shared/deck';
-import { BasePlayer, BotPlayer } from '$lib/shared/player';
+import { Deck } from '../../shared/deck';
+import type { Card, Rank, Suit } from '../../shared/deck';
+import { BasePlayer, BotPlayer } from '../../shared/player';
 
 export class CrazyEightsPlayer extends BasePlayer {
 	canPlayCard(card: Card, topCard: Card, currentSuit: Suit | null): boolean {

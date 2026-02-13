@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createPokerStore } from '$lib/adapters/createPokerStore';
+	import { createPokerStore } from '../../backend/adapters/createPokerStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/SolitaireCard.svelte';
 	import Button from '$frontend/components/Button.svelte';

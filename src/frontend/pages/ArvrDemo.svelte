@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import ARVRControlPanel from '$frontend/components/ARVRControlPanel.svelte';
-	import { useStackLiveARVR } from '$lib/multiplayer';
+	import { useStackLiveARVR } from '../../backend/multiplayer';
 
 	let videoElement: HTMLVideoElement;
 	let cameraStream: MediaStream | null = null;
@@ -113,7 +113,7 @@
 		</p>
 
 		<h3>Quick Start</h3>
-		<pre><code>{`import { useStackLiveARVR } from '$lib/multiplayer';
+		<pre><code>{`import { useStackLiveARVR } from '../../backend/multiplayer';
 
 const arvr = useStackLiveARVR(userId, sessionId);
 

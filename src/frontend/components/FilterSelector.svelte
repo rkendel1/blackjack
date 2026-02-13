@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { FilterPreset } from '$lib/multiplayer/types';
+	import type { FilterPreset } from '../../backend/multiplayer/types';
 
 	export let presets: FilterPreset[] = [];
 	export let selectedFilterId: string | null = null;

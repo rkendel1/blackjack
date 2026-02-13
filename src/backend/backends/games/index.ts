@@ -15,34 +15,34 @@
  */
 
 // Card Games
-export { createBlackjackStore } from '$lib/adapters/createBlackjackStore';
-export { createPokerStore } from '$lib/adapters/createPokerStore';
-export { createTexasHoldemStore } from '$lib/adapters/createTexasHoldemStore';
-export { createGoFishStore } from '$lib/adapters/createGoFishStore';
-export { createOldMaidStore } from '$lib/adapters/createOldMaidStore';
-export { createCrazyEightsStore } from '$lib/adapters/createCrazyEightsStore';
-export { createWarStore } from '$lib/adapters/createWarStore';
+export { createBlackjackStore } from '../../adapters/createBlackjackStore';
+export { createPokerStore } from '../../adapters/createPokerStore';
+export { createTexasHoldemStore } from '../../adapters/createTexasHoldemStore';
+export { createGoFishStore } from '../../adapters/createGoFishStore';
+export { createOldMaidStore } from '../../adapters/createOldMaidStore';
+export { createCrazyEightsStore } from '../../adapters/createCrazyEightsStore';
+export { createWarStore } from '../../adapters/createWarStore';
 
 // Solitaire Games
-export { createKlondikeStore } from '$lib/adapters/createKlondikeStore';
-export { createSpiderStore } from '$lib/adapters/createSpiderStore';
-export { createFreeCellStore } from '$lib/adapters/createFreeCellStore';
+export { createKlondikeStore } from '../../adapters/createKlondikeStore';
+export { createSpiderStore } from '../../adapters/createSpiderStore';
+export { createFreeCellStore } from '../../adapters/createFreeCellStore';
 
 // Board Games
-export { createTicTacToeStore } from '$lib/adapters/createTicTacToeStore';
+export { createTicTacToeStore } from '../../adapters/createTicTacToeStore';
 
 /**
  * Re-export game engines for direct access
  * Use these if you want to implement your own adapter layer
  */
-export { BlackjackEngine } from '$lib/games/blackjack/engine';
-export { PokerEngine } from '$lib/games/poker/engine';
-export { TexasHoldemEngine } from '$lib/games/texas-holdem/engine';
-export { GoFishEngine } from '$lib/games/go-fish/engine';
-export { OldMaidEngine } from '$lib/games/old-maid/engine';
-export { CrazyEightsEngine } from '$lib/games/crazy-eights/engine';
-export { WarEngine } from '$lib/games/war/engine/WarEngine';
-export { KlondikeEngine } from '$lib/games/solitaire/klondike/engine';
-export { SpiderEngine } from '$lib/games/solitaire/spider/engine';
-export { FreeCellEngine } from '$lib/games/solitaire/freecell/engine';
-export { TicTacToeEngine } from '$lib/games/tictactoe/engine/TicTacToeEngine';
+export { BlackjackEngine } from '../../games/blackjack/engine';
+export { PokerEngine } from '../../games/poker/engine';
+export { TexasHoldemEngine } from '../../games/texas-holdem/engine';
+export { GoFishEngine } from '../../games/go-fish/engine';
+export { OldMaidEngine } from '../../games/old-maid/engine';
+export { CrazyEightsEngine } from '../../games/crazy-eights/engine';
+export { WarEngine } from '../../games/war/engine/WarEngine';
+export { KlondikeEngine } from '../../games/solitaire/klondike/engine';
+export { SpiderEngine } from '../../games/solitaire/spider/engine';
+export { FreeCellEngine } from '../../games/solitaire/freecell/engine';
+export { TicTacToeEngine } from '../../games/tictactoe/engine/TicTacToeEngine';

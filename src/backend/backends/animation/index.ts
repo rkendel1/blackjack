@@ -5,4 +5,4 @@
  * These can be used for card animations, transitions, and effects.
  */
 
-export * from '$lib/animation';
+export * from '../../animation';

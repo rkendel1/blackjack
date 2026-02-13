@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../global.css';
-	import audioPath from '$lib/assets/draw.mp3';
-	import { createBlackjackStore } from '$lib/adapters/createBlackjackStore';
+	import audioPath from '../../backend/assets/draw.mp3';
+	import { createBlackjackStore } from '../../backend/adapters/createBlackjackStore';
 
 	import GameControlls from '$frontend/components/GameControlls.svelte';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';

@@ -5,4 +5,4 @@
  * These are framework-agnostic utilities that can be used anywhere.
  */
 
-export * from '$lib/utils/browser';
+export * from '../../utils/browser';

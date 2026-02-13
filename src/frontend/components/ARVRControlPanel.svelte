@@ -1,9 +1,9 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { useStackLiveARVR } from '$lib/multiplayer/useStackLiveARVR';
+	import { useStackLiveARVR } from '../../backend/multiplayer/useStackLiveARVR';
 	import AvatarEmbed from './AvatarEmbed.svelte';
 	import FilterSelector from './FilterSelector.svelte';
-	import type { AvatarMessage, GestureMessage } from '$lib/multiplayer/types';
+	import type { AvatarMessage, GestureMessage } from '../../backend/multiplayer/types';
 
 	export let userId: string;
 	export let sessionId: string | undefined = undefined;

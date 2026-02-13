@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Card } from '$lib/shared/deck';
+	import type { Card } from '../../backend/shared/deck';
 
 	export let card: Card;
 	export let faceUp: boolean = true;

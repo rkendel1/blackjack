@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createTexasHoldemStore } from '$lib/adapters/createTexasHoldemStore';
+	import { createTexasHoldemStore } from '../../backend/adapters/createTexasHoldemStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/SolitaireCard.svelte';
 	import Button from '$frontend/components/Button.svelte';

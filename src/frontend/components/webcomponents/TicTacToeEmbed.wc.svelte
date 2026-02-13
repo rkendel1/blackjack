@@ -2,9 +2,9 @@
 
 <script lang="ts">
   import { onMount, onDestroy } from 'svelte';
-  import { createMultiplayerTicTacToe } from '$lib/backends/multiplayer';
-  import { createTicTacToeStore } from '$lib/backends/games';
-  import type { Player } from '$lib/games/tictactoe/engine/types';
+  import { createMultiplayerTicTacToe } from '../../../backend/backends/multiplayer';
+  import { createTicTacToeStore } from '../../../backend/backends/games';
+  import type { Player } from '../../../backend/games/tictactoe/engine/types';
 
   // Exposed attributes (all strings for web components)
   export let sessionId: string = '';

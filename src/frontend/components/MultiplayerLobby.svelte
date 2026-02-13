@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { useStackLiveMultiplayer } from '$lib/multiplayer';
-	import type { MultiplayerConfig } from '$lib/multiplayer';
+	import { useStackLiveMultiplayer } from '../../backend/multiplayer';
+	import type { MultiplayerConfig } from '../../backend/multiplayer';
 
 	export let gameId: string;
 	export let maxPlayers = 4;

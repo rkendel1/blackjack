@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Participant, Session } from '$lib/multiplayer/types';
+	import type { Participant, Session } from '../../../backend/multiplayer/types';
 
 	export let participants: Participant[];
 	export let sessionInfo: Session | null;

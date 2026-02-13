@@ -1,8 +1,8 @@
 import { writable, derived, get } from 'svelte/store';
-import { Deck } from '$lib/shared/deck';
-import type { Card } from '$lib/shared/deck';
-import { BasePlayer, BotPlayer } from '$lib/shared/player';
-import { getBestHand, type HandEvaluation } from '$lib/games/shared/poker-hands';
+import { Deck } from '../../shared/deck';
+import type { Card } from '../../shared/deck';
+import { BasePlayer, BotPlayer } from '../../shared/player';
+import { getBestHand, type HandEvaluation } from '../shared/poker-hands';
 
 export type GamePhase = 'setup' | 'pre-flop' | 'flop' | 'turn' | 'river' | 'showdown' | 'ended';
 export type PlayerAction = 'fold' | 'check' | 'call' | 'raise' | 'all-in';

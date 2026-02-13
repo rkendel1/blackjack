@@ -1,5 +1,5 @@
 <script lang="ts">
-	import cardsSVG from '$lib/assets/cards.svg?raw';
+	import cardsSVG from '../../backend/assets/cards.svg?raw';
 </script>
 
 <!-- renders raw cards svg content for later use in other components -->

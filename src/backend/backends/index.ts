@@ -11,9 +11,9 @@
  * 
  * Usage in TypeScript/Svelte projects:
  * ```typescript
- * import { createMessagingBackend } from '$lib/backends/messaging';
- * import { createBlackjackStore } from '$lib/backends/games';
- * import { useStackLiveMultiplayer } from '$lib/backends/multiplayer';
+ * import { createMessagingBackend } from './messaging';
+ * import { createBlackjackStore } from './games';
+ * import { useStackLiveMultiplayer } from './multiplayer';
  * ```
  * 
  * Usage in standalone JavaScript:

@@ -14,38 +14,38 @@
  */
 
 // Core multiplayer hooks
-export { useStackLiveMultiplayer } from '$lib/multiplayer/useStackLiveMultiplayer';
-export { useStackLiveInteraction } from '$lib/multiplayer/useStackLiveInteraction';
-export { useStackLiveARVR } from '$lib/multiplayer/useStackLiveARVR';
+export { useStackLiveMultiplayer } from '../../multiplayer/useStackLiveMultiplayer';
+export { useStackLiveInteraction } from '../../multiplayer/useStackLiveInteraction';
+export { useStackLiveARVR } from '../../multiplayer/useStackLiveARVR';
 
 // Multiplayer game implementations
-export { createMultiplayerBlackjack } from '$lib/multiplayer/games/MultiplayerBlackjack';
-export { createMultiplayerTicTacToe } from '$lib/multiplayer/games/MultiplayerTicTacToe';
+export { createMultiplayerBlackjack } from '../../multiplayer/games/MultiplayerBlackjack';
+export { createMultiplayerTicTacToe } from '../../multiplayer/games/MultiplayerTicTacToe';
 
 // Core runtime and managers
-export { StackLiveMultiplayerRuntime } from '$lib/multiplayer/StackLiveMultiplayerRuntime';
-export { SessionManager } from '$lib/multiplayer/SessionManager';
-export { PeerConnectionManager } from '$lib/multiplayer/PeerConnectionManager';
-export { MediaStreamManager } from '$lib/multiplayer/MediaStreamManager';
-export { InteractionManager } from '$lib/multiplayer/InteractionManager';
+export { StackLiveMultiplayerRuntime } from '../../multiplayer/StackLiveMultiplayerRuntime';
+export { SessionManager } from '../../multiplayer/SessionManager';
+export { PeerConnectionManager } from '../../multiplayer/PeerConnectionManager';
+export { MediaStreamManager } from '../../multiplayer/MediaStreamManager';
+export { InteractionManager } from '../../multiplayer/InteractionManager';
 
 // Specialized managers
-export { ARVRManager } from '$lib/multiplayer/ARVRManager';
-export { AvatarManager } from '$lib/multiplayer/AvatarManager';
-export { FilterManager } from '$lib/multiplayer/FilterManager';
-export { GestureDetector } from '$lib/multiplayer/GestureDetector';
-export { SpatialInteractionManager } from '$lib/multiplayer/SpatialInteractionManager';
-export { GameStateSyncManager } from '$lib/multiplayer/GameStateSyncManager';
-export { MatchmakingManager } from '$lib/multiplayer/MatchmakingManager';
-export { LatencyManager } from '$lib/multiplayer/LatencyManager';
-export { AbusePreventionManager } from '$lib/multiplayer/AbusePreventionManager';
-export { URLJoinManager } from '$lib/multiplayer/URLJoinManager';
+export { ARVRManager } from '../../multiplayer/ARVRManager';
+export { AvatarManager } from '../../multiplayer/AvatarManager';
+export { FilterManager } from '../../multiplayer/FilterManager';
+export { GestureDetector } from '../../multiplayer/GestureDetector';
+export { SpatialInteractionManager } from '../../multiplayer/SpatialInteractionManager';
+export { GameStateSyncManager } from '../../multiplayer/GameStateSyncManager';
+export { MatchmakingManager } from '../../multiplayer/MatchmakingManager';
+export { LatencyManager } from '../../multiplayer/LatencyManager';
+export { AbusePreventionManager } from '../../multiplayer/AbusePreventionManager';
+export { URLJoinManager } from '../../multiplayer/URLJoinManager';
 
 // Convex integration
-export * from '$lib/multiplayer/convex';
+export * from '../../multiplayer/convex';
 
 // Types
-export type * from '$lib/multiplayer/types';
-export type { StackLiveMultiplayerConfig } from '$lib/multiplayer/useStackLiveMultiplayer';
-export type { StackLiveInteractionConfig, StackLiveInteractionSession } from '$lib/multiplayer/useStackLiveInteraction';
-export type { MediaStreamConfig } from '$lib/multiplayer/MediaStreamManager';
+export type * from '../../multiplayer/types';
+export type { StackLiveMultiplayerConfig } from '../../multiplayer/useStackLiveMultiplayer';
+export type { StackLiveInteractionConfig, StackLiveInteractionSession } from '../../multiplayer/useStackLiveInteraction';
+export type { MediaStreamConfig } from '../../multiplayer/MediaStreamManager';

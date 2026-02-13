@@ -3,8 +3,8 @@
  * Integrates Blackjack engine with multiplayer runtime
  */
 
-import { BlackjackEngine } from '$lib/games/blackjack/engine';
-import type { BlackjackState, BlackjackMove } from '$lib/games/blackjack/engine';
+import { BlackjackEngine } from '../../games/blackjack/engine';
+import type { BlackjackState, BlackjackMove } from '../../games/blackjack/engine';
 import { useStackLiveMultiplayer } from '../useStackLiveMultiplayer';
 import { GameStateSyncManager, GameSyncMessageAdapter } from '../GameStateSyncManager';
 import type { MultiplayerConfig } from '../types';

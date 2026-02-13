@@ -1,7 +1,7 @@
 import { writable, derived, get } from 'svelte/store';
-import { Deck } from '$lib/shared/deck';
-import type { Card } from '$lib/shared/deck';
-import { BasePlayer } from '$lib/shared/player';
+import { Deck } from '../../shared/deck';
+import type { Card } from '../../shared/deck';
+import { BasePlayer } from '../../shared/player';
 import { tick } from 'svelte';
 
 const SCORES: Record<string, number> = {

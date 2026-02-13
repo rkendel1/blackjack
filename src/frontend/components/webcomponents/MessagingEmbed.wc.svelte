@@ -2,8 +2,8 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { createMessagingBackend } from '$lib/backends/messaging';
-	import type { ChatMessage, MediaMessage } from '$lib/multiplayer/types';
+	import { createMessagingBackend } from '../../../backend/backends/messaging';
+	import type { ChatMessage, MediaMessage } from '../../../backend/multiplayer/types';
 	import ConversationList from '../messaging/ConversationList.svelte';
 	import ChatView from '../messaging/ChatView.svelte';
 	import VideoCallPanel from '../messaging/VideoCallPanel.svelte';

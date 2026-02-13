@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createGoFishStore } from '$lib/adapters/createGoFishStore';
+	import { createGoFishStore } from '../../backend/adapters/createGoFishStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/Card.svelte';
 	import Button from '$frontend/components/Button.svelte';
@@ -8,7 +8,7 @@
 	const game = createGoFishStore();
 	const { player, bot, deck, gameState, message, lastAction, start, askForRank } = game;
 
-	import type { Rank } from '$lib/shared/deck';
+	import type { Rank } from '../../backend/shared/deck';
 
 	function handleRankClick(rank: Rank) {
 		if ($gameState === 'player-turn') {

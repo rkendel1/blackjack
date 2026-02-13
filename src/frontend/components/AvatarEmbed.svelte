@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import type { AvatarMessage } from '$lib/multiplayer/types';
+	import type { AvatarMessage } from '../../backend/multiplayer/types';
 
 	export let avatar: AvatarMessage;
 	export let width = 300;

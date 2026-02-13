@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { Turn, Winner } from '$lib/games/blackjack/store';
+	import type { Turn, Winner } from '../../backend/games/blackjack/store';
 	import Button from './Button.svelte';
 
 	export let winner: Winner;

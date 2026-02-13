@@ -1,4 +1,4 @@
-import type { Card, Rank, Suit } from '$lib/shared/deck';
+import type { Card, Rank, Suit } from '../../shared/deck';
 
 export type HandRank =
 	| 'high-card'

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createSpiderStore } from '$lib/adapters/createSpiderStore';
+	import { createSpiderStore } from '../../backend/adapters/createSpiderStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/SolitaireCard.svelte';
 	import Button from '$frontend/components/Button.svelte';

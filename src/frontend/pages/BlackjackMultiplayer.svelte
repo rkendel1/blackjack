@@ -1,7 +1,7 @@
 <script lang="ts">
 	import '../global.css';
-	import audioPath from '$lib/assets/draw.mp3';
-	import { createMultiplayerBlackjack } from '$lib/multiplayer/games/MultiplayerBlackjack';
+	import audioPath from '../../backend/assets/draw.mp3';
+	import { createMultiplayerBlackjack } from '../../backend/multiplayer/games/MultiplayerBlackjack';
 	import { onMount } from 'svelte';
 
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';

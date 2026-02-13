@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { inject } from '@vercel/analytics';
-	import { dev } from '$lib/utils/browser';
-	import { createRouter } from '$lib/router';
+	import { dev } from '../backend/utils/browser';
+	import { createRouter } from '../backend/router';
 
 	// Import all page components
 	import Home from './pages/Home.svelte';

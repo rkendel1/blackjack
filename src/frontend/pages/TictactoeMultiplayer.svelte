@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from 'svelte';
-  import { createMultiplayerTicTacToe } from '$lib/multiplayer/games/MultiplayerTicTacToe';
+  import { createMultiplayerTicTacToe } from '../../backend/multiplayer/games/MultiplayerTicTacToe';
 
   // Get session ID from URL if joining an existing game
   let sessionId: string | undefined;

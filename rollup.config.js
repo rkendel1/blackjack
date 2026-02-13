@@ -125,7 +125,6 @@ export default {
 	plugins: [
 		alias({
 			entries: [
-				{ find: '$lib', replacement: path.resolve(__dirname, 'src/backend') },
 				{ find: '$frontend', replacement: path.resolve(__dirname, 'src/frontend') }
 			]
 		}),

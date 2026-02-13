@@ -1,5 +1,5 @@
 <script>
-	import Landscape from '$lib/assets/landscape.svg?raw';
+	import Landscape from '../../backend/assets/landscape.svg?raw';
 </script>
 
 <section>

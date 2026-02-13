@@ -1,6 +1,6 @@
 import { writable, derived, get } from 'svelte/store';
-import { buildDeck, shuffleDeck } from '$lib/shared/deck';
-import type { Card, Suit, Rank } from '$lib/shared/deck';
+import { buildDeck, shuffleDeck } from '../../../shared/deck';
+import type { Card, Suit, Rank } from '../../../shared/deck';
 
 export type Pile = Card[];
 

@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createFreeCellStore } from '$lib/adapters/createFreeCellStore';
+	import { createFreeCellStore } from '../../backend/adapters/createFreeCellStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/SolitaireCard.svelte';
 	import Button from '$frontend/components/Button.svelte';

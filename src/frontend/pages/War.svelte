@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '../global.css';
-	import { createWarStore } from '$lib/adapters/createWarStore';
+	import { createWarStore } from '../../backend/adapters/createWarStore';
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Card from '$frontend/components/Card.svelte';
 	import Button from '$frontend/components/Button.svelte';

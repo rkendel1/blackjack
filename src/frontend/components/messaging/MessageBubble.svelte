@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ChatMessage, MediaMessage } from '$lib/multiplayer/types';
+	import type { ChatMessage, MediaMessage } from '../../../backend/multiplayer/types';
 
 	export let message: ChatMessage | MediaMessage;
 	export let isSent: boolean;

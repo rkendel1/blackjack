@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { flyAndFlip } from '$lib/animation';
+	import { flyAndFlip } from '../../backend/animation';
 
 	export let name: string;
 </script>

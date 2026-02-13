@@ -1,7 +1,7 @@
 import { writable, get } from 'svelte/store';
-import { Deck } from '$lib/shared/deck';
-import type { Card, Rank } from '$lib/shared/deck';
-import { BasePlayer, BotPlayer } from '$lib/shared/player';
+import { Deck } from '../../shared/deck';
+import type { Card, Rank } from '../../shared/deck';
+import { BasePlayer, BotPlayer } from '../../shared/player';
 
 const RANK_VALUES: Record<Rank, number> = {
 	'1': 14, // Ace is highest
