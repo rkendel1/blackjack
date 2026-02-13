@@ -13,6 +13,7 @@ Or view the demo pages:
 - [Room Demo](/room-demo) - Persistent work room with messaging and presence
 - [Messaging Demo](/messaging) - Full messaging app with video calls
 - [AR/VR Demo](/arvr-demo) - Interactive AR/VR control panel
+- [RSS Reader Demo](/rss-reader-demo) - Customizable RSS feed reader
 
 ## Components
 
@@ -74,6 +75,34 @@ A full-featured iMessage-style messaging embed with text chat, media sharing, an
 
 ---
 
+<<<<<<< copilot/add-user-customizable-rss-reader
+#### 2. `<sl-rss-reader>`
+
+A user-customizable RSS feed reader component with auto-refresh, theming, and various display options.
+
+##### Attributes
+
+- `feed-url` (string): URL of the RSS feed to display. Default: ''
+- `max-items` (string): Maximum number of items to display. Default: '10'
+- `refresh-interval` (string): Auto-refresh interval in milliseconds (0 = disabled). Default: '300000' (5 minutes)
+- `show-images` ('true' | 'false'): Show article images/thumbnails. Default: 'true'
+- `show-description` ('true' | 'false'): Show article descriptions. Default: 'true'
+- `show-date` ('true' | 'false'): Show publication dates. Default: 'true'
+- `theme` (string): Visual theme: 'light' or 'dark'. Default: 'light'
+- `compact` ('true' | 'false'): Use compact layout with less spacing. Default: 'false'
+- `open-in-new-tab` ('true' | 'false'): Open article links in new tab. Default: 'true'
+
+##### Events
+
+- `ready`: Fired when the component is initialized
+  - `detail`: `{ feedUrl: string, maxItems: number }`
+- `feed-loaded`: Fired when feed is successfully loaded
+  - `detail`: `{ feedUrl: string, itemCount: number, feedTitle: string }`
+- `item-clicked`: Fired when a feed item is clicked
+  - `detail`: `{ item: RSSItem }`
+- `error`: Fired when an error occurs loading the feed
+  - `detail`: `{ feedUrl: string, error: string }`
+=======
 #### 2. `<sl-room>`
 
 A persistent collaborative work room with ambient presence, messaging, shouts, smoke signals, and role-based membership.
@@ -100,10 +129,44 @@ A persistent collaborative work room with ambient presence, messaging, shouts, s
 
 - `ready`: Fired when the room is initialized and connected
   - `detail`: `{ embedId: string, sessionId: string, roomName: string }`
+>>>>>>> main
 
 ##### Example
 
 ```html
+<<<<<<< copilot/add-user-customizable-rss-reader
+<!-- Basic RSS reader -->
+<sl-rss-reader
+  feed-url="https://hnrss.org/frontpage"
+></sl-rss-reader>
+
+<!-- Customized display -->
+<sl-rss-reader
+  feed-url="https://techcrunch.com/feed/"
+  max-items="5"
+  theme="dark"
+  compact="true"
+  show-images="false"
+></sl-rss-reader>
+
+<!-- With auto-refresh and events -->
+<sl-rss-reader
+  feed-url="https://www.theverge.com/rss/index.xml"
+  refresh-interval="60000"
+  max-items="20"
+></sl-rss-reader>
+
+<script>
+  const reader = document.querySelector('sl-rss-reader');
+  
+  reader.addEventListener('feed-loaded', (e) => {
+    console.log('Loaded', e.detail.itemCount, 'items');
+  });
+  
+  reader.addEventListener('item-clicked', (e) => {
+    console.log('Clicked:', e.detail.item.title);
+  });
+=======
 <!-- Create a new room -->
 <sl-room
   embedId="my-team-room"
@@ -140,11 +203,23 @@ A persistent collaborative work room with ambient presence, messaging, shouts, s
   // Get room info
   const info = room.getRoomInfo();
   console.log(`Room has ${info.memberCount} members`);
+>>>>>>> main
 </script>
 ```
 
 ##### Features
 
+<<<<<<< copilot/add-user-customizable-rss-reader
+- 📡 RSS Feed Support - Display any RSS feed via CORS proxy
+- 🔄 Auto-Refresh - Automatically update feed at configurable intervals
+- 🎨 Theming - Light and dark theme options
+- 📱 Responsive - Adapts to different screen sizes
+- 🖼️ Image Support - Display article thumbnails and images
+- ⚡ Compact Mode - Space-efficient layout option
+- 🔗 Customizable Links - Control link behavior (new tab, same tab)
+- 📅 Smart Dates - Relative time display (e.g., "2h ago")
+- 🎯 Event-Driven - Custom events for feed loaded, errors, clicks
+=======
 - 💬 **Chat Tab** - Real-time messaging with all room members
 - 👥 **Members Tab** - Ambient presence showing all members with online/offline status
 - 🔊 **Shouts Tab** - Broadcast messages that stand out from regular chat
@@ -152,6 +227,7 @@ A persistent collaborative work room with ambient presence, messaging, shouts, s
 - 🎭 **Role-based Membership** - Host, member, and guest roles with different permissions
 - ⚡ **Quick Actions** - Floating buttons for instant reactions (👋, 👍, 🎉)
 - 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+>>>>>>> main
 
 ---
 
