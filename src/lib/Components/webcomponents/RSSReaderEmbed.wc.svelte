@@ -37,8 +37,11 @@
 	let loading = false;
 	let error: string | null = null;
 	let refreshTimer: number | null = null;
+	let mounted = false;
 
 	onMount(() => {
+		mounted = true;
+
 		// Initial load
 		if (feedUrl) {
 			loadFeed();
@@ -77,8 +80,9 @@
 		error = null;
 
 		try {
-			// Use a CORS proxy for RSS feeds (in production, you'd use your own backend)
-			// For demo purposes, we'll use RSS2JSON API
+			// Use RSS2JSON API as a CORS proxy for demo purposes
+			// NOTE: Free tier limited to 10,000 requests/day. For production, use your own backend proxy.
+			// API docs: https://rss2json.com/docs
 			const proxyUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feedUrl)}`;
 			
 			const response = await fetch(proxyUrl);
@@ -180,8 +184,8 @@
 		);
 	}
 
-	// Watch for feedUrl changes
-	$: if (feedUrl) {
+	// Watch for feedUrl changes after mount to reload feed when URL is updated
+	$: if (mounted && feedUrl) {
 		loadFeed();
 	}
 </script>
