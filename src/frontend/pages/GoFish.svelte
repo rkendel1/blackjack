@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '../global.css';
 	import { createGoFishStore } from '../../backend/adapters/createGoFishStore';
-	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
-	import Card from '$frontend/components/Card.svelte';
+	import CardsDefinitions from '$frontend/games/CardsDefinitions.svelte';
+	import Card from '$frontend/games/Card.svelte';
 	import Button from '$frontend/components/Button.svelte';
 
 	const game = createGoFishStore();

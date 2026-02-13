@@ -1,5 +1,5 @@
 <script>
-	import '$frontend/components/webcomponents/MessagingEmbed.wc.svelte';
+	import '$frontend/messaging/sl-messaging.svelte';
 	import '../global.css';
 
 	// Get session ID from URL if joining an existing session

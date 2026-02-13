@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import ARVRControlPanel from '$frontend/components/ARVRControlPanel.svelte';
+	import ARVRControlPanel from '$frontend/arvr/ARVRControlPanel.svelte';
 	import { useStackLiveARVR } from '../../backend/multiplayer';
 
 	let videoElement: HTMLVideoElement;

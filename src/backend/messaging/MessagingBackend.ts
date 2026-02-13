@@ -18,7 +18,7 @@
  */
 
 import { writable, derived, type Writable } from 'svelte/store';
-import { useStackLiveInteraction, type StackLiveInteractionConfig, type StackLiveInteractionSession } from '../../multiplayer/useStackLiveInteraction';
+import { useStackLiveInteraction, type StackLiveInteractionConfig, type StackLiveInteractionSession } from '../multiplayer/useStackLiveInteraction';
 import type { 
 	Session, 
 	Participant, 
@@ -30,7 +30,7 @@ import type {
 	QuizMessage,
 	PollResponse,
 	QuizResponse
-} from '../../multiplayer/types';
+} from '../multiplayer/types';
 
 export interface MessagingBackendConfig {
 	embedId?: string;

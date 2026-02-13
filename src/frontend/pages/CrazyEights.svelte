@@ -2,8 +2,8 @@
 	import '../global.css';
 	import { createCrazyEightsStore } from '../../backend/adapters/createCrazyEightsStore';
 	import type { Suit } from '../../backend/shared/deck';
-	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
-	import Card from '$frontend/components/Card.svelte';
+	import CardsDefinitions from '$frontend/games/CardsDefinitions.svelte';
+	import Card from '$frontend/games/Card.svelte';
 	import Button from '$frontend/components/Button.svelte';
 
 	const game = createCrazyEightsStore();

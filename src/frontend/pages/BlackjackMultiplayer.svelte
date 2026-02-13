@@ -4,9 +4,9 @@
 	import { createMultiplayerBlackjack } from '../../backend/multiplayer/games/MultiplayerBlackjack';
 	import { onMount } from 'svelte';
 
-	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
-	import Deck from '$frontend/components/Deck.svelte';
-	import Hand from '$frontend/components/Hand.svelte';
+	import CardsDefinitions from '$frontend/games/CardsDefinitions.svelte';
+	import Deck from '$frontend/games/Deck.svelte';
+	import Hand from '$frontend/games/Hand.svelte';
 
 	// Get session ID from URL if joining
 	const sessionId = new URLSearchParams(window.location.search).get('session') || undefined;

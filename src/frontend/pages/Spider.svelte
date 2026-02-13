@@ -1,8 +1,8 @@
 <script lang="ts">
 	import '../global.css';
 	import { createSpiderStore } from '../../backend/adapters/createSpiderStore';
-	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
-	import Card from '$frontend/components/SolitaireCard.svelte';
+	import CardsDefinitions from '$frontend/games/CardsDefinitions.svelte';
+	import Card from '$frontend/games/SolitaireCard.svelte';
 	import Button from '$frontend/components/Button.svelte';
 	import { onMount } from 'svelte';
 
