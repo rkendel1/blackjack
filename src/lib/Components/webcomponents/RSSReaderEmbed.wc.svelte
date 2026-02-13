@@ -142,6 +142,11 @@
 		return imgMatch ? imgMatch[1] : undefined;
 	}
 
+	// Time constants for date formatting
+	const MS_PER_MINUTE = 60000;
+	const MS_PER_HOUR = 3600000;
+	const MS_PER_DAY = 86400000;
+
 	function formatDate(dateString: string): string {
 		if (!dateString) return '';
 		
@@ -149,9 +154,9 @@
 			const date = new Date(dateString);
 			const now = new Date();
 			const diffMs = now.getTime() - date.getTime();
-			const diffMins = Math.floor(diffMs / 60000);
-			const diffHours = Math.floor(diffMs / 3600000);
-			const diffDays = Math.floor(diffMs / 86400000);
+			const diffMins = Math.floor(diffMs / MS_PER_MINUTE);
+			const diffHours = Math.floor(diffMs / MS_PER_HOUR);
+			const diffDays = Math.floor(diffMs / MS_PER_DAY);
 
 			if (diffMins < 1) return 'Just now';
 			if (diffMins < 60) return `${diffMins}m ago`;

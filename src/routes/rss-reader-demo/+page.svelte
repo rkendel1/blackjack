@@ -26,23 +26,26 @@
 	onMount(() => {
 		// Listen for events from the web component
 		const reader = document.querySelector('sl-rss-reader');
-		if (reader) {
-			reader.addEventListener('ready', (e: any) => {
-				console.log('RSS Reader ready:', e.detail);
-			});
-
-			reader.addEventListener('feed-loaded', (e: any) => {
-				console.log('Feed loaded:', e.detail);
-			});
-
-			reader.addEventListener('item-clicked', (e: any) => {
-				console.log('Item clicked:', e.detail);
-			});
-
-			reader.addEventListener('error', (e: any) => {
-				console.error('RSS Reader error:', e.detail);
-			});
+		if (!reader) {
+			console.warn('RSS reader element not found');
+			return;
 		}
+
+		reader.addEventListener('ready', (e: any) => {
+			console.log('RSS Reader ready:', e.detail);
+		});
+
+		reader.addEventListener('feed-loaded', (e: any) => {
+			console.log('Feed loaded:', e.detail);
+		});
+
+		reader.addEventListener('item-clicked', (e: any) => {
+			console.log('Item clicked:', e.detail);
+		});
+
+		reader.addEventListener('error', (e: any) => {
+			console.error('RSS Reader error:', e.detail);
+		});
 	});
 
 	function selectPreset(url: string) {
