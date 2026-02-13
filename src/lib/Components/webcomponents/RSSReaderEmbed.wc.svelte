@@ -233,9 +233,11 @@
 						<div class="item-content">
 							<h3 class="item-title">{item.title}</h3>
 							{#if showDescriptionBool && item.description}
+								{@const plainDescription = stripHtml(item.description)}
+								{@const maxLength = compactBool ? 100 : 200}
 								<p class="item-description">
-									{stripHtml(item.description).substring(0, compactBool ? 100 : 200)}
-									{stripHtml(item.description).length > (compactBool ? 100 : 200) ? '...' : ''}
+									{plainDescription.substring(0, maxLength)}
+									{plainDescription.length > maxLength ? '...' : ''}
 								</p>
 							{/if}
 							{#if showDateBool && item.pubDate}

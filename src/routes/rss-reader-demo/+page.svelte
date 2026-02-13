@@ -1,6 +1,36 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 
+	// Event detail type interfaces
+	interface ReadyEventDetail {
+		feedUrl: string;
+		maxItems: number;
+	}
+
+	interface FeedLoadedEventDetail {
+		feedUrl: string;
+		itemCount: number;
+		feedTitle: string;
+	}
+
+	interface RSSItem {
+		title: string;
+		link: string;
+		description?: string;
+		pubDate?: string;
+		image?: string;
+		guid?: string;
+	}
+
+	interface ItemClickedEventDetail {
+		item: RSSItem;
+	}
+
+	interface ErrorEventDetail {
+		feedUrl: string;
+		error: string;
+	}
+
 	let feedUrl = 'https://hnrss.org/frontpage';
 	let maxItems = 10;
 	let refreshInterval = 300000; // 5 minutes
@@ -31,20 +61,24 @@
 			return;
 		}
 
-		reader.addEventListener('ready', (e: any) => {
-			console.log('RSS Reader ready:', e.detail);
+		reader.addEventListener('ready', (e: Event) => {
+			const detail = (e as CustomEvent<ReadyEventDetail>).detail;
+			console.log('RSS Reader ready:', detail);
 		});
 
-		reader.addEventListener('feed-loaded', (e: any) => {
-			console.log('Feed loaded:', e.detail);
+		reader.addEventListener('feed-loaded', (e: Event) => {
+			const detail = (e as CustomEvent<FeedLoadedEventDetail>).detail;
+			console.log('Feed loaded:', detail);
 		});
 
-		reader.addEventListener('item-clicked', (e: any) => {
-			console.log('Item clicked:', e.detail);
+		reader.addEventListener('item-clicked', (e: Event) => {
+			const detail = (e as CustomEvent<ItemClickedEventDetail>).detail;
+			console.log('Item clicked:', detail);
 		});
 
-		reader.addEventListener('error', (e: any) => {
-			console.error('RSS Reader error:', e.detail);
+		reader.addEventListener('error', (e: Event) => {
+			const detail = (e as CustomEvent<ErrorEventDetail>).detail;
+			console.error('RSS Reader error:', detail);
 		});
 	});
 
