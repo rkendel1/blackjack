@@ -1,7 +1,7 @@
 <script lang="ts">
 	// This is a wrapper component that uses the sl-messaging web component
 	// It provides backward compatibility for Svelte imports while using the normalized web component
-	import '../webcomponents/MessagingEmbed.wc.svelte';
+	import './sl-messaging.svelte';
 
 	export let embedId = 'messaging-app';
 	export let sessionId: string | undefined = undefined;

@@ -4,9 +4,9 @@
 	import { createBlackjackStore } from '../../backend/adapters/createBlackjackStore';
 
 	import GameControlls from '$frontend/components/GameControlls.svelte';
-	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
-	import Deck from '$frontend/components/Deck.svelte';
-	import Hand from '$frontend/components/Hand.svelte';
+	import CardsDefinitions from '$frontend/games/CardsDefinitions.svelte';
+	import Deck from '$frontend/games/Deck.svelte';
+	import Hand from '$frontend/games/Hand.svelte';
 	import { onMount } from 'svelte';
 
 	const game = createBlackjackStore();

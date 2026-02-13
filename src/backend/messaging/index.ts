@@ -6,7 +6,7 @@
  * 
  * Usage in TypeScript/Svelte projects:
  * ```typescript
- * import { createMessagingBackend } from './.';
+ * import { createMessagingBackend } from './messaging';
  * const backend = createMessagingBackend({ embedId: 'my-app' });
  * ```
  * 

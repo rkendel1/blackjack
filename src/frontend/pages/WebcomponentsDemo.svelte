@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 
 	// Import web components to register them
-	import '$frontend/components/webcomponents';
+	import '$frontend/webcomponents';
 
 	let sceneElement: HTMLElement;
 	let avatarElement: HTMLElement;
@@ -314,7 +314,7 @@
 			<p>Import the web components in your HTML or JavaScript:</p>
 			<pre><code>{`<!-- Option 1: Direct HTML import -->
 <script type="module">
-  import '$frontend/components/webcomponents';
+  import '$frontend/webcomponents';
 </script>
 
 <!-- Option 2: JavaScript import -->
@@ -324,7 +324,7 @@
     ARVRAvatar, 
     ARVRFilter, 
     ARVRSpatial 
-  } from '$frontend/components/webcomponents';
+  } from '$frontend/webcomponents';
 </script>`}</code></pre>
 
 			<h3>Features</h3>
