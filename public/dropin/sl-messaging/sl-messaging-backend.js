@@ -17,7 +17,7 @@ class MessageStore {
 	addMessage(message) {
 		this.messages.push({
 			...message,
-			id: Date.now().toString() + Math.random(),
+			id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() + Math.random(),
 			timestamp: Date.now()
 		});
 		this.notifyListeners();
@@ -49,7 +49,7 @@ class SessionManager {
 	}
 
 	createSession() {
-		this.sessionId = 'session-' + Date.now() + '-' + Math.random().toString(36).substring(7);
+		this.sessionId = crypto.randomUUID ? crypto.randomUUID() : 'session-' + Date.now() + '-' + Math.random().toString(36).substring(7);
 		this.isHost = true;
 		this.participants = [{
 			id: 'p-' + Date.now(),
@@ -124,7 +124,7 @@ export class MessagingBackend {
 
 		this.messageStore = new MessageStore();
 		this.sessionManager = new SessionManager();
-		this.localUserId = 'user-' + Math.random().toString(36).substring(7);
+		this.localUserId = crypto.randomUUID ? crypto.randomUUID() : 'user-' + Math.random().toString(36).substring(7);
 		this.isConnected = false;
 		this.session = null;
 

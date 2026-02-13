@@ -52,7 +52,7 @@
 		} else {
 			// Create new session
 			session = {
-				id: 'session-' + Date.now() + '-' + Math.random().toString(36).substring(7),
+				id: crypto.randomUUID ? crypto.randomUUID() : 'session-' + Date.now() + '-' + Math.random().toString(36).substring(7),
 				hostId: currentUserId,
 				status: 'WAITING_FOR_PLAYERS',
 				participants: [],
@@ -151,7 +151,7 @@
 		
 		// Add message to local store
 		messages = [...messages, {
-			id: Date.now().toString(),
+			id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() + '-' + Math.random(),
 			fromUserId: currentUserId,
 			payload: text.trim(),
 			timestamp: Date.now()
@@ -163,7 +163,7 @@
 
 	function handleSendMedia(url, type, caption) {
 		messages = [...messages, {
-			id: Date.now().toString(),
+			id: crypto.randomUUID ? crypto.randomUUID() : Date.now().toString() + '-' + Math.random(),
 			fromUserId: currentUserId,
 			payload: { caption },
 			mediaUrl: url,
