@@ -10,6 +10,7 @@ Try the standalone example: [webcomponents-example.html](/webcomponents-example.
 
 Or view the demo pages:
 - [Web Components Demo](/webcomponents-demo) - Component showcase and documentation
+- [Room Demo](/room-demo) - Persistent work room with messaging and presence
 - [Messaging Demo](/messaging) - Full messaging app with video calls
 - [AR/VR Demo](/arvr-demo) - Interactive AR/VR control panel
 - [RSS Reader Demo](/rss-reader-demo) - Customizable RSS feed reader
@@ -74,6 +75,7 @@ A full-featured iMessage-style messaging embed with text chat, media sharing, an
 
 ---
 
+<<<<<<< copilot/add-user-customizable-rss-reader
 #### 2. `<sl-rss-reader>`
 
 A user-customizable RSS feed reader component with auto-refresh, theming, and various display options.
@@ -100,10 +102,39 @@ A user-customizable RSS feed reader component with auto-refresh, theming, and va
   - `detail`: `{ item: RSSItem }`
 - `error`: Fired when an error occurs loading the feed
   - `detail`: `{ feedUrl: string, error: string }`
+=======
+#### 2. `<sl-room>`
+
+A persistent collaborative work room with ambient presence, messaging, shouts, smoke signals, and role-based membership.
+
+##### Attributes
+
+- `embedId` (string): Unique room identifier. Default: 'room'
+- `sessionId` (string): Session identifier to join existing room. Leave empty to create new room.
+- `roomName` (string): Display name for the room. Default: 'Work Room'
+- `enableVideo` ('true' | 'false'): Enable video streaming. Default: 'false'
+- `enableAudio` ('true' | 'false'): Enable audio streaming. Default: 'false'
+- `maxMembers` (string): Maximum number of members allowed. Default: '50'
+- `defaultRole` (string): Default role for joining participants ('host' | 'member' | 'guest'). Default: 'member'
+
+##### Methods
+
+- `sendMessage(text: string)`: Send a text message to the room
+- `sendShout(text: string)`: Send a broadcast shout to all members
+- `sendSmokeSignal(message: string)`: Send an ephemeral notification
+- `getRoomInfo()`: Get current room state and statistics
+  - Returns: `{ roomName: string, sessionId: string, memberCount: number, maxMembers: number, isHost: boolean }`
+
+##### Events
+
+- `ready`: Fired when the room is initialized and connected
+  - `detail`: `{ embedId: string, sessionId: string, roomName: string }`
+>>>>>>> main
 
 ##### Example
 
 ```html
+<<<<<<< copilot/add-user-customizable-rss-reader
 <!-- Basic RSS reader -->
 <sl-rss-reader
   feed-url="https://hnrss.org/frontpage"
@@ -135,11 +166,50 @@ A user-customizable RSS feed reader component with auto-refresh, theming, and va
   reader.addEventListener('item-clicked', (e) => {
     console.log('Clicked:', e.detail.item.title);
   });
+=======
+<!-- Create a new room -->
+<sl-room
+  embedId="my-team-room"
+  roomName="Project Planning"
+  maxMembers="25"
+  defaultRole="member"
+></sl-room>
+
+<!-- Join an existing room -->
+<sl-room
+  embedId="my-team-room"
+  sessionId="session-abc-123"
+  roomName="Project Planning"
+></sl-room>
+
+<script>
+  const room = document.querySelector('sl-room');
+  
+  // Listen for ready event
+  room.addEventListener('ready', (e) => {
+    console.log('Room ready:', e.detail);
+    console.log('Session ID:', e.detail.sessionId);
+  });
+  
+  // Send a message
+  room.sendMessage('Hello everyone!');
+  
+  // Send a shout (broadcast)
+  room.sendShout('Meeting starts in 5 minutes!');
+  
+  // Send smoke signal (ephemeral notification)
+  room.sendSmokeSignal('👍 Good idea!');
+  
+  // Get room info
+  const info = room.getRoomInfo();
+  console.log(`Room has ${info.memberCount} members`);
+>>>>>>> main
 </script>
 ```
 
 ##### Features
 
+<<<<<<< copilot/add-user-customizable-rss-reader
 - 📡 RSS Feed Support - Display any RSS feed via CORS proxy
 - 🔄 Auto-Refresh - Automatically update feed at configurable intervals
 - 🎨 Theming - Light and dark theme options
@@ -149,6 +219,15 @@ A user-customizable RSS feed reader component with auto-refresh, theming, and va
 - 🔗 Customizable Links - Control link behavior (new tab, same tab)
 - 📅 Smart Dates - Relative time display (e.g., "2h ago")
 - 🎯 Event-Driven - Custom events for feed loaded, errors, clicks
+=======
+- 💬 **Chat Tab** - Real-time messaging with all room members
+- 👥 **Members Tab** - Ambient presence showing all members with online/offline status
+- 🔊 **Shouts Tab** - Broadcast messages that stand out from regular chat
+- 💨 **Smoke Signals** - Quick ephemeral notifications (auto-disappear in 5 seconds)
+- 🎭 **Role-based Membership** - Host, member, and guest roles with different permissions
+- ⚡ **Quick Actions** - Floating buttons for instant reactions (👋, 👍, 🎉)
+- 📱 **Responsive Design** - Works seamlessly on desktop and mobile devices
+>>>>>>> main
 
 ---
 
