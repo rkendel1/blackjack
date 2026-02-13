@@ -93,7 +93,7 @@
 		display: flex;
 		align-items: flex-end;
 		gap: 0.5rem;
-		margin-bottom: 0.75rem;
+		margin-bottom: 0.375rem;
 		position: relative;
 	}
 
@@ -107,27 +107,32 @@
 
 	.bubble {
 		max-width: 70%;
-		padding: 0.625rem 0.875rem;
+		padding: 0.5rem 0.875rem;
 		border-radius: 18px;
 		position: relative;
+		word-wrap: break-word;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', Roboto, sans-serif;
 	}
 
 	.sent .bubble {
 		background: #007aff;
 		color: white;
 		border-bottom-right-radius: 4px;
+		box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.1);
 	}
 
 	.received .bubble {
 		background: #e5e5ea;
-		color: #000;
+		color: #000000;
 		border-bottom-left-radius: 4px;
+		box-shadow: 0 0.5px 2px rgba(0, 0, 0, 0.05);
 	}
 
 	.text-message {
-		font-size: 0.9375rem;
-		line-height: 1.4;
+		font-size: 1.0625rem;
+		line-height: 1.35;
 		word-wrap: break-word;
+		letter-spacing: -0.2px;
 	}
 
 	.media-message {
@@ -137,12 +142,14 @@
 	.media-message img,
 	.media-message video {
 		max-width: 100%;
-		border-radius: 12px;
+		max-height: 300px;
+		border-radius: 14px;
 		display: block;
 	}
 
 	.media-message audio {
 		width: 100%;
+		height: 32px;
 	}
 
 	.media-message a {
@@ -152,7 +159,8 @@
 
 	.caption {
 		margin-top: 0.5rem;
-		font-size: 0.875rem;
+		font-size: 0.9375rem;
+		line-height: 1.35;
 	}
 
 	.metadata {
@@ -161,7 +169,8 @@
 		gap: 0.25rem;
 		margin-top: 0.25rem;
 		font-size: 0.6875rem;
-		opacity: 0.7;
+		opacity: 0.65;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
 	}
 
 	.sent .metadata {
@@ -179,7 +188,7 @@
 	}
 
 	.message-bubble:hover .reaction-trigger {
-		opacity: 0.6;
+		opacity: 0.5;
 	}
 
 	.reaction-trigger:hover {
@@ -190,13 +199,14 @@
 		position: absolute;
 		bottom: 100%;
 		background: white;
-		border: 1px solid #e5e5e5;
-		border-radius: 20px;
-		padding: 0.5rem;
+		border: 0.5px solid #d1d1d6;
+		border-radius: 22px;
+		padding: 0.5rem 0.625rem;
 		display: flex;
 		gap: 0.25rem;
-		box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
 		z-index: 10;
+		margin-bottom: 0.5rem;
 	}
 
 	.sent .reaction-picker {
@@ -210,7 +220,7 @@
 	.reaction-option {
 		background: none;
 		border: none;
-		font-size: 1.25rem;
+		font-size: 1.375rem;
 		cursor: pointer;
 		padding: 0.25rem 0.5rem;
 		border-radius: 12px;
@@ -218,6 +228,10 @@
 	}
 
 	.reaction-option:hover {
-		background: #f0f0f0;
+		background: #f2f2f7;
+	}
+
+	.reaction-option:active {
+		background: #e5e5ea;
 	}
 </style>
