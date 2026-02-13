@@ -2,7 +2,7 @@
 	import { onMount } from 'svelte';
 
 	// Import web components to register them
-	import '$frontend/components/webcomponents';
+	import '$frontend/webcomponents';
 
 	let roomElement: HTMLElement;
 	let sessionId = '';
