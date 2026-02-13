@@ -1,23 +1,24 @@
-// Export all AR/VR Web Components
+// Export all Web Components
 // These components use Svelte's customElement feature to create native web components
+// Components are now organized by feature in their respective directories
 
 // Import the components to register them
-import './ARVRScene.wc.svelte';
-import './ARVRAvatar.wc.svelte';
-import './ARVRFilter.wc.svelte';
-import './ARVRSpatial.wc.svelte';
-import './MessagingEmbed.wc.svelte';
-import './TicTacToeEmbed.wc.svelte';
-import './RSSReaderEmbed.wc.svelte';
-import './RoomEmbed.wc.svelte';
+import '../../arvr/sl-arvr-scene.svelte';
+import '../../arvr/sl-arvr-avatar.svelte';
+import '../../arvr/sl-arvr-filter.svelte';
+import '../../arvr/sl-arvr-spatial.svelte';
+import '../../messaging/sl-messaging.svelte';
+import '../../messaging/sl-room.svelte';
+import '../../games/sl-tictactoe.svelte';
+import '../../rss/sl-rss-reader.svelte';
 
 // Re-export for convenience (though the custom elements are automatically registered)
-export { default as ARVRScene } from './ARVRScene.wc.svelte';
-export { default as ARVRAvatar } from './ARVRAvatar.wc.svelte';
-export { default as ARVRFilter } from './ARVRFilter.wc.svelte';
-export { default as ARVRSpatial } from './ARVRSpatial.wc.svelte';
-export { default as MessagingEmbed } from './MessagingEmbed.wc.svelte';
-export { default as TicTacToeEmbed } from './TicTacToeEmbed.wc.svelte';
-export { default as RSSReaderEmbed } from './RSSReaderEmbed.wc.svelte';
-export { default as RoomEmbed } from './RoomEmbed.wc.svelte';
+export { default as ARVRScene } from '../../arvr/sl-arvr-scene.svelte';
+export { default as ARVRAvatar } from '../../arvr/sl-arvr-avatar.svelte';
+export { default as ARVRFilter } from '../../arvr/sl-arvr-filter.svelte';
+export { default as ARVRSpatial } from '../../arvr/sl-arvr-spatial.svelte';
+export { default as MessagingEmbed } from '../../messaging/sl-messaging.svelte';
+export { default as RoomEmbed } from '../../messaging/sl-room.svelte';
+export { default as TicTacToeEmbed } from '../../games/sl-tictactoe.svelte';
+export { default as RSSReaderEmbed } from '../../rss/sl-rss-reader.svelte';
 
