@@ -79,15 +79,16 @@
 		display: flex;
 		align-items: center;
 		gap: 0.75rem;
-		padding: 0.75rem 1rem;
-		border-bottom: 1px solid #e5e5e5;
-		background: #f9f9f9;
+		padding: 0.875rem 1rem;
+		border-bottom: 0.5px solid #d1d1d6;
+		background: #f8f8f8;
+		min-height: 60px;
 	}
 
 	.back-button {
 		background: none;
 		border: none;
-		font-size: 1.75rem;
+		font-size: 2rem;
 		color: #007aff;
 		cursor: pointer;
 		padding: 0;
@@ -97,10 +98,16 @@
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		font-weight: 400;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
 	}
 
 	.back-button:hover {
-		opacity: 0.7;
+		opacity: 0.6;
+	}
+
+	.back-button:active {
+		opacity: 0.4;
 	}
 
 	.conversation-header {
@@ -115,28 +122,35 @@
 		width: 40px;
 		height: 40px;
 		border-radius: 50%;
-		background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+		background: linear-gradient(135deg, #007aff 0%, #5856d6 100%);
 		color: white;
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		font-weight: 600;
 		flex-shrink: 0;
+		font-size: 1.125rem;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
 	}
 
 	.info {
 		min-width: 0;
+		flex: 1;
 	}
 
 	.name {
 		font-weight: 600;
-		font-size: 0.9375rem;
-		color: #000;
+		font-size: 1.0625rem;
+		color: #000000;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+		letter-spacing: -0.2px;
 	}
 
 	.status {
 		font-size: 0.75rem;
-		color: #34c759;
+		color: #8e8e93;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
+		margin-top: 1px;
 	}
 
 	.video-button {
@@ -144,21 +158,47 @@
 		border: none;
 		font-size: 1.5rem;
 		cursor: pointer;
-		padding: 0.25rem;
+		padding: 0.375rem;
 		line-height: 1;
-		opacity: 0.7;
+		color: #007aff;
+		opacity: 0.9;
 		transition: opacity 0.15s;
+		border-radius: 50%;
+		width: 36px;
+		height: 36px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.video-button:hover {
 		opacity: 1;
+		background: rgba(0, 122, 255, 0.1);
+	}
+
+	.video-button:active {
+		opacity: 0.5;
+		background: rgba(0, 122, 255, 0.2);
 	}
 
 	.messages {
 		flex: 1;
 		overflow-y: auto;
 		padding: 1rem;
-		background: #f9f9f9;
+		background: #ffffff;
+	}
+
+	.messages::-webkit-scrollbar {
+		width: 6px;
+	}
+
+	.messages::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	.messages::-webkit-scrollbar-thumb {
+		background: #d1d1d6;
+		border-radius: 3px;
 	}
 
 	.empty-messages {
@@ -167,21 +207,23 @@
 		align-items: center;
 		justify-content: center;
 		height: 100%;
-		color: #999;
+		color: #8e8e93;
 		text-align: center;
 	}
 
 	.empty-messages p:first-child {
-		font-size: 3rem;
-		margin: 0;
+		font-size: 4rem;
+		margin: 0 0 1rem 0;
+		opacity: 0.5;
 	}
 
 	.empty-messages p {
 		margin: 0.5rem 0;
+		font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif;
 	}
 
 	.empty-messages .hint {
 		font-size: 0.875rem;
-		color: #bbb;
+		color: #c7c7cc;
 	}
 </style>
