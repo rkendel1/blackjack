@@ -3,14 +3,13 @@
 	import audioPath from '$lib/assets/draw.mp3';
 	import { createMultiplayerBlackjack } from '$lib/multiplayer/games/MultiplayerBlackjack';
 	import { onMount } from 'svelte';
-	import { getSearchParam } from '$lib/utils/browser';
 
 	import CardsDefinitions from '$frontend/components/CardsDefinitions.svelte';
 	import Deck from '$frontend/components/Deck.svelte';
 	import Hand from '$frontend/components/Hand.svelte';
 
 	// Get session ID from URL if joining
-	const sessionId = getSearchParam('session') || undefined;
+	const sessionId = new URLSearchParams(window.location.search).get('session') || undefined;
 
 	const game = createMultiplayerBlackjack(sessionId);
 	const {
