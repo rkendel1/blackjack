@@ -7,31 +7,31 @@
  */
 
 // AR/VR Web Components
-import './arvr/sl-arvr-scene.svelte';
-import './arvr/sl-arvr-avatar.svelte';
-import './arvr/sl-arvr-filter.svelte';
-import './arvr/sl-arvr-spatial.svelte';
+import './sl-arvr-scene.upgraded.svelte';
+import './sl-arvr-avatar.upgraded.svelte';
+import './sl-arvr-filter.upgraded.svelte';
+import './sl-arvr-spatial.upgraded.svelte';
 
 // Messaging Web Components
-import './messaging/sl-messaging.svelte';
-import './messaging/sl-room.svelte';
+import './sl-messaging.upgraded.svelte';
+import './sl-room.upgraded.svelte';
 
 // Game Web Components
-import './games/sl-tictactoe.svelte';
+import './sl-tictactoe.upgraded.svelte';
 
 // RSS Web Components
-import './rss/sl-rss-reader.svelte';
+import './sl-rss-reader.upgraded.svelte';
 
 // Bluetooth Web Components
 import './sl-bluetooth.upgraded.svelte';
 
 // Re-export for convenience (though the custom elements are automatically registered)
-export { default as ARVRScene } from './arvr/sl-arvr-scene.svelte';
-export { default as ARVRAvatar } from './arvr/sl-arvr-avatar.svelte';
-export { default as ARVRFilter } from './arvr/sl-arvr-filter.svelte';
-export { default as ARVRSpatial } from './arvr/sl-arvr-spatial.svelte';
-export { default as MessagingEmbed } from './messaging/sl-messaging.svelte';
-export { default as RoomEmbed } from './messaging/sl-room.svelte';
-export { default as TicTacToeEmbed } from './games/sl-tictactoe.svelte';
-export { default as RSSReaderEmbed } from './rss/sl-rss-reader.svelte';
+export { default as ARVRScene } from './sl-arvr-scene.upgraded.svelte';
+export { default as ARVRAvatar } from './sl-arvr-avatar.upgraded.svelte';
+export { default as ARVRFilter } from './sl-arvr-filter.upgraded.svelte';
+export { default as ARVRSpatial } from './sl-arvr-spatial.upgraded.svelte';
+export { default as MessagingEmbed } from './sl-messaging.upgraded.svelte';
+export { default as RoomEmbed } from './sl-room.upgraded.svelte';
+export { default as TicTacToeEmbed } from './sl-tictactoe.upgraded.svelte';
+export { default as RSSReaderEmbed } from './sl-rss-reader.upgraded.svelte';
 export { default as BluetoothEmbed } from './sl-bluetooth.upgraded.svelte';
