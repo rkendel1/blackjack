@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StackLive Device Capability Demos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .subtitle {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 20px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            backdrop-filter: blur(10px);
+        }
+
+        .demo-grid {
+            display: grid;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .demo-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .demo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .demo-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .demo-description {
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .capabilities-list {
+            background: #f5f5f7;
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+        }
+
+        .capabilities-list h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .capability-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .capability-tag {
+            background: #007AFF;
+            color: white;
+            padding: 6px 14px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            padding: 40px 20px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+
+        @media (min-width: 768px) {
+            .demo-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Loading animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(0, 122, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #007AFF;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 StackLive Device Capabilities</h1>
+            <p class="subtitle">Cross-Surface Hardware Access Infrastructure</p>
+            <span class="badge">Web • Native • Mini Apps • Extensions</span>
+        </header>
+
+        <div class="capabilities-list">
+            <h2>📋 Available Capabilities (14)</h2>
+            <div class="capability-tags">
+                <span class="capability-tag">📷 Camera</span>
+                <span class="capability-tag">🎤 Microphone</span>
+                <span class="capability-tag">📱 Motion</span>
+                <span class="capability-tag">📡 Bluetooth</span>
+                <span class="capability-tag">💳 Wallet</span>
+                <span class="capability-tag">📍 Location</span>
+                <span class="capability-tag">📁 File System</span>
+                <span class="capability-tag">🖥️ Screen Capture</span>
+                <span class="capability-tag">👆 Biometrics</span>
+                <span class="capability-tag">🔍 Proximity</span>
+                <span class="capability-tag">🔔 Push Notifications</span>
+                <span class="capability-tag">📲 Nearby Devices</span>
+                <span class="capability-tag">🎧 Spatial Audio</span>
+                <span class="capability-tag">🏷️ NFC</span>
+            </div>
+        </div>
+
+        <div class="demo-grid">
+            <!-- Device Capability Tester -->
+            <div class="demo-card full-width">
+                <div class="demo-title">
+                    🔌 Device Capability Tester
+                </div>
+                <p class="demo-description">
+                    Comprehensive testing interface for all device capabilities. 
+                    Test support, activation, and permissions for each capability on your current device.
+                </p>
+                <sl-device-tester embedid="main-tester" debug="true"></sl-device-tester>
+            </div>
+
+            <!-- Motion Controller -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    📱 Motion Controller Game
+                </div>
+                <p class="demo-description">
+                    Tilt your device to control the ball! Demonstrates real-time motion sensor 
+                    streaming with accelerometer and gyroscope data.
+                </p>
+                <sl-motion-demo embedid="motion-1"></sl-motion-demo>
+            </div>
+
+            <!-- Camera Broadcast -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    📷 Camera Broadcast
+                </div>
+                <p class="demo-description">
+                    Access your device camera for live streaming and snapshots. 
+                    Switch between front and back cameras.
+                </p>
+                <sl-camera-demo embedid="camera-1"></sl-camera-demo>
+            </div>
+
+            <!-- Wallet Payment -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    💳 Wallet Payment
+                </div>
+                <p class="demo-description">
+                    Demonstrate in-embed payment capability using Apple Pay, Google Pay, 
+                    or Payment Request API.
+                </p>
+                <sl-wallet-demo embedid="wallet-1"></sl-wallet-demo>
+            </div>
+
+            <!-- Proximity Detection -->
+            <div class="demo-card">
+                <div class="demo-title">
+                    📍 Proximity Detection
+                </div>
+                <p class="demo-description">
+                    Detect nearby devices using Bluetooth beacons and proximity sensors. 
+                    Perfect for store activations and event auto-join.
+                </p>
+                <sl-proximity-demo embedid="proximity-1"></sl-proximity-demo>
+            </div>
+        </div>
+
+        <footer>
+            <p>
+                <strong>StackLive Device Capability Infrastructure</strong><br>
+                Unified API for accessing native device features across all surfaces<br>
+                Built with ❤️ for the StackLive Platform
+            </p>
+        </footer>
+    </div>
+
+    <!-- Load the web components bundle -->
+    <script src="/build/bundle.js"></script>
+</body>
+</html>
