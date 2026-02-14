@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Device Control System Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        h1 {
+            color: white;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 36px;
+            font-weight: 600;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        
+        .demo-section {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            width: 100%;
+        }
+        
+        .demo-section h2 {
+            margin-top: 0;
+            color: #000;
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        .demo-section p {
+            color: #3c3c43;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .btn {
+            padding: 14px 20px;
+            border: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: #007AFF;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #0051D5;
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary {
+            background: #34C759;
+            color: white;
+        }
+        
+        .btn-secondary:hover {
+            background: #28A745;
+            transform: translateY(-2px);
+        }
+        
+        .btn-warning {
+            background: #FF9500;
+            color: white;
+        }
+        
+        .btn-warning:hover {
+            background: #E68600;
+            transform: translateY(-2px);
+        }
+        
+        .btn-danger {
+            background: #FF3B30;
+            color: white;
+        }
+        
+        .btn-danger:hover {
+            background: #D62C21;
+            transform: translateY(-2px);
+        }
+        
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        .info-box {
+            background: #f2f2f7;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-box strong {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #000;
+        }
+        
+        .info-box ul {
+            margin: 0;
+            padding-left: 1.5rem;
+            color: #3c3c43;
+        }
+        
+        .info-box li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+            color: #856404;
+        }
+        
+        .note strong {
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .feature-card {
+            background: #f2f2f7;
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .feature-icon {
+            font-size: 48px;
+            margin-bottom: 1rem;
+        }
+
+        .feature-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin-bottom: 0.5rem;
+        }
+
+        .feature-desc {
+            font-size: 14px;
+            color: #8e8e93;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <h1>🎛️ Device Control System</h1>
+    <p class="subtitle">
+        Unified device capability management with native-style UI prompts and controls.
+        Test permission flows, connection requests, and active capability management.
+    </p>
+
+    <div class="demo-section">
+        <h2>📋 What is the Device Control System?</h2>
+        <p>
+            The Device Control System provides a centralized, OS-style interface for managing device capabilities.
+            It ensures every embed feels like part of a unified device ecosystem with consistent permission prompts,
+            connection flows, and status indicators.
+        </p>
+        
+        <div class="feature-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔐</div>
+                <div class="feature-title">Permission Sheets</div>
+                <div class="feature-desc">Native-style permission prompts with scope control</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <div class="feature-title">Connection UI</div>
+                <div class="feature-desc">Bluetooth & device pairing interfaces</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <div class="feature-title">Status Indicators</div>
+                <div class="feature-desc">Visual feedback for active capabilities</div>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚙️</div>
+                <div class="feature-title">Control Panel</div>
+                <div class="feature-desc">Manage all active device sessions</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <h2>🎮 Interactive Demos</h2>
+        <p>Click the buttons below to test different UI flows:</p>
+        
+        <h3>1. Permission Requests</h3>
+        <div class="controls">
+            <button class="btn btn-primary" onclick="requestCameraPermission()">
+                📷 Request Camera
+            </button>
+            <button class="btn btn-primary" onclick="requestMicrophonePermission()">
+                🎤 Request Microphone
+            </button>
+            <button class="btn btn-primary" onclick="requestMotionPermission()">
+                📍 Request Motion
+            </button>
+            <button class="btn btn-primary" onclick="requestWalletPermission()">
+                💳 Request Wallet
+            </button>
+        </div>
+
+        <h3>2. Connection Requests</h3>
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="connectBluetooth()">
+                🔵 Connect Bluetooth Device
+            </button>
+            <button class="btn btn-secondary" onclick="connectNearbyDevice()">
+                📱 Connect Nearby Device
+            </button>
+        </div>
+
+        <h3>3. Capability Management</h3>
+        <div class="controls">
+            <button class="btn btn-warning" onclick="activateCamera()">
+                ▶️ Activate Camera
+            </button>
+            <button class="btn btn-warning" onclick="activateMicrophone()">
+                ▶️ Activate Microphone
+            </button>
+            <button class="btn btn-danger" onclick="deactivateAll()">
+                ⏹️ Deactivate All
+            </button>
+        </div>
+
+        <h3>4. Toast Notifications</h3>
+        <div class="controls">
+            <button class="btn btn-secondary" onclick="showSuccessToast()">
+                ✓ Success Toast
+            </button>
+            <button class="btn btn-danger" onclick="showErrorToast()">
+                ✕ Error Toast
+            </button>
+            <button class="btn btn-warning" onclick="showWarningToast()">
+                ⚠ Warning Toast
+            </button>
+            <button class="btn btn-primary" onclick="showInfoToast()">
+                ⓘ Info Toast
+            </button>
+        </div>
+    </div>
+
+    <div class="demo-section">
+        <div class="info-box">
+            <strong>💡 Features Demonstrated:</strong>
+            <ul>
+                <li>Native-style permission sheets with scope options (one-time, session, always)</li>
+                <li>Device connection confirmation dialogs</li>
+                <li>Active capability status indicators (top-right corner)</li>
+                <li>Control panel for managing active capabilities (click status indicator)</li>
+                <li>Toast notifications for feedback</li>
+                <li>Consistent iOS/macOS-inspired design language</li>
+            </ul>
+        </div>
+
+        <div class="note">
+            <strong>📝 Note:</strong>
+            This is a demo of the UI layer. In production, the Device Control System integrates with
+            the DeviceCapabilityManager to handle real device permissions and capability activation.
+        </div>
+    </div>
+
+    <!-- Device Control Web Component -->
+    <sl-device-control embedId="device-control-demo" debug="true"></sl-device-control>
+
+    <!-- Load the bundled JavaScript -->
+    <script type="module" src="/build/bundle.js"></script>
+
+    <script>
+        // Wait for component to be ready
+        document.querySelector('sl-device-control').addEventListener('ready', (e) => {
+            console.log('Device Control System Ready:', e.detail);
+        });
+
+        // Permission request functions
+        function requestCameraPermission() {
+            const event = new CustomEvent('request-permission', {
+                detail: {
+                    capability: 'camera',
+                    embedId: 'Demo App',
+                    reason: 'For video streaming and recording',
+                    onApprove: (scope) => {
+                        console.log('Camera approved with scope:', scope);
+                        showSuccessToast('Camera permission granted');
+                    },
+                    onDeny: () => {
+                        console.log('Camera denied');
+                        showErrorToast('Camera permission denied');
+                    }
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function requestMicrophonePermission() {
+            const event = new CustomEvent('request-permission', {
+                detail: {
+                    capability: 'microphone',
+                    embedId: 'Audio Chat',
+                    reason: 'For voice communication',
+                    onApprove: (scope) => {
+                        showSuccessToast('Microphone permission granted');
+                    },
+                    onDeny: () => {
+                        showErrorToast('Microphone permission denied');
+                    }
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function requestMotionPermission() {
+            const event = new CustomEvent('request-permission', {
+                detail: {
+                    capability: 'motion',
+                    embedId: 'Motion Game',
+                    reason: 'For motion-based gameplay',
+                    onApprove: (scope) => {
+                        showSuccessToast('Motion permission granted');
+                    },
+                    onDeny: () => {
+                        showErrorToast('Motion permission denied');
+                    }
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function requestWalletPermission() {
+            const event = new CustomEvent('request-permission', {
+                detail: {
+                    capability: 'wallet',
+                    embedId: 'Payment App',
+                    reason: 'For secure transactions',
+                    onApprove: (scope) => {
+                        showSuccessToast('Wallet permission granted');
+                    },
+                    onDeny: () => {
+                        showErrorToast('Wallet permission denied');
+                    }
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        // Connection request functions
+        function connectBluetooth() {
+            const event = new CustomEvent('request-connection', {
+                detail: {
+                    deviceId: 'bt-001',
+                    deviceName: "John's iPhone",
+                    deviceType: 'phone',
+                    capability: 'bluetooth',
+                    embedId: 'Motion Sync',
+                    onConnect: () => {
+                        showSuccessToast('Bluetooth device connected');
+                    },
+                    onCancel: () => {
+                        showInfoToast('Connection cancelled');
+                    }
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function connectNearbyDevice() {
+            const event = new CustomEvent('request-connection', {
+                detail: {
+                    deviceId: 'nearby-002',
+                    deviceName: 'Nearby Speaker',
+                    deviceType: 'speaker',
+                    capability: 'nearby_devices',
+                    embedId: 'Audio Stream',
+                    onConnect: () => {
+                        showSuccessToast('Device connected');
+                    },
+                    onCancel: () => {
+                        showInfoToast('Connection cancelled');
+                    }
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        // Capability activation functions
+        function activateCamera() {
+            const event = new CustomEvent('activate-capability', {
+                detail: {
+                    capability: 'camera',
+                    embedId: 'Video App',
+                    status: 'streaming'
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+            showSuccessToast('Camera activated');
+        }
+
+        function activateMicrophone() {
+            const event = new CustomEvent('activate-capability', {
+                detail: {
+                    capability: 'microphone',
+                    embedId: 'Audio App',
+                    status: 'active'
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+            showSuccessToast('Microphone activated');
+        }
+
+        function deactivateAll() {
+            const event = new CustomEvent('deactivate-all');
+            document.querySelector('sl-device-control').dispatchEvent(event);
+            showInfoToast('All capabilities deactivated');
+        }
+
+        // Toast functions
+        function showSuccessToast(message = 'Operation successful') {
+            const event = new CustomEvent('show-toast', {
+                detail: {
+                    type: 'success',
+                    message: message
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function showErrorToast(message = 'Operation failed') {
+            const event = new CustomEvent('show-toast', {
+                detail: {
+                    type: 'error',
+                    message: message
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function showWarningToast(message = 'Warning: Check your settings') {
+            const event = new CustomEvent('show-toast', {
+                detail: {
+                    type: 'warning',
+                    message: message
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+
+        function showInfoToast(message = 'Information message') {
+            const event = new CustomEvent('show-toast', {
+                detail: {
+                    type: 'info',
+                    message: message
+                }
+            });
+            document.querySelector('sl-device-control').dispatchEvent(event);
+        }
+    </script>
+</body>
+</html>
