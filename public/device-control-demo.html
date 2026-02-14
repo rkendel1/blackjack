@@ -322,28 +322,6 @@
             console.log('Device Control System Ready:', e.detail);
         });
 
-        // Import the device UI store (will be available after bundle loads)
-        let deviceUIStore;
-        
-        // Wait for bundle to load
-        setTimeout(() => {
-            // Access the store from the module
-            import('/build/bundle.js').then(module => {
-                // The store is exported and can be imported
-                console.log('Bundle loaded');
-            });
-        }, 100);
-
-        // Helper to get the store
-        function getStore() {
-            // Access via window if available, or use custom events
-            if (window.deviceUIStore) {
-                return window.deviceUIStore;
-            }
-            // Fallback: dispatch custom events to component
-            return null;
-        }
-
         // Permission request functions
         function requestCameraPermission() {
             const event = new CustomEvent('request-permission', {

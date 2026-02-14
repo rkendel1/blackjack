@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { deviceUIStore } from '../../backend/device-ui';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	
 	$: toasts = $deviceUIStore.toasts;
 

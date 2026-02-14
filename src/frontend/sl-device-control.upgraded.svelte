@@ -80,14 +80,14 @@
 			element.addEventListener('activate-capability', handleActivateCapability as EventListener);
 			element.addEventListener('deactivate-all', handleDeactivateAll);
 			element.addEventListener('show-toast', handleShowToast as EventListener);
-		}
 
-		// Dispatch ready event
-		dispatchEvent(
-			new CustomEvent('ready', {
-				detail: { embedId }
-			})
-		);
+			// Dispatch ready event from the element
+			element.dispatchEvent(
+				new CustomEvent('ready', {
+					detail: { embedId }
+				})
+			);
+		}
 
 		// Example: Auto-show demo permission request in debug mode
 		if (debugMode) {
