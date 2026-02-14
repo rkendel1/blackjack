@@ -2,7 +2,7 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { useStackLiveARVR } from '../../backend/multiplayer/useStackLiveARVR';
+	import { useStackLiveARVR } from '../backend/multiplayer/useStackLiveARVR';
 
 	// Exposed attributes
 	export let userId: string = '';

@@ -2,11 +2,11 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { createMessagingBackend } from '../../backend/messaging';
-	import type { ChatMessage, MediaMessage } from '../../backend/multiplayer/types';
-	import ConversationList from './ConversationList.svelte';
-	import ChatView from './ChatView.svelte';
-	import VideoCallPanel from './VideoCallPanel.svelte';
+	import { createMessagingBackend } from '../backend/messaging';
+	import type { ChatMessage, MediaMessage } from '../backend/multiplayer/types';
+	import ConversationList from './messaging/ConversationList.svelte';
+	import ChatView from './messaging/ChatView.svelte';
+	import VideoCallPanel from './messaging/VideoCallPanel.svelte';
 
 	// Exposed attributes (all strings for web components)
 	export let embedId: string = 'messaging-app';

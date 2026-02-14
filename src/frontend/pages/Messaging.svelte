@@ -1,5 +1,5 @@
 <script>
-	import '$frontend/messaging/sl-messaging.svelte';
+	import '$frontend/sl-messaging.upgraded.svelte';
 	import '../global.css';
 
 	// Get session ID from URL if joining an existing session
