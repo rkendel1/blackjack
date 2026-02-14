@@ -24,7 +24,6 @@ import './rss/sl-rss-reader.svelte';
 
 // Bluetooth Web Components
 import './bluetooth/sl-bluetooth.upgraded.svelte';
-import './bluetooth/sl-bluetooth-simple.upgraded.svelte';
 
 // Re-export for convenience (though the custom elements are automatically registered)
 export { default as ARVRScene } from './arvr/sl-arvr-scene.svelte';
