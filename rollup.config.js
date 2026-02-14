@@ -148,11 +148,11 @@ export default {
 			compilerOptions: {
 				// enable run-time checks when not in production
 				dev: !production,
-				// enable custom element support for .wc.svelte files
+				// enable custom element support for web component files
 				customElement: true
 			},
-			// Only apply customElement to .wc.svelte files
-			include: /\.wc\.svelte$/
+			// Apply customElement to .wc.svelte, sl-*.svelte, and .upgraded.svelte files (web components)
+			include: /\/(sl-.*\.svelte|.*\.wc\.svelte|.*\.upgraded\.svelte)$/
 		}),
 		svelte({
 			preprocess: sveltePreprocess({
@@ -167,8 +167,8 @@ export default {
 				// regular components don't use custom elements
 				customElement: false
 			},
-			// Apply to all non-.wc.svelte files
-			exclude: /\.wc\.svelte$/
+			// Apply to all non-web-component files
+			exclude: /\/(sl-.*\.svelte|.*\.wc\.svelte|.*\.upgraded\.svelte)$/
 		}),
 		// we'll extract any component CSS out into
 		// a separate file - better for performance
