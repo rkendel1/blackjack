@@ -15,9 +15,71 @@
 
 	$: debugMode = debug === 'true';
 
+	// Handle custom events from parent page
+	function handleRequestPermission(event: CustomEvent) {
+		const { capability, embedId, reason, onApprove, onDeny } = event.detail;
+		deviceUIStore.requestPermission({
+			capability,
+			embedId,
+			reason,
+			onApprove,
+			onDeny
+		});
+	}
+
+	function handleRequestConnection(event: CustomEvent) {
+		const { deviceId, deviceName, deviceType, capability, embedId, onConnect, onCancel } = event.detail;
+		deviceUIStore.requestConnection({
+			deviceId,
+			deviceName,
+			deviceType,
+			capability,
+			embedId,
+			onConnect,
+			onCancel
+		});
+	}
+
+	function handleActivateCapability(event: CustomEvent) {
+		const { capability, embedId, status } = event.detail;
+		deviceUIStore.activateCapability({
+			capability,
+			embedId,
+			status: status || 'active',
+			startedAt: Date.now()
+		});
+	}
+
+	function handleDeactivateAll() {
+		const capabilities = [...$deviceUIStore.activeCapabilities];
+		capabilities.forEach(cap => {
+			deviceUIStore.deactivateCapability(cap.capability, cap.embedId);
+		});
+	}
+
+	function handleShowToast(event: CustomEvent) {
+		const { type, message, capability, duration } = event.detail;
+		deviceUIStore.showToast({
+			type,
+			message,
+			capability,
+			duration
+		});
+	}
+
 	onMount(() => {
 		if (debugMode) {
 			console.log('[DeviceControl] Mounted', { embedId });
+		}
+
+		// Set up custom event listeners
+		const element = document.querySelector('sl-device-control');
+		if (element) {
+			element.addEventListener('request-permission', handleRequestPermission as EventListener);
+			element.addEventListener('request-connection', handleRequestConnection as EventListener);
+			element.addEventListener('activate-capability', handleActivateCapability as EventListener);
+			element.addEventListener('deactivate-all', handleDeactivateAll);
+			element.addEventListener('show-toast', handleShowToast as EventListener);
 		}
 
 		// Dispatch ready event
@@ -60,6 +122,17 @@
 				});
 			}, 2000);
 		}
+
+		// Cleanup
+		return () => {
+			if (element) {
+				element.removeEventListener('request-permission', handleRequestPermission as EventListener);
+				element.removeEventListener('request-connection', handleRequestConnection as EventListener);
+				element.removeEventListener('activate-capability', handleActivateCapability as EventListener);
+				element.removeEventListener('deactivate-all', handleDeactivateAll);
+				element.removeEventListener('show-toast', handleShowToast as EventListener);
+			}
+		};
 	});
 </script>
 

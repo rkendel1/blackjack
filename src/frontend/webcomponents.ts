@@ -25,6 +25,9 @@ import './sl-rss-reader.upgraded.svelte';
 // Bluetooth Web Components
 import './sl-bluetooth.upgraded.svelte';
 
+// Device Control Web Components
+import './sl-device-control.upgraded.svelte';
+
 // Device Capability Demo Web Components
 import './device-demos/device-capability-tester.upgraded.svelte';
 import './device-demos/motion-controller-game.upgraded.svelte';
@@ -42,6 +45,7 @@ export { default as RoomEmbed } from './sl-room.upgraded.svelte';
 export { default as TicTacToeEmbed } from './sl-tictactoe.upgraded.svelte';
 export { default as RSSReaderEmbed } from './sl-rss-reader.upgraded.svelte';
 export { default as BluetoothEmbed } from './sl-bluetooth.upgraded.svelte';
+export { default as DeviceControl } from './sl-device-control.upgraded.svelte';
 export { default as DeviceTester } from './device-demos/device-capability-tester.upgraded.svelte';
 export { default as MotionDemo } from './device-demos/motion-controller-game.upgraded.svelte';
 export { default as CameraDemo } from './device-demos/camera-broadcast-demo.upgraded.svelte';
