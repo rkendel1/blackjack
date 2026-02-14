@@ -85,6 +85,7 @@ export function createBluetoothBackend(config: BluetoothBackendConfig = {}): Blu
 
 	// Device tracking
 	const devices = new Map<string, BluetoothDeviceInfo>();
+	const deviceListeners = new Map<string, (event: Event) => void>();
 
 	// Load persisted devices
 	if (persistDevices && typeof localStorage !== 'undefined') {
@@ -145,9 +146,10 @@ export function createBluetoothBackend(config: BluetoothBackendConfig = {}): Blu
 		try {
 			isScanning.set(true);
 			error.set(null);
-			log('Starting device scan...');
+			log('Requesting Bluetooth device...');
 
-			// Request device with basic services
+			// Note: requestDevice shows a browser picker dialog, not a background scan
+			// This is a limitation of the Web Bluetooth API for security reasons
 			const device = await navigator.bluetooth.requestDevice({
 				acceptAllDevices: true,
 				optionalServices: ['battery_service', 'device_information']
@@ -199,13 +201,15 @@ export function createBluetoothBackend(config: BluetoothBackendConfig = {}): Blu
 				log('Connected to device:', deviceInfo.name);
 
 				// Listen for disconnection
-				deviceInfo.device.addEventListener('gattserverdisconnected', () => {
+				const disconnectListener = () => {
 					deviceInfo.connected = false;
 					devices.set(deviceId, deviceInfo);
 					updateDeviceStores();
 					emitEvent('disconnected', deviceInfo);
 					log('Device disconnected:', deviceInfo.name);
-				});
+				};
+				deviceListeners.set(deviceId, disconnectListener);
+				deviceInfo.device.addEventListener('gattserverdisconnected', disconnectListener);
 
 				return true;
 			}
@@ -227,6 +231,14 @@ export function createBluetoothBackend(config: BluetoothBackendConfig = {}): Blu
 
 		try {
 			log('Disconnecting from device:', deviceInfo.name);
+			
+			// Remove event listener before disconnecting
+			const listener = deviceListeners.get(deviceId);
+			if (listener && deviceInfo.device) {
+				deviceInfo.device.removeEventListener('gattserverdisconnected', listener);
+				deviceListeners.delete(deviceId);
+			}
+			
 			deviceInfo.gatt.disconnect();
 			deviceInfo.connected = false;
 			devices.set(deviceId, deviceInfo);
@@ -250,6 +262,13 @@ export function createBluetoothBackend(config: BluetoothBackendConfig = {}): Blu
 		// Disconnect if connected
 		if (deviceInfo.connected && deviceInfo.gatt) {
 			deviceInfo.gatt.disconnect();
+		}
+
+		// Remove disconnect listener
+		const listener = deviceListeners.get(deviceId);
+		if (listener && deviceInfo.device) {
+			deviceInfo.device.removeEventListener('gattserverdisconnected', listener);
+			deviceListeners.delete(deviceId);
 		}
 
 		devices.delete(deviceId);
@@ -315,13 +334,18 @@ export function createBluetoothBackend(config: BluetoothBackendConfig = {}): Blu
 		},
 
 		destroy: () => {
-			// Disconnect all devices
+			// Disconnect all devices and clean up listeners
 			devices.forEach((device, id) => {
 				if (device.connected) {
 					disconnectFromDevice(id);
 				}
+				const listener = deviceListeners.get(id);
+				if (listener && device.device) {
+					device.device.removeEventListener('gattserverdisconnected', listener);
+				}
 			});
 			devices.clear();
+			deviceListeners.clear();
 			eventHandlers.clear();
 			log('Backend destroyed');
 		}

@@ -18,8 +18,8 @@
 	$: autoScanBool = autoScan === 'true';
 	$: persistDevicesBool = persistDevices === 'true';
 
-	// Create the Bluetooth backend
-	$: backend = createBluetoothBackend({
+	// Create the Bluetooth backend once (not reactively to avoid losing state)
+	let backend = createBluetoothBackend({
 		embedId,
 		autoScan: autoScanBool,
 		persistDevices: persistDevicesBool,
@@ -27,7 +27,7 @@
 	});
 
 	// Destructure stores and actions from backend
-	$: ({
+	let {
 		// Stores
 		isEnabled,
 		isScanning,
@@ -47,7 +47,7 @@
 		getDeviceInfo,
 		on,
 		destroy
-	} = backend);
+	} = backend;
 
 	// Separate devices into My Devices and Other Devices
 	$: myDevices = $pairedDevices;
