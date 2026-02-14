@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Component Test</title>
+    <style>
+        body {
+            padding: 2rem;
+            font-family: sans-serif;
+        }
+        .container {
+            max-width: 430px;
+            margin: 0 auto;
+            border: 2px solid #007AFF;
+            min-height: 600px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Bluetooth Component Direct Test</h1>
+    
+    <div class="container">
+        <sl-bluetooth
+            embedid="test-bluetooth"
+            devicename="Test Device"
+        ></sl-bluetooth>
+    </div>
+
+    <!-- Import web components bundle -->
+    <script type="module" src="/build/bundle.js"></script>
+    
+    <script>
+        window.addEventListener('load', () => {
+            console.log('Page loaded');
+            
+            setTimeout(() => {
+                const bluetooth = document.querySelector('sl-bluetooth');
+                console.log('Bluetooth element:', bluetooth);
+                console.log('Is defined:', customElements.get('sl-bluetooth'));
+                console.log('Has shadow root:', bluetooth.shadowRoot);
+                console.log('Inner HTML:', bluetooth.innerHTML);
+                console.log('Children:', bluetooth.children);
+            }, 1000);
+        });
+    </script>
+</body>
+</html>
