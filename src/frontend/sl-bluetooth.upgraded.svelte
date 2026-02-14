@@ -2,10 +2,10 @@
 
 <script lang="ts">
 	import { onMount, onDestroy } from 'svelte';
-	import { createBluetoothBackend } from '../../backend/bluetooth';
-	import type { BluetoothDeviceInfo } from '../../backend/bluetooth';
-	import BluetoothControl from './BluetoothControl.svelte';
-	import DeviceList from './DeviceList.svelte';
+	import { createBluetoothBackend } from '../backend/bluetooth';
+	import type { BluetoothDeviceInfo } from '../backend/bluetooth';
+	import BluetoothControl from './bluetooth/BluetoothControl.svelte';
+	import DeviceList from './bluetooth/DeviceList.svelte';
 
 	// Exposed attributes (all strings for web components)
 	export let embedId: string = 'bluetooth-embed';

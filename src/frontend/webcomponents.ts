@@ -23,7 +23,7 @@ import './games/sl-tictactoe.svelte';
 import './rss/sl-rss-reader.svelte';
 
 // Bluetooth Web Components
-import './bluetooth/sl-bluetooth.upgraded.svelte';
+import './sl-bluetooth.upgraded.svelte';
 
 // Re-export for convenience (though the custom elements are automatically registered)
 export { default as ARVRScene } from './arvr/sl-arvr-scene.svelte';
@@ -34,4 +34,4 @@ export { default as MessagingEmbed } from './messaging/sl-messaging.svelte';
 export { default as RoomEmbed } from './messaging/sl-room.svelte';
 export { default as TicTacToeEmbed } from './games/sl-tictactoe.svelte';
 export { default as RSSReaderEmbed } from './rss/sl-rss-reader.svelte';
-export { default as BluetoothEmbed } from './bluetooth/sl-bluetooth.upgraded.svelte';
+export { default as BluetoothEmbed } from './sl-bluetooth.upgraded.svelte';
