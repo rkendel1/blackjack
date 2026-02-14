@@ -25,6 +25,13 @@ import './sl-rss-reader.upgraded.svelte';
 // Bluetooth Web Components
 import './sl-bluetooth.upgraded.svelte';
 
+// Device Capability Demo Web Components
+import './device-demos/device-capability-tester.upgraded.svelte';
+import './device-demos/motion-controller-game.upgraded.svelte';
+import './device-demos/camera-broadcast-demo.upgraded.svelte';
+import './device-demos/wallet-purchase-demo.upgraded.svelte';
+import './device-demos/proximity-activation-demo.upgraded.svelte';
+
 // Re-export for convenience (though the custom elements are automatically registered)
 export { default as ARVRScene } from './sl-arvr-scene.upgraded.svelte';
 export { default as ARVRAvatar } from './sl-arvr-avatar.upgraded.svelte';
@@ -35,3 +42,8 @@ export { default as RoomEmbed } from './sl-room.upgraded.svelte';
 export { default as TicTacToeEmbed } from './sl-tictactoe.upgraded.svelte';
 export { default as RSSReaderEmbed } from './sl-rss-reader.upgraded.svelte';
 export { default as BluetoothEmbed } from './sl-bluetooth.upgraded.svelte';
+export { default as DeviceTester } from './device-demos/device-capability-tester.upgraded.svelte';
+export { default as MotionDemo } from './device-demos/motion-controller-game.upgraded.svelte';
+export { default as CameraDemo } from './device-demos/camera-broadcast-demo.upgraded.svelte';
+export { default as WalletDemo } from './device-demos/wallet-purchase-demo.upgraded.svelte';
+export { default as ProximityDemo } from './device-demos/proximity-activation-demo.upgraded.svelte';
