@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bluetooth Web Component Demo</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'SF Pro Display', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f2f2f7;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+        
+        h1 {
+            color: #000;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-size: 32px;
+            font-weight: 600;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #8e8e93;
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            max-width: 430px;
+            width: 100%;
+        }
+        
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+            max-width: 600px;
+        }
+        
+        code {
+            background: #f4f4f4;
+            padding: 0.2em 0.4em;
+            border-radius: 3px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.9em;
+        }
+        
+        .usage-section {
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            margin-top: 2rem;
+            max-width: 600px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+        }
+        
+        .usage-section h2 {
+            color: #007AFF;
+            border-bottom: 2px solid #007AFF;
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        pre {
+            background: #f4f4f4;
+            padding: 1rem;
+            border-radius: 8px;
+            overflow-x: auto;
+        }
+        
+        .event-log {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 1rem;
+            border-radius: 8px;
+            font-family: 'Monaco', 'Menlo', 'Courier New', monospace;
+            font-size: 0.85em;
+            max-height: 200px;
+            overflow-y: auto;
+            margin-top: 1rem;
+        }
+        
+        .event-log-item {
+            margin: 0.25rem 0;
+            padding: 0.25rem 0;
+            border-bottom: 1px solid #333;
+        }
+        
+        .event-log-item:last-child {
+            border-bottom: none;
+        }
+        
+        .timestamp {
+            color: #858585;
+        }
+        
+        .event-type {
+            color: #4ec9b0;
+        }
+        
+        .device-name {
+            color: #ce9178;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔵 Bluetooth Web Component</h1>
+    
+    <p class="subtitle">
+        A reusable Bluetooth embed component that can connect to Bluetooth devices. 
+        Built with Svelte 4 and the Web Bluetooth API.
+    </p>
+    
+    <div class="note">
+        <strong>⚠️ Note:</strong> This component requires a browser that supports the Web Bluetooth API
+        (Chrome, Edge, Opera on desktop/Android). HTTPS or localhost is required. 
+        Click "Add New Device" to scan for nearby Bluetooth devices.
+    </div>
+
+    <div class="container">
+        <!-- Bluetooth Web Component -->
+        <sl-bluetooth
+            embedId="demo-bluetooth"
+            deviceName="Demo Device"
+            autoScan="false"
+            persistDevices="true"
+            theme="light"
+        ></sl-bluetooth>
+    </div>
+
+    <div class="usage-section">
+        <h2>📖 Usage</h2>
+        <p><strong>Basic Usage:</strong></p>
+        <pre><code>&lt;sl-bluetooth
+    embedId="demo-bluetooth"
+    deviceName="My Device"
+    autoScan="false"
+    persistDevices="true"
+    theme="light"
+&gt;&lt;/sl-bluetooth&gt;</code></pre>
+
+        <p><strong>Attributes:</strong></p>
+        <ul>
+            <li><code>embedId</code> - Unique identifier for the component</li>
+            <li><code>deviceName</code> - Display name for this device</li>
+            <li><code>autoScan</code> - Automatically scan on mount (true/false)</li>
+            <li><code>persistDevices</code> - Remember paired devices (true/false)</li>
+            <li><code>theme</code> - UI theme (light/dark)</li>
+        </ul>
+
+        <p><strong>Events:</strong></p>
+        <ul>
+            <li><code>ready</code> - Component is ready</li>
+            <li><code>deviceconnected</code> - Device connected</li>
+            <li><code>devicedisconnected</code> - Device disconnected</li>
+            <li><code>error</code> - Error occurred</li>
+        </ul>
+
+        <h3>Event Log</h3>
+        <div id="eventLog" class="event-log">
+            <div class="event-log-item">Waiting for events...</div>
+        </div>
+    </div>
+
+    <!-- Import web components bundle -->
+    <script type="module" src="/build/bundle.js"></script>
+    
+    <script>
+        // Event logging
+        const eventLog = document.getElementById('eventLog');
+        
+        function logEvent(type, detail) {
+            const timestamp = new Date().toLocaleTimeString();
+            const logItem = document.createElement('div');
+            logItem.className = 'event-log-item';
+            logItem.innerHTML = `
+                <span class="timestamp">[${timestamp}]</span> 
+                <span class="event-type">${type}</span>: 
+                <span class="device-name">${JSON.stringify(detail)}</span>
+            `;
+            
+            // Clear "waiting" message if first event
+            if (eventLog.children.length === 1 && eventLog.textContent.includes('Waiting')) {
+                eventLog.innerHTML = '';
+            }
+            
+            eventLog.appendChild(logItem);
+            eventLog.scrollTop = eventLog.scrollHeight;
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const bluetooth = document.querySelector('sl-bluetooth');
+            
+            if (bluetooth) {
+                bluetooth.addEventListener('ready', (e) => {
+                    console.log('Bluetooth component ready:', e.detail);
+                    logEvent('ready', e.detail);
+                });
+
+                bluetooth.addEventListener('deviceconnected', (e) => {
+                    console.log('Device connected:', e.detail);
+                    logEvent('deviceconnected', { 
+                        name: e.detail.name,
+                        id: e.detail.id 
+                    });
+                });
+
+                bluetooth.addEventListener('devicedisconnected', (e) => {
+                    console.log('Device disconnected:', e.detail);
+                    logEvent('devicedisconnected', { 
+                        name: e.detail.name,
+                        id: e.detail.id 
+                    });
+                });
+
+                bluetooth.addEventListener('error', (e) => {
+                    console.error('Bluetooth error:', e.detail);
+                    logEvent('error', { error: e.detail.error });
+                });
+            }
+        });
+    </script>
+</body>
+</html>
